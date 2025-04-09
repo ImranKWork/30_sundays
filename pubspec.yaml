@@ -36,7 +36,6 @@ dependencies:
   cupertino_icons: ^1.0.8
   google_fonts: any
   get: any
-  smart_auth:
   pinput:
 
 dev_dependencies:

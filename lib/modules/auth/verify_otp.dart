@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:pinput/pinput.dart';
 import 'package:sunday/modules/auth/login_screen.dart';
@@ -41,14 +42,13 @@ class _VerifyOtpState extends State<VerifyOtp> {
       border: Border(bottom: BorderSide(color: AppColors.grey2, width: 2)),
     ),
   );
+
   final transparentUnderlinePinTheme = PinTheme(
     width: 200,
     textStyle: AppFontFamily.HeadingStyle32().copyWith(
       color: AppColors.primary,
     ),
-    decoration: const BoxDecoration(
-      border: Border(bottom: BorderSide(color: Colors.transparent, width: 2)),
-    ),
+    decoration: const BoxDecoration(), // No underline
   );
 
   final submittedPinTheme = PinTheme(
@@ -63,13 +63,6 @@ class _VerifyOtpState extends State<VerifyOtp> {
 
   late final PinTheme focusedPinTheme;
 
-  final hiddenUnderlinePinTheme = PinTheme(
-    width: 200,
-    textStyle: AppFontFamily.HeadingStyle32().copyWith(
-      color: AppColors.primary,
-    ),
-    decoration: const BoxDecoration(),
-  );
   final errorPinTheme = PinTheme(
     width: 200,
     textStyle: AppFontFamily.HeadingStyle32().copyWith(color: AppColors.pink),
@@ -77,6 +70,12 @@ class _VerifyOtpState extends State<VerifyOtp> {
       border: Border(bottom: BorderSide(color: AppColors.pink, width: 2)),
     ),
   );
+  final pinkTextOnlyTheme = PinTheme(
+    width: 200,
+    textStyle: AppFontFamily.HeadingStyle32().copyWith(color: AppColors.pink),
+    decoration: const BoxDecoration(), // no underline
+  );
+
   @override
   void initState() {
     super.initState();
@@ -143,7 +142,6 @@ class _VerifyOtpState extends State<VerifyOtp> {
 
     debugPrint("Verifying OTP: $otp");
 
-    // Proceed with OTP validation
     Get.to(() => Successfully());
   }
 
@@ -194,18 +192,31 @@ class _VerifyOtpState extends State<VerifyOtp> {
                           length: 6,
                           controller: pinController,
                           focusNode: focusNode,
+                          keyboardType: TextInputType.number,
+                          inputFormatters: [
+                            FilteringTextInputFormatter.digitsOnly,
+                          ],
                           defaultPinTheme:
-                              _isOtpCompleted
-                                  ? transparentUnderlinePinTheme
-                                  : defaultPinTheme,
+                              _otpErrorMessage != null
+                                  ? pinkTextOnlyTheme
+                                  : (_isOtpCompleted
+                                      ? transparentUnderlinePinTheme
+                                      : defaultPinTheme),
+
                           focusedPinTheme:
-                              _isOtpCompleted
-                                  ? transparentUnderlinePinTheme
-                                  : focusedPinTheme,
+                              _otpErrorMessage != null
+                                  ? pinkTextOnlyTheme
+                                  : (_isOtpCompleted
+                                      ? transparentUnderlinePinTheme
+                                      : focusedPinTheme),
+
                           submittedPinTheme:
-                              _isOtpCompleted
-                                  ? transparentUnderlinePinTheme
-                                  : submittedPinTheme,
+                              _otpErrorMessage != null
+                                  ? pinkTextOnlyTheme
+                                  : (_isOtpCompleted
+                                      ? transparentUnderlinePinTheme
+                                      : submittedPinTheme),
+
                           hapticFeedbackType: HapticFeedbackType.lightImpact,
                           showCursor: true,
                           cursor: Align(
