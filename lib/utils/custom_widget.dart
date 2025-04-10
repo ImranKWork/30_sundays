@@ -12,7 +12,6 @@ class ColorOverlays extends StatelessWidget {
       width: double.infinity,
       child: Stack(
         children: [
-          // Yellow overlay (left side)
           Positioned(
             left: 0,
             top: 0,
@@ -23,7 +22,6 @@ class ColorOverlays extends StatelessWidget {
               height: screenHeight,
             ),
           ),
-          // Pink overlay (right side)
           Positioned(
             right: 0,
             top: 0,
