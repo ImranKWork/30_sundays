@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:sunday/modules/home/homescreen.dart';
+import 'package:sunday/modules/home/customize_screen.dart';
 import 'package:sunday/utils/app_color.dart';
 
 import '../utils/app_font_family.dart';
+import 'trips/all_trips.dart';
 
 class DashBoard extends StatefulWidget {
   const DashBoard({super.key});
@@ -15,9 +16,9 @@ class _DashBoardState extends State<DashBoard> {
   int _selectedIndex = 0;
 
   final List<Widget> _screens = [
-    HomeScreen(),
     const Center(child: Text("Search Screen")),
-    const Center(child: Text("Trips Screen")),
+    CustomizeScreen(),
+    AllTrips(),
     const Center(child: Text("My Account Screen")),
   ];
 

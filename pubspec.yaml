@@ -37,7 +37,7 @@ dependencies:
   google_fonts: any
   get: any
   pinput:
-  persistent_bottom_nav_bar_v2: ^5.3.1
+  carousel_slider: ^5.0.0
 
 dev_dependencies:
   flutter_test:

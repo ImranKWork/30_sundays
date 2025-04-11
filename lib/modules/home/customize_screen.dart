@@ -7,14 +7,14 @@ import '../../utils/custom_button.dart';
 import '../../utils/custom_widget.dart';
 import 'activities.dart';
 
-class HomeScreen extends StatefulWidget {
-  const HomeScreen({super.key});
+class CustomizeScreen extends StatefulWidget {
+  const CustomizeScreen({super.key});
 
   @override
-  State<HomeScreen> createState() => _HomeScreenState();
+  State<CustomizeScreen> createState() => _CustomizeScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class _CustomizeScreenState extends State<CustomizeScreen> {
   final List<String> locations = ['Bali', 'Vietnam'];
   int selectedIndex = 0;
   List<bool> isChecked = List.filled(5, false);
@@ -25,35 +25,35 @@ class _HomeScreenState extends State<HomeScreen> {
       body: Stack(
         children: [
           ColorOverlays(),
-          SingleChildScrollView(
-            padding: EdgeInsets.all(16),
+          SafeArea(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                SizedBox(height: 40),
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Text(
-                      "All Itinerary",
-                      style: AppFontFamily.HeadingStyle20(),
-                    ),
-                    Spacer(),
-                    Image.asset("assets/images/phone.png", scale: 2.5),
-                  ],
+                SizedBox(height: 15),
+                Padding(
+                  padding: const EdgeInsets.only(left: 16.0, right: 4),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        "All Itinerary",
+                        style: AppFontFamily.HeadingStyle20(),
+                      ),
+
+                      Image.asset("assets/images/phone.png", scale: 2.5),
+                    ],
+                  ),
                 ),
-                SizedBox(height: 10),
 
                 SizedBox(
-                  height: 50,
+                  height: 43,
                   child: ListView.builder(
                     scrollDirection: Axis.horizontal,
                     itemCount: locations.length,
                     itemBuilder: (context, index) {
                       final location = locations[index];
                       final isSelected = index == selectedIndex;
-
                       return GestureDetector(
                         onTap: () {
                           setState(() {
@@ -61,10 +61,10 @@ class _HomeScreenState extends State<HomeScreen> {
                           });
                         },
                         child: Container(
-                          margin: EdgeInsets.only(right: 12),
+                          margin: EdgeInsets.only(left: 12),
                           padding: EdgeInsets.symmetric(
                             horizontal: 24,
-                            vertical: 8,
+                            vertical: 6,
                           ),
                           decoration: BoxDecoration(
                             color: isSelected ? AppColors.pink : Colors.white,
@@ -92,188 +92,209 @@ class _HomeScreenState extends State<HomeScreen> {
                     },
                   ),
                 ),
+                SizedBox(height: 10),
 
-                ListView.builder(
-                  itemCount: 2,
-                  shrinkWrap: true,
-                  padding: EdgeInsets.only(top: 20),
-                  physics: NeverScrollableScrollPhysics(),
-                  itemBuilder: (context, index) {
-                    return Column(
+                Expanded(
+                  child: SingleChildScrollView(
+                    padding: EdgeInsets.only(right: 16, left: 16, top: 8),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        GestureDetector(
-                          onTap: () {},
-                          child: Container(
-                            padding: EdgeInsets.only(top: 12),
-                            decoration: BoxDecoration(
-                              color: AppColors.white,
-                              borderRadius: BorderRadius.circular(12),
-                              border: Border.all(
-                                width: 1,
-                                color: AppColors.grey4,
-                              ),
-                            ),
-                            child: Column(
+                        ListView.builder(
+                          itemCount: 2,
+                          shrinkWrap: true,
+                          physics: NeverScrollableScrollPhysics(),
+                          itemBuilder: (context, index) {
+                            return Column(
                               children: [
                                 GestureDetector(
-                                  onTap: () {
-                                    Get.to(() => Activities());
-                                  },
-                                  child: Row(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      SizedBox(width: 15),
-                                      Image.asset(
-                                        "assets/images/1.png",
-                                        scale: 2.5,
+                                  onTap: () {},
+                                  child: Container(
+                                    padding: EdgeInsets.only(top: 12),
+                                    decoration: BoxDecoration(
+                                      color: AppColors.white,
+                                      borderRadius: BorderRadius.circular(12),
+                                      border: Border.all(
+                                        width: 1,
+                                        color: AppColors.grey4,
                                       ),
-                                      SizedBox(width: 15),
-                                      Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Row(
+                                    ),
+                                    child: Column(
+                                      children: [
+                                        GestureDetector(
+                                          onTap: () {
+                                            Get.to(() => Activities());
+                                          },
+                                          child: Row(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
                                             children: [
+                                              SizedBox(width: 15),
                                               Image.asset(
-                                                "assets/images/moon.png",
-                                                scale: 1.5,
+                                                "assets/images/1.png",
+                                                scale: 2.5,
                                               ),
-                                              Text(
-                                                "   6 Nights",
-                                                style:
-                                                    AppFontFamily.BoldStyle(),
+                                              SizedBox(width: 15),
+                                              Column(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: [
+                                                  Row(
+                                                    children: [
+                                                      Image.asset(
+                                                        "assets/images/moon.png",
+                                                        scale: 2.2,
+                                                      ),
+                                                      Text(
+                                                        "  6 Nights",
+                                                        style:
+                                                            AppFontFamily.BoldStyle(),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                  SizedBox(height: 6),
+                                                  SizedBox(
+                                                    width: Get.width / 2.3,
+                                                    child: Text(
+                                                      "The Best Of Bali: One Where You Don't Miss Anything",
+                                                      style:
+                                                          AppFontFamily.HeadingStyle514(),
+                                                      maxLines: 3,
+                                                      overflow:
+                                                          TextOverflow.ellipsis,
+                                                    ),
+                                                  ),
+                                                  SizedBox(height: 6),
+                                                  Text(
+                                                    "3N Seminyak • 3N Ubud",
+                                                    style:
+                                                        AppFontFamily.BoldStyle()
+                                                            .copyWith(
+                                                              color:
+                                                                  AppColors
+                                                                      .blueLight,
+                                                            ),
+                                                  ),
+                                                  SizedBox(height: 6),
+                                                  Row(
+                                                    children: [
+                                                      Text(
+                                                        "₹38,499 ",
+                                                        style:
+                                                            AppFontFamily.HeadingStyle514(),
+                                                      ),
+                                                      Text(
+                                                        "/Person",
+                                                        style: AppFontFamily.smallStyle16()
+                                                            .copyWith(
+                                                              color:
+                                                                  AppColors
+                                                                      .blueLight,
+                                                            ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ],
                                               ),
                                             ],
                                           ),
-                                          SizedBox(height: 6),
-                                          SizedBox(
-                                            width: Get.width / 2.3,
-                                            child: Text(
-                                              "The Best Of Bali: One Where You Don't Miss Anything",
-                                              style:
-                                                  AppFontFamily.HeadingStyle514(),
-                                              maxLines: 3,
-                                              overflow: TextOverflow.ellipsis,
+                                        ),
+                                        SizedBox(height: 5),
+                                        Divider(color: AppColors.grey4),
+                                        SizedBox(height: 5),
+                                        Row(
+                                          children: [
+                                            GestureDetector(
+                                              onTap: () {
+                                                _showUpdateBottomSheet(context);
+                                              },
+                                              child: Row(
+                                                children: [
+                                                  SizedBox(width: 15),
+                                                  Image.asset(
+                                                    "assets/images/dates.png",
+                                                    scale: 2,
+                                                  ),
+                                                  SizedBox(width: 10),
+                                                  Text(
+                                                    "Find best dates",
+                                                    style:
+                                                        AppFontFamily.HeadingStyle514()
+                                                            .copyWith(
+                                                              color:
+                                                                  AppColors
+                                                                      .pink,
+                                                            ),
+                                                  ),
+                                                ],
+                                              ),
                                             ),
-                                          ),
-                                          SizedBox(height: 6),
-                                          Text(
-                                            "3N Seminyak • 3N Ubud",
-                                            style: AppFontFamily.BoldStyle()
-                                                .copyWith(
-                                                  color: AppColors.blueLight,
+                                            Spacer(),
+                                            Row(
+                                              children: [
+                                                SizedBox(width: 15),
+                                                Image.asset(
+                                                  "assets/images/share.png",
+                                                  scale: 2,
                                                 ),
-                                          ),
-                                          SizedBox(height: 6),
-                                          Row(
-                                            children: [
-                                              Text(
-                                                "₹38,499 ",
-                                                style:
-                                                    AppFontFamily.HeadingStyle514(),
-                                              ),
-                                              Text(
-                                                "/Person",
-                                                style:
-                                                    AppFontFamily.smallStyle16()
-                                                        .copyWith(
-                                                          color:
-                                                              AppColors
-                                                                  .blueLight,
-                                                        ),
-                                              ),
-                                            ],
-                                          ),
-                                        ],
+                                                SizedBox(width: 10),
+                                                Text(
+                                                  "Share Itinerary",
+                                                  style:
+                                                      AppFontFamily.HeadingStyle514()
+                                                          .copyWith(
+                                                            color:
+                                                                AppColors.pink,
+                                                          ),
+                                                ),
+                                                SizedBox(width: 15),
+                                              ],
+                                            ),
+                                          ],
+                                        ),
+                                        SizedBox(height: 15),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                                SizedBox(height: 15),
+
+                                if (index != 1) ...[
+                                  Row(
+                                    children: <Widget>[
+                                      Expanded(
+                                        child: Divider(
+                                          color: AppColors.grey4,
+                                          thickness: 1,
+                                        ),
+                                      ),
+                                      Padding(
+                                        padding: EdgeInsets.symmetric(
+                                          horizontal: 8.0,
+                                        ),
+                                        child: Text(
+                                          "OR",
+                                          style: AppFontFamily.HeadingStyle14()
+                                              .copyWith(fontSize: 12),
+                                        ),
+                                      ),
+                                      Expanded(
+                                        child: Divider(
+                                          color: AppColors.grey4,
+                                          thickness: 1,
+                                        ),
                                       ),
                                     ],
                                   ),
-                                ),
-                                SizedBox(height: 5),
-                                Divider(color: AppColors.grey4),
-                                SizedBox(height: 10),
-                                Row(
-                                  children: [
-                                    GestureDetector(
-                                      onTap: () {
-                                        _showUpdateBottomSheet(context);
-                                      },
-                                      child: Row(
-                                        children: [
-                                          SizedBox(width: 15),
-                                          Image.asset(
-                                            "assets/images/dates.png",
-                                            scale: 2,
-                                          ),
-                                          SizedBox(width: 10),
-                                          Text(
-                                            "Find best dates",
-                                            style:
-                                                AppFontFamily.HeadingStyle514()
-                                                    .copyWith(
-                                                      color: AppColors.pink,
-                                                    ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                    Spacer(),
-                                    Row(
-                                      children: [
-                                        SizedBox(width: 15),
-                                        Image.asset(
-                                          "assets/images/share.png",
-                                          scale: 2,
-                                        ),
-                                        SizedBox(width: 10),
-                                        Text(
-                                          "Share Itinerary",
-                                          style: AppFontFamily.HeadingStyle514()
-                                              .copyWith(color: AppColors.pink),
-                                        ),
-                                        SizedBox(width: 15),
-                                      ],
-                                    ),
-                                  ],
-                                ),
-                                SizedBox(height: 18),
+                                  SizedBox(height: 10),
+                                ],
                               ],
-                            ),
-                          ),
+                            );
+                          },
                         ),
-                        SizedBox(height: 15),
-
-                        if (index != 1) ...[
-                          Row(
-                            children: <Widget>[
-                              Expanded(
-                                child: Divider(
-                                  color: AppColors.grey4,
-                                  thickness: 1,
-                                ),
-                              ),
-                              Padding(
-                                padding: EdgeInsets.symmetric(horizontal: 8.0),
-                                child: Text(
-                                  "OR",
-                                  style: AppFontFamily.HeadingStyle14()
-                                      .copyWith(fontSize: 12),
-                                ),
-                              ),
-                              Expanded(
-                                child: Divider(
-                                  color: AppColors.grey4,
-                                  thickness: 1,
-                                ),
-                              ),
-                            ],
-                          ),
-                          SizedBox(height: 10),
-                        ],
                       ],
-                    );
-                  },
+                    ),
+                  ),
                 ),
               ],
             ),

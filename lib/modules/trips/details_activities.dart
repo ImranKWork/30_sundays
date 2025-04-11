@@ -5,15 +5,16 @@ import '../../utils/app_color.dart';
 import '../../utils/app_font_family.dart';
 import '../../utils/custom_button.dart';
 import '../../utils/custom_widget.dart';
+import 'edit_activities.dart';
 
-class Activities extends StatefulWidget {
-  const Activities({super.key});
+class DetailsActivities extends StatefulWidget {
+  const DetailsActivities({super.key});
 
   @override
-  State<Activities> createState() => _ActivitiesState();
+  State<DetailsActivities> createState() => _DetailsActivitiesState();
 }
 
-class _ActivitiesState extends State<Activities> {
+class _DetailsActivitiesState extends State<DetailsActivities> {
   final List<Map<String, String>> locations = [
     {'title': 'Activities', 'image': 'assets/images/activities.png'},
     {'title': 'Hotels', 'image': 'assets/images/hotels.png'},
@@ -303,6 +304,29 @@ class _ActivitiesState extends State<Activities> {
                                         ),
                                       ],
                                     ),
+                                    SizedBox(height: 15),
+                                    GestureDetector(
+                                      onTap: () {
+                                        Get.to(() => EditActivities());
+                                      },
+                                      child: Row(
+                                        children: [
+                                          Text(
+                                            "Edit Activities",
+                                            style:
+                                                AppFontFamily.HeadingStyle514(
+                                                  color: AppColors.pink,
+                                                ),
+                                          ),
+                                          SizedBox(width: 5),
+
+                                          Image.asset(
+                                            "assets/images/right_arr.png",
+                                            scale: 2.5,
+                                          ),
+                                        ],
+                                      ),
+                                    ),
                                   ],
                                 ),
                               );
@@ -455,268 +479,17 @@ class _ActivitiesState extends State<Activities> {
           ),
         ],
       ),
-      bottomNavigationBar: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: [
-          GestureDetector(
-            onTap: () {},
-            child: Container(
-              width: 173,
-              height: 48,
-              padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 38),
-              decoration: BoxDecoration(
-                color: AppColors.white,
-                borderRadius: BorderRadius.circular(40),
-                border: Border.all(color: AppColors.grey4),
-              ),
-              child: Center(
-                child: Text(
-                  "Create new",
-                  style: AppFontFamily.smallStyle16(color: AppColors.blueLight),
-                ),
-              ),
-            ),
-          ),
-          CustomButton(
-            text: "Update",
-            onTap: () {
-              _showUpdateBottomSheet(context);
-            },
-          ),
-        ],
-      ),
-      floatingActionButton: RawMaterialButton(
-        onPressed: () {},
-        elevation: 0.0, // Remove shadow if needed
-        fillColor: Colors.transparent, // No background
-        shape: const CircleBorder(),
-        constraints: const BoxConstraints.tightFor(width: 70.0, height: 70.0),
-        child: ClipOval(
-          child: Image.asset(
-            "assets/images/star.png",
-            fit: BoxFit.cover,
-            width: 70,
-            height: 70,
-          ),
+      bottomNavigationBar: Padding(
+        padding: const EdgeInsets.only(left: 8.0, right: 8),
+        child: CustomButton(
+          width: Get.width,
+          text: "Update",
+          onTap: () {
+            // _showUpdateBottomSheet(context);
+          },
+          isEnabled: false,
         ),
       ),
-    );
-  }
-
-  void _showUpdateBottomSheet(BuildContext context) {
-    showModalBottomSheet(
-      context: context,
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
-      ),
-      backgroundColor: Colors.white,
-      isScrollControlled: true,
-      builder: (context) {
-        return StatefulBuilder(
-          builder: (context, setModalState) {
-            return Padding(
-              padding: MediaQuery.of(context).viewInsets,
-              child: SafeArea(
-                child: SizedBox(
-                  height: MediaQuery.of(context).size.height * 0.8,
-                  child: Stack(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.only(
-                          left: 16,
-                          right: 16,
-                          top: 10,
-                          bottom: 70,
-                        ),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            // Drag Indicator
-                            Center(
-                              child: Container(
-                                height: 4,
-                                width: 40,
-                                margin: const EdgeInsets.only(bottom: 10),
-                                decoration: BoxDecoration(
-                                  color: const Color(0xffA6A6A6),
-                                  borderRadius: BorderRadius.circular(10),
-                                ),
-                              ),
-                            ),
-
-                            SizedBox(height: 8),
-                            Row(
-                              children: [
-                                Image.asset(
-                                  "assets/images/star1.png",
-                                  scale: 2.5,
-                                ),
-                                const SizedBox(width: 10),
-                                Text(
-                                  "30 Sundays Suggestions",
-                                  style: AppFontFamily.HeadingStyle618(),
-                                ),
-                                const Spacer(),
-                                GestureDetector(
-                                  onTap: () => Get.back(),
-                                  child: Image.asset(
-                                    "assets/images/close.png",
-                                    scale: 2.8,
-                                  ),
-                                ),
-                              ],
-                            ),
-                            const SizedBox(height: 10),
-
-                            // Suggestion List
-                            Expanded(
-                              child: ListView.builder(
-                                itemCount: isCheckedList.length,
-                                padding: const EdgeInsets.only(top: 10),
-                                itemBuilder: (context, index) {
-                                  return GestureDetector(
-                                    onTap: () {
-                                      setModalState(() {
-                                        isCheckedList[index] =
-                                            !isCheckedList[index];
-                                      });
-                                    },
-                                    child: Container(
-                                      margin: const EdgeInsets.only(bottom: 12),
-                                      padding: const EdgeInsets.only(top: 12),
-                                      decoration: BoxDecoration(
-                                        color: AppColors.white,
-                                        borderRadius: BorderRadius.circular(12),
-                                        border: Border.all(
-                                          width: 1,
-                                          color:
-                                              isCheckedList[index]
-                                                  ? AppColors.pink
-                                                  : AppColors.grey4,
-                                        ),
-                                      ),
-                                      child: Row(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          const SizedBox(width: 15),
-                                          Image.asset(
-                                            "assets/images/1.png",
-                                            scale: 2.5,
-                                          ),
-                                          const SizedBox(width: 15),
-                                          Expanded(
-                                            child: Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: [
-                                                SizedBox(
-                                                  width: Get.width / 2.3,
-                                                  child: Text(
-                                                    "Add Lombok islands: Increase your stay by 2 nights",
-                                                    style:
-                                                        AppFontFamily.HeadingStyle514(),
-                                                    maxLines: 3,
-                                                    overflow:
-                                                        TextOverflow.ellipsis,
-                                                  ),
-                                                ),
-                                                const SizedBox(height: 6),
-                                                Text(
-                                                  "Feel the nature vibes in\nfresh & calm environment",
-                                                  style:
-                                                      AppFontFamily.BoldStyle()
-                                                          .copyWith(
-                                                            color:
-                                                                AppColors
-                                                                    .blueLight,
-                                                          ),
-                                                  maxLines: 2,
-                                                  overflow:
-                                                      TextOverflow.ellipsis,
-                                                ),
-                                                const SizedBox(height: 10),
-                                                Row(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment
-                                                          .spaceBetween,
-                                                  children: [
-                                                    Text(
-                                                      "+₹4320",
-                                                      style:
-                                                          AppFontFamily.HeadingStyle618(
-                                                            fontWeight:
-                                                                FontWeight.w400,
-                                                            color:
-                                                                AppColors.pink,
-                                                          ),
-                                                    ),
-                                                    Image.asset(
-                                                      isCheckedList[index]
-                                                          ? 'assets/images/check.png'
-                                                          : 'assets/images/uncheck.png',
-                                                      width: 24,
-                                                      height: 24,
-                                                    ),
-                                                    const SizedBox(width: 10),
-                                                  ],
-                                                ),
-                                                const SizedBox(height: 15),
-                                              ],
-                                            ),
-                                          ),
-                                          const SizedBox(width: 10),
-                                        ],
-                                      ),
-                                    ),
-                                  );
-                                },
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-
-                      // Bottom Fixed Button
-                      Positioned(
-                        bottom: 0,
-                        left: 0,
-                        right: 0,
-                        child: Container(
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 16,
-                            vertical: 10,
-                          ),
-                          color: Colors.white,
-                          child: Builder(
-                            builder: (context) {
-                              int selectedCount =
-                                  isCheckedList.where((e) => e).length;
-                              return CustomButton(
-                                text:
-                                    selectedCount > 0
-                                        ? "Add ($selectedCount) suggestions"
-                                        : "Add",
-                                isEnabled: selectedCount > 0,
-                                onTap: () {
-                                  if (selectedCount > 0) {
-                                    Get.back(); // Close the bottom sheet
-                                    // Handle selection
-                                  }
-                                },
-                              );
-                            },
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            );
-          },
-        );
-      },
     );
   }
 }

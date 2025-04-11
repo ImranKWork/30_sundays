@@ -6,14 +6,13 @@ class CustomButton extends StatelessWidget {
   final String text;
   final VoidCallback onTap;
   final bool isEnabled;
-  final double? width; // Optional width parameter
-
+  final double? width;
   const CustomButton({
     super.key,
     required this.text,
     required this.onTap,
-    this.isEnabled = true, // Optional default to true
-    this.width, // Optional width
+    this.isEnabled = true,
+    this.width,
   });
 
   @override
@@ -21,9 +20,9 @@ class CustomButton extends StatelessWidget {
     return GestureDetector(
       onTap: isEnabled ? onTap : null,
       child: Opacity(
-        opacity: isEnabled ? 1.0 : 0.6, // Dim when disabled
+        opacity: isEnabled ? 1.0 : 0.6,
         child: Container(
-          width: width ?? 160, // Use provided width or default to 160
+          width: width ?? 160,
           height: 48,
           margin: const EdgeInsets.symmetric(vertical: 20),
           decoration: BoxDecoration(
