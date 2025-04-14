@@ -11,7 +11,7 @@ class AppFontFamily {
     Color color = AppColors.primary,
   }) {
     return TextStyle(
-      fontFamily: Regular,
+      fontFamily: AppFontFamily.Regular,
       fontSize: fontSize,
       fontWeight: fontWeight,
       color: color,
@@ -24,7 +24,7 @@ class AppFontFamily {
     Color color = AppColors.white,
   }) {
     return TextStyle(
-      fontFamily: Regular,
+      fontFamily: AppFontFamily.Regular,
       fontSize: fontSize,
       fontWeight: fontWeight,
       color: color,
@@ -62,7 +62,12 @@ class AppFontFamily {
     FontWeight fontWeight = FontWeight.w500,
     Color color = Colors.black,
   }) {
-    return TextStyle(fontSize: fontSize, fontWeight: fontWeight, color: color);
+    return TextStyle(
+      fontSize: fontSize,
+      fontWeight: fontWeight,
+      color: color,
+      fontFamily: AppFontFamily.Regular,
+    );
   }
 
   static TextStyle HeadingStyle20({
@@ -130,6 +135,18 @@ class AppFontFamily {
     double fontSize = 14,
     FontWeight fontWeight = FontWeight.w500,
     Color color = AppColors.darkBlue,
+  }) {
+    return TextStyle(
+      fontFamily: AppFontFamily.Regular,
+      fontSize: fontSize,
+      color: color,
+    );
+  }
+
+  static TextStyle HeadingPink514({
+    double fontSize = 14,
+    FontWeight fontWeight = FontWeight.w500,
+    Color color = AppColors.pink,
   }) {
     return TextStyle(
       fontFamily: AppFontFamily.Regular,

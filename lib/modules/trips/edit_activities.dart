@@ -218,7 +218,7 @@ class _EditActivitiesState extends State<EditActivities> {
               ),
             ),
           Container(
-            padding: const EdgeInsets.only(left: 8, right: 8),
+            padding: const EdgeInsets.only(left: 8, right: 8, bottom: 10),
             color: Colors.white,
             child: Builder(
               builder: (context) {

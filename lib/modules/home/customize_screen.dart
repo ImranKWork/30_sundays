@@ -213,18 +213,14 @@ class _CustomizeScreenState extends State<CustomizeScreen> {
                                                   SizedBox(width: 15),
                                                   Image.asset(
                                                     "assets/images/dates.png",
-                                                    scale: 2,
+                                                    height: 12,
+                                                    width: 12,
                                                   ),
                                                   SizedBox(width: 10),
                                                   Text(
                                                     "Find best dates",
                                                     style:
-                                                        AppFontFamily.HeadingStyle514()
-                                                            .copyWith(
-                                                              color:
-                                                                  AppColors
-                                                                      .pink,
-                                                            ),
+                                                        AppFontFamily.HeadingPink514(),
                                                   ),
                                                 ],
                                               ),
@@ -235,17 +231,14 @@ class _CustomizeScreenState extends State<CustomizeScreen> {
                                                 SizedBox(width: 15),
                                                 Image.asset(
                                                   "assets/images/share.png",
-                                                  scale: 2,
+                                                  height: 12,
+                                                  width: 12,
                                                 ),
                                                 SizedBox(width: 10),
                                                 Text(
                                                   "Share Itinerary",
                                                   style:
-                                                      AppFontFamily.HeadingStyle514()
-                                                          .copyWith(
-                                                            color:
-                                                                AppColors.pink,
-                                                          ),
+                                                      AppFontFamily.HeadingPink514(),
                                                 ),
                                                 SizedBox(width: 15),
                                               ],
@@ -383,7 +376,10 @@ class _CustomizeScreenState extends State<CustomizeScreen> {
                             Expanded(
                               child: ListView.builder(
                                 itemCount: isChecked.length,
-                                padding: const EdgeInsets.only(top: 10),
+                                padding: const EdgeInsets.only(
+                                  top: 10,
+                                  bottom: 40,
+                                ),
                                 itemBuilder: (context, index) {
                                   return GestureDetector(
                                     onTap: () {
@@ -510,7 +506,7 @@ class _CustomizeScreenState extends State<CustomizeScreen> {
 
                       // Bottom button
                       Positioned(
-                        bottom: 0,
+                        bottom: 10,
                         left: 0,
                         right: 0,
                         child: Container(

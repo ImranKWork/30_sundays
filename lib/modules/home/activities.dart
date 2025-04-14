@@ -69,63 +69,58 @@ class _ActivitiesState extends State<Activities> {
                       final location = locations[index];
                       final isSelected = index == selectedIndex;
 
-                      return Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: [
-                          GestureDetector(
-                            onTap: () {
-                              setState(() {
-                                selectedIndex = index;
-                              });
-                            },
-                            child: Container(
-                              margin: EdgeInsets.only(left: 18),
-                              padding: EdgeInsets.symmetric(
-                                horizontal: 16,
-                                vertical: 10,
-                              ),
-                              decoration: BoxDecoration(
-                                color:
-                                    isSelected ? AppColors.pink : Colors.white,
-                                borderRadius: BorderRadius.circular(40),
-                                border: Border.all(
-                                  color:
-                                      isSelected
-                                          ? AppColors.pink
-                                          : Colors.grey.shade300,
-                                  width: 1.5,
-                                ),
-                              ),
-                              child: Row(
-                                children: [
-                                  Image.asset(
-                                    location['image']!,
-                                    height: 16,
-                                    width: 16,
-                                    color:
-                                        isSelected
-                                            ? AppColors.white
-                                            : AppColors.blueLight,
-                                  ),
-                                  SizedBox(width: 5),
-                                  Text(
-                                    location['title']!,
-                                    style: AppFontFamily.HeadingStyle14(
-                                      color:
-                                          isSelected
-                                              ? AppColors.white
-                                              : AppColors.blueLight,
-                                    ),
-                                  ),
-                                ],
-                              ),
+                      return GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            selectedIndex = index;
+                          });
+                        },
+                        child: Container(
+                          margin: EdgeInsets.only(left: 18),
+                          padding: EdgeInsets.symmetric(
+                            horizontal: 16,
+                            vertical: 10,
+                          ),
+                          decoration: BoxDecoration(
+                            color: isSelected ? AppColors.pink : Colors.white,
+                            borderRadius: BorderRadius.circular(40),
+                            border: Border.all(
+                              color:
+                                  isSelected
+                                      ? AppColors.pink
+                                      : Colors.grey.shade300,
+                              width: 1.5,
                             ),
                           ),
-                        ],
+                          child: Row(
+                            children: [
+                              Image.asset(
+                                location['image']!,
+                                height: 16,
+                                width: 16,
+                                color:
+                                    isSelected
+                                        ? AppColors.white
+                                        : AppColors.blueLight,
+                              ),
+                              SizedBox(width: 5),
+                              Text(
+                                location['title']!,
+                                style: AppFontFamily.HeadingStyle14(
+                                  color:
+                                      isSelected
+                                          ? AppColors.white
+                                          : AppColors.blueLight,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
                       );
                     },
                   ),
                 ),
+
                 SizedBox(height: 10),
                 Expanded(
                   child: SingleChildScrollView(
@@ -135,7 +130,7 @@ class _ActivitiesState extends State<Activities> {
                       children: [
                         if (selectedIndex == 0) ...[
                           SizedBox(
-                            height: 65,
+                            height: 58,
                             child: ListView.builder(
                               scrollDirection: Axis.horizontal,
                               itemCount: 6,
@@ -455,35 +450,43 @@ class _ActivitiesState extends State<Activities> {
           ),
         ],
       ),
-      bottomNavigationBar: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: [
-          GestureDetector(
-            onTap: () {},
-            child: Container(
-              width: 173,
-              height: 48,
-              padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 38),
-              decoration: BoxDecoration(
-                color: AppColors.white,
-                borderRadius: BorderRadius.circular(40),
-                border: Border.all(color: AppColors.grey4),
-              ),
-              child: Center(
-                child: Text(
-                  "Create new",
-                  style: AppFontFamily.smallStyle16(color: AppColors.blueLight),
+      bottomNavigationBar: Padding(
+        padding: const EdgeInsets.only(bottom: 12),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            GestureDetector(
+              onTap: () {},
+              child: Container(
+                width: 173,
+                height: 48,
+                padding: const EdgeInsets.symmetric(
+                  vertical: 12,
+                  horizontal: 38,
+                ),
+                decoration: BoxDecoration(
+                  color: AppColors.white,
+                  borderRadius: BorderRadius.circular(40),
+                  border: Border.all(color: AppColors.grey4),
+                ),
+                child: Center(
+                  child: Text(
+                    "Create new",
+                    style: AppFontFamily.smallStyle16(
+                      color: AppColors.blueLight,
+                    ),
+                  ),
                 ),
               ),
             ),
-          ),
-          CustomButton(
-            text: "Update",
-            onTap: () {
-              _showUpdateBottomSheet(context);
-            },
-          ),
-        ],
+            CustomButton(
+              text: "Update",
+              onTap: () {
+                _showUpdateBottomSheet(context);
+              },
+            ),
+          ],
+        ),
       ),
       floatingActionButton: RawMaterialButton(
         onPressed: () {},
@@ -572,7 +575,10 @@ class _ActivitiesState extends State<Activities> {
                             Expanded(
                               child: ListView.builder(
                                 itemCount: isCheckedList.length,
-                                padding: const EdgeInsets.only(top: 10),
+                                padding: const EdgeInsets.only(
+                                  top: 10,
+                                  bottom: 40,
+                                ),
                                 itemBuilder: (context, index) {
                                   return GestureDetector(
                                     onTap: () {
@@ -600,10 +606,16 @@ class _ActivitiesState extends State<Activities> {
                                             CrossAxisAlignment.start,
                                         children: [
                                           const SizedBox(width: 15),
-                                          Image.asset(
-                                            "assets/images/1.png",
-                                            scale: 2.5,
+                                          Padding(
+                                            padding: const EdgeInsets.only(
+                                              bottom: 10,
+                                            ), // add space manually
+                                            child: Image.asset(
+                                              "assets/images/1.png",
+                                              scale: 2.5,
+                                            ),
                                           ),
+
                                           const SizedBox(width: 15),
                                           Expanded(
                                             child: Column(
@@ -651,6 +663,7 @@ class _ActivitiesState extends State<Activities> {
                                                                 AppColors.pink,
                                                           ),
                                                     ),
+                                                    Spacer(),
                                                     Image.asset(
                                                       isCheckedList[index]
                                                           ? 'assets/images/check.png'
@@ -679,7 +692,7 @@ class _ActivitiesState extends State<Activities> {
 
                       // Bottom Fixed Button
                       Positioned(
-                        bottom: 0,
+                        bottom: 10,
                         left: 0,
                         right: 0,
                         child: Container(
