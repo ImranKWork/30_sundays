@@ -5,6 +5,7 @@ import 'package:sunday/utils/app_color.dart';
 import '../../utils/app_font_family.dart';
 import '../../utils/custom_button.dart';
 import '../../utils/custom_widget.dart';
+import '../create_itinerary/create_itinerary.dart';
 import 'activities.dart';
 
 class CustomizeScreen extends StatefulWidget {
@@ -226,22 +227,27 @@ class _CustomizeScreenState extends State<CustomizeScreen> {
                                               ),
                                             ),
                                             Spacer(),
-                                            Row(
-                                              children: [
-                                                SizedBox(width: 15),
-                                                Image.asset(
-                                                  "assets/images/share.png",
-                                                  height: 12,
-                                                  width: 12,
-                                                ),
-                                                SizedBox(width: 10),
-                                                Text(
-                                                  "Share Itinerary",
-                                                  style:
-                                                      AppFontFamily.HeadingPink514(),
-                                                ),
-                                                SizedBox(width: 15),
-                                              ],
+                                            GestureDetector(
+                                              onTap: () {
+                                                Get.to(() => CreateItinerary());
+                                              },
+                                              child: Row(
+                                                children: [
+                                                  SizedBox(width: 15),
+                                                  Image.asset(
+                                                    "assets/images/share.png",
+                                                    height: 12,
+                                                    width: 12,
+                                                  ),
+                                                  SizedBox(width: 10),
+                                                  Text(
+                                                    "Share Itinerary",
+                                                    style:
+                                                        AppFontFamily.HeadingPink514(),
+                                                  ),
+                                                  SizedBox(width: 15),
+                                                ],
+                                              ),
                                             ),
                                           ],
                                         ),
