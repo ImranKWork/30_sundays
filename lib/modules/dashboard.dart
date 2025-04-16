@@ -3,6 +3,7 @@ import 'package:sunday/modules/home/customize_screen.dart';
 import 'package:sunday/utils/app_color.dart';
 
 import '../utils/app_font_family.dart';
+import 'account/my_account.dart';
 import 'trips/all_trips.dart';
 
 class DashBoard extends StatefulWidget {
@@ -19,7 +20,7 @@ class _DashBoardState extends State<DashBoard> {
     const Center(child: Text("Search Screen")),
     CustomizeScreen(),
     AllTrips(),
-    const Center(child: Text("My Account Screen")),
+    MyAccount(),
   ];
 
   void _onItemTapped(int index) {
