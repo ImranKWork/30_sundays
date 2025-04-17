@@ -404,7 +404,7 @@ class _CustomizeScreenState extends State<CustomizeScreen> {
                                       padding: const EdgeInsets.only(
                                         top: 12,
                                         left: 16,
-                                        right: 16,
+                                        right: 8,
                                       ),
                                       decoration: BoxDecoration(
                                         color: AppColors.white,
@@ -495,7 +495,6 @@ class _CustomizeScreenState extends State<CustomizeScreen> {
                                                 width: 20,
                                                 height: 20,
                                               ),
-                                              const SizedBox(width: 10),
                                             ],
                                           ),
                                           SizedBox(height: 10),

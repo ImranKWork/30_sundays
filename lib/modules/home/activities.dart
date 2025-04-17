@@ -62,6 +62,7 @@ class _ActivitiesState extends State<Activities> {
                 SizedBox(
                   height: 50,
                   child: ListView.builder(
+                    padding: EdgeInsets.only(left: 6),
                     scrollDirection: Axis.horizontal,
                     physics: NeverScrollableScrollPhysics(),
                     itemCount: locations.length,
@@ -76,9 +77,12 @@ class _ActivitiesState extends State<Activities> {
                           });
                         },
                         child: Container(
-                          margin: EdgeInsets.only(left: 18),
+                          margin: EdgeInsets.only(
+                            left: index == 0 ? 12 : 8,
+                            right: index == locations.length - 1 ? 12 : 0,
+                          ),
                           padding: EdgeInsets.symmetric(
-                            horizontal: 16,
+                            horizontal: 20,
                             vertical: 10,
                           ),
                           decoration: BoxDecoration(

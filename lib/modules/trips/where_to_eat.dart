@@ -71,10 +71,11 @@ class _WhereToEatState extends State<WhereToEat> {
                   ),
                 ),
                 SizedBox(
-                  height: 43,
+                  height: 40,
                   child: ListView.builder(
                     scrollDirection: Axis.horizontal,
                     itemCount: locations.length,
+                    padding: EdgeInsets.only(left: 12, right: 12),
                     itemBuilder: (context, index) {
                       final location = locations[index];
                       final isSelected = index == selectedIndex;
@@ -292,7 +293,7 @@ class _WhereToEatState extends State<WhereToEat> {
                                       ),
                                     ],
                                   ),
-                                  SizedBox(height: 8),
+                                  SizedBox(height: 4),
                                   Row(
                                     children: [
                                       Text(

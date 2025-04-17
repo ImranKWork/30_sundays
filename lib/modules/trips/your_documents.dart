@@ -104,11 +104,22 @@ class _YourDocumentsState extends State<YourDocuments> {
           ),
         ],
       ),
-      bottomNavigationBar: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 8),
-        child: CustomButton(
-          text: "Upload documents",
-          onTap: () => _showFilePickerBottomSheet(context),
+      bottomNavigationBar: Material(
+        elevation: 8, // Optional shadow
+        color: AppColors.white,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(12),
+            topRight: Radius.circular(12),
+          ),
+          side: BorderSide(color: AppColors.grey4, width: 1),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 8),
+          child: CustomButton(
+            text: "Upload documents",
+            onTap: () => _showFilePickerBottomSheet(context),
+          ),
         ),
       ),
     );
