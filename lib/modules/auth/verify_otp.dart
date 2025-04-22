@@ -7,6 +7,7 @@ import 'package:pinput/pinput.dart';
 import 'package:sunday/modules/auth/login_screen.dart';
 import 'package:sunday/modules/auth/successful.dart';
 
+import '../../controllers/login_controller.dart';
 import '../../utils/app_color.dart';
 import '../../utils/app_font_family.dart';
 import '../../utils/custom_button.dart';
@@ -24,6 +25,7 @@ class VerifyOtp extends StatefulWidget {
 class _VerifyOtpState extends State<VerifyOtp> {
   late final TextEditingController pinController;
   late final FocusNode focusNode;
+  final AuthController authController = Get.put(AuthController());
 
   bool _isButtonEnabled = false;
   bool _isResendEnabled = false;
@@ -62,7 +64,7 @@ class _VerifyOtpState extends State<VerifyOtp> {
   );
 
   late final PinTheme focusedPinTheme;
-
+  bool _isVerifying = false;
   final errorPinTheme = PinTheme(
     width: 200,
     textStyle: AppFontFamily.HeadingStyle32().copyWith(color: AppColors.pink),
@@ -124,25 +126,66 @@ class _VerifyOtpState extends State<VerifyOtp> {
 
   void _resendOtp() {
     debugPrint("Resending OTP to ${widget.phoneNumber}");
-    _startCountdown();
-    ScaffoldMessenger.of(
-      context,
-    ).showSnackBar(const SnackBar(content: Text("OTP has been resent")));
+    authController
+        .resendOtp(widget.phoneNumber)
+        .then((success) {
+          if (success) {
+            _startCountdown();
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(content: Text("OTP has been resent")),
+            );
+          }
+        })
+        .catchError((error) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text("Error occurred while resending OTP")),
+          );
+        });
   }
 
-  void _validateOtp() {
+  void _validateOtp() async {
+    if (_isVerifying) return;
+    setState(() {
+      _isVerifying = true;
+      _otpErrorMessage = null;
+    });
+
     String otp = pinController.text.trim();
+    String phone = widget.phoneNumber;
 
     if (otp.isEmpty || otp.length != 6) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text("Please enter a valid 6-digit OTP")),
-      );
+      setState(() {
+        _otpErrorMessage = "Please enter a valid 6-digit OTP";
+        _isVerifying = false;
+      });
       return;
     }
 
-    debugPrint("Verifying OTP: $otp");
+    try {
+      bool success = await authController.verifyOtp(phone, otp);
+      if (success) {
+        setState(() {
+          _otpErrorMessage = null;
+        });
 
-    Get.to(() => Successfully());
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => Successfully()),
+        );
+      } else {
+        setState(() {
+          _otpErrorMessage = "Invalid OTP";
+        });
+      }
+    } catch (error) {
+      setState(() {
+        _otpErrorMessage = "Something went wrong. Try again.";
+      });
+    } finally {
+      setState(() {
+        _isVerifying = false;
+      });
+    }
   }
 
   @override
@@ -230,10 +273,11 @@ class _VerifyOtpState extends State<VerifyOtp> {
                           onCompleted: (pin) {
                             setState(() {
                               _isOtpCompleted = true;
-                              _otpErrorMessage =
-                                  pin == '222222' ? null : 'Invalid OTP';
+                              _otpErrorMessage = null;
                             });
+                            //_validateOtp();
                           },
+
                           onChanged: (value) {
                             if (value.length < 6) {
                               setState(() {
@@ -293,11 +337,33 @@ class _VerifyOtpState extends State<VerifyOtp> {
                   ),
 
                   const SizedBox(height: 50),
-
-                  CustomButton(
-                    text: "Submit",
-                    onTap: _validateOtp,
-                    isEnabled: _isButtonEnabled,
+                  Obx(
+                    () =>
+                        authController.isLoading.value
+                            ? ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: Colors.white,
+                                padding: EdgeInsets.symmetric(vertical: 12),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(40),
+                                ),
+                                minimumSize: Size(160, 48),
+                              ),
+                              onPressed: null,
+                              child: SizedBox(
+                                height: 24,
+                                width: 24,
+                                child: CircularProgressIndicator(
+                                  color: AppColors.primary,
+                                  strokeWidth: 3,
+                                ),
+                              ),
+                            )
+                            : CustomButton(
+                              text: "Submit",
+                              onTap: _validateOtp,
+                              isEnabled: _isButtonEnabled,
+                            ),
                   ),
                 ],
               ),

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import 'package:sunday/modules/auth/verify_otp.dart';
 
+import '../../controllers/login_controller.dart';
 import '../../utils/app_color.dart';
 import '../../utils/app_font_family.dart';
 import '../../utils/custom_button.dart';
@@ -16,46 +16,33 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  final TextEditingController _phoneController = TextEditingController();
-  final FocusNode _phoneFocusNode = FocusNode(); // NEW
+  final AuthController authController = Get.put(AuthController());
+
+  final FocusNode _phoneFocusNode = FocusNode();
   bool _hasError = false;
   bool _isButtonEnabled = false;
 
   @override
   void initState() {
     super.initState();
-    _phoneController.addListener(_validateInput);
 
-    // Request focus after first frame renders
+    authController.phoneController.addListener(_validateInput);
+
     WidgetsBinding.instance.addPostFrameCallback((_) {
       FocusScope.of(context).requestFocus(_phoneFocusNode);
     });
   }
 
   void _validateInput() {
-    final input = _phoneController.text;
+    final input = authController.phoneController.text;
     setState(() {
       _isButtonEnabled = input.length == 10;
       _hasError = false;
     });
   }
 
-  void _validatePhone() {
-    setState(() {
-      _hasError = _phoneController.text.length != 10;
-    });
-
-    if (!_hasError) {
-      final phone = _phoneController.text;
-      print("Phone number valid: $phone");
-
-      Get.to(() => VerifyOtp(phoneNumber: phone));
-    }
-  }
-
   @override
   void dispose() {
-    _phoneController.dispose();
     _phoneFocusNode.dispose();
     super.dispose();
   }
@@ -91,7 +78,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     width: 240,
                     child: TextField(
                       cursorHeight: 24,
-                      controller: _phoneController,
+                      controller: authController.phoneController,
                       focusNode: _phoneFocusNode,
                       cursorColor: AppColors.primary,
                       keyboardType: TextInputType.number,
@@ -117,10 +104,40 @@ class _LoginScreenState extends State<LoginScreen> {
 
                   const SizedBox(height: 180),
 
-                  CustomButton(
-                    text: "Get OTP",
-                    onTap: _validatePhone,
-                    isEnabled: _isButtonEnabled,
+                  Obx(
+                    () =>
+                        authController.isLoading.value
+                            ? ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor:
+                                    Colors.white, // White background
+                                padding: EdgeInsets.symmetric(
+                                  vertical: 12,
+                                ), // Adjust padding
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(
+                                    40,
+                                  ), // Rounded corners
+                                ),
+                                minimumSize: Size(160, 48), // Full width
+                              ),
+                              onPressed: null,
+                              child: SizedBox(
+                                height: 24,
+                                width: 24,
+                                child: CircularProgressIndicator(
+                                  color: AppColors.primary,
+                                  strokeWidth: 3,
+                                ),
+                              ),
+                            )
+                            : CustomButton(
+                              text: "Get OTP",
+                              onTap: () {
+                                authController.loginWithPhone();
+                              },
+                              isEnabled: _isButtonEnabled,
+                            ),
                   ),
                 ],
               ),

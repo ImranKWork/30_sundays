@@ -43,6 +43,7 @@ dependencies:
   http: ^0.13.6
   image_picker: ^1.0.7
   intl:
+  shared_preferences:
 
 
 dev_dependencies:
