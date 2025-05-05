@@ -39,10 +39,10 @@ class _MyAccountState extends State<MyAccount> {
                 children: [
                   SizedBox(height: 15),
                   Text("My Account", style: AppFontFamily.HeadingStyle20()),
-
                   SizedBox(height: 20),
                   Obx(() {
                     final user = userController.userData;
+
                     return Container(
                       padding: EdgeInsets.all(20),
                       decoration: BoxDecoration(
