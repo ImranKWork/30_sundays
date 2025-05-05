@@ -1,5 +1,7 @@
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:sunday/controllers/hotel_controller.dart';
 
 import '../../utils/app_color.dart';
 import '../../utils/app_font_family.dart';
@@ -22,6 +24,13 @@ class _ActivitiesState extends State<Activities> {
   int selectedIndex = 0;
   int selectedDayIndex = 0;
   List<bool> isCheckedList = List<bool>.filled(10, false);
+  final HotelController hotelController = Get.put(HotelController());
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    hotelController.fetchHotelData();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -309,141 +318,180 @@ class _ActivitiesState extends State<Activities> {
                           ),
                         ] else if (selectedIndex == 1) ...[
                           // === Hotels List ===
-                          ListView.builder(
-                            itemCount: 3,
-                            shrinkWrap: true,
-                            padding: EdgeInsets.only(top: 8),
-                            physics: NeverScrollableScrollPhysics(),
-                            itemBuilder: (context, index) {
-                              return Container(
-                                margin: EdgeInsets.only(bottom: 12),
-                                padding: EdgeInsets.all(12),
-                                decoration: BoxDecoration(
-                                  color: AppColors.white,
-                                  borderRadius: BorderRadius.circular(12),
-                                  border: Border.all(
-                                    width: 1,
-                                    color: AppColors.grey4,
+                          Obx(() {
+                            return ListView.builder(
+                              itemCount: hotelController.hotelList.length,
+                              shrinkWrap: true,
+                              padding: EdgeInsets.only(top: 8),
+                              physics: NeverScrollableScrollPhysics(),
+                              itemBuilder: (context, index) {
+                                final hotel = hotelController.hotelList[index];
+                                List<String> imageUrls = List<String>.from(
+                                  hotel['imgs'] ?? [],
+                                );
+
+                                return Container(
+                                  margin: EdgeInsets.only(bottom: 12),
+                                  padding: EdgeInsets.all(12),
+                                  decoration: BoxDecoration(
+                                    color: AppColors.white,
+                                    borderRadius: BorderRadius.circular(12),
+                                    border: Border.all(
+                                      width: 1,
+                                      color: AppColors.grey4,
+                                    ),
                                   ),
-                                ),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Stack(
-                                      children: [
-                                        Image.asset(
-                                          "assets/images/3.png",
-                                          scale: 2.5,
-                                        ),
-                                        Positioned(
-                                          top: 80,
-                                          // bottom: 22,
-                                          right: 12,
-                                          child: Image.asset(
-                                            "assets/images/right_arrow.png",
-                                            scale: 2.5,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                    SizedBox(height: 10),
-                                    Row(
-                                      children: [
-                                        Image.asset(
-                                          "assets/images/star2.png",
-                                          height: 12,
-                                          width: 12,
-                                        ),
-                                        SizedBox(width: 8),
-
-                                        Text(
-                                          "4 Star hotel",
-                                          style: AppFontFamily.HeadingWhite414(
-                                            color: AppColors.green,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                    SizedBox(height: 5),
-
-                                    Text(
-                                      "Ubud Tropical",
-                                      style: AppFontFamily.HeadingStyle514(),
-                                    ),
-                                    SizedBox(height: 10),
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
-                                      children: [
-                                        Image.asset(
-                                          "assets/images/location.png",
-                                          height: 14,
-                                          width: 11,
-                                        ),
-                                        SizedBox(width: 8),
-
-                                        Text(
-                                          "Petulu, Kecamatan Ubud",
-                                          style: AppFontFamily.HeadingWhite414()
-                                              .copyWith(
-                                                color: AppColors.blueLight,
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Stack(
+                                        children: [
+                                          if (imageUrls.isNotEmpty)
+                                            ClipRRect(
+                                              borderRadius:
+                                                  BorderRadius.circular(12),
+                                              child: CarouselSlider.builder(
+                                                itemCount: imageUrls.length,
+                                                itemBuilder:
+                                                    (
+                                                      ctx,
+                                                      itemIndex,
+                                                      pageViewIndex,
+                                                    ) => Image.network(
+                                                      imageUrls[itemIndex],
+                                                      fit: BoxFit.cover,
+                                                      width: Get.width,
+                                                      height: 200,
+                                                    ),
+                                                options: CarouselOptions(
+                                                  height: 200,
+                                                  viewportFraction: 1.0,
+                                                  enlargeCenterPage: false,
+                                                  enableInfiniteScroll: true,
+                                                  autoPlay: true,
+                                                ),
                                               ),
-                                          maxLines: 3,
-                                          overflow: TextOverflow.ellipsis,
-                                        ),
-                                      ],
-                                    ),
-                                    SizedBox(height: 10),
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
-                                      children: [
-                                        RichText(
-                                          text: TextSpan(
+                                            )
+                                          else
+                                            Center(
+                                              child: Text(
+                                                "No images available",
+                                              ),
+                                            ),
+
+                                          Positioned(
+                                            top: 80,
+                                            right: 12,
+                                            child: Image.asset(
+                                              "assets/images/right_arrow.png",
+                                              scale: 2.5,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                      SizedBox(height: 10),
+                                      Row(
+                                        children: [
+                                          Image.asset(
+                                            "assets/images/star2.png",
+                                            height: 12,
+                                            width: 12,
+                                          ),
+                                          SizedBox(width: 8),
+
+                                          Text(
+                                            "4 Star hotel",
+                                            style:
+                                                AppFontFamily.HeadingWhite414(
+                                                  color: AppColors.green,
+                                                ),
+                                          ),
+                                        ],
+                                      ),
+                                      SizedBox(height: 5),
+
+                                      Text(
+                                        hotel['name'],
+                                        style: AppFontFamily.HeadingStyle514(),
+                                      ),
+                                      SizedBox(height: 10),
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.start,
+                                        children: [
+                                          Image.asset(
+                                            "assets/images/location.png",
+                                            height: 14,
+                                            width: 11,
+                                          ),
+                                          SizedBox(width: 8),
+
+                                          Text(
+                                            hotel['location'],
+                                            style:
+                                                AppFontFamily.HeadingWhite414()
+                                                    .copyWith(
+                                                      color:
+                                                          AppColors.blueLight,
+                                                    ),
+                                            maxLines: 3,
+                                            overflow: TextOverflow.ellipsis,
+                                          ),
+                                        ],
+                                      ),
+                                      SizedBox(height: 10),
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.start,
+                                        children: [
+                                          RichText(
+                                            text: TextSpan(
+                                              children: [
+                                                TextSpan(
+                                                  text: "₹${hotel['price']}",
+                                                  style:
+                                                      AppFontFamily.HeadingStyle518(),
+                                                ),
+                                                TextSpan(
+                                                  text: "/Night",
+                                                  style:
+                                                      AppFontFamily.smallStyle416(),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+
+                                          Spacer(),
+                                          Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.start,
                                             children: [
-                                              TextSpan(
-                                                text: "₹4483 ",
-                                                style:
-                                                    AppFontFamily.HeadingStyle518(),
+                                              Image.asset(
+                                                "assets/images/b_logo.png",
+                                                height: 16,
+                                                width: 16,
                                               ),
-                                              TextSpan(
-                                                text: "/Night",
+                                              SizedBox(width: 5),
+
+                                              Text(
+                                                "9.2 Rated",
                                                 style:
-                                                    AppFontFamily.smallStyle416(),
+                                                    AppFontFamily.HeadingStyle20()
+                                                        .copyWith(fontSize: 14),
+                                                maxLines: 3,
+                                                overflow: TextOverflow.ellipsis,
                                               ),
                                             ],
                                           ),
-                                        ),
-
-                                        Spacer(),
-                                        Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.start,
-                                          children: [
-                                            Image.asset(
-                                              "assets/images/b_logo.png",
-                                              height: 16,
-                                              width: 16,
-                                            ),
-                                            SizedBox(width: 5),
-
-                                            Text(
-                                              "9.2 Rated",
-                                              style:
-                                                  AppFontFamily.HeadingStyle20()
-                                                      .copyWith(fontSize: 14),
-                                              maxLines: 3,
-                                              overflow: TextOverflow.ellipsis,
-                                            ),
-                                          ],
-                                        ),
-                                      ],
-                                    ),
-                                  ],
-                                ),
-                              );
-                            },
-                          ),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                );
+                              },
+                            );
+                          }),
                         ],
                       ],
                     ),

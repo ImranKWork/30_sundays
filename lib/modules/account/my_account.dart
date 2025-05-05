@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:sunday/controllers/user_controller.dart';
 import 'package:sunday/utils/app_color.dart';
 
 import '../../utils/app_font_family.dart';
@@ -14,6 +15,14 @@ class MyAccount extends StatefulWidget {
 }
 
 class _MyAccountState extends State<MyAccount> {
+  final UserController userController = Get.put(UserController());
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    userController.fetchUser();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -32,48 +41,51 @@ class _MyAccountState extends State<MyAccount> {
                   Text("My Account", style: AppFontFamily.HeadingStyle20()),
 
                   SizedBox(height: 20),
-                  Container(
-                    padding: EdgeInsets.all(20),
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(16),
-                      border: Border.all(color: AppColors.grey4),
-                    ),
-                    child: Row(
-                      // mainAxisAlignment: MainAxisAlignment.start,
-                      // crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Image.asset(
-                          "assets/images/user.png",
-                          height: 40,
-                          width: 40,
-                        ),
-                        SizedBox(width: 10),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              "Varun Sharma",
-                              style: AppFontFamily.smallStyle16(
-                                color: AppColors.primary,
+                  Obx(() {
+                    final user = userController.userData;
+                    return Container(
+                      padding: EdgeInsets.all(20),
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(16),
+                        border: Border.all(color: AppColors.grey4),
+                      ),
+                      child: Row(
+                        children: [
+                          Image.network(
+                            user['img'] ?? "assets/images/user.png",
+                            height: 40,
+                            width: 40,
+                          ),
+                          SizedBox(width: 10),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                user['name'] ?? '',
+                                style: AppFontFamily.smallStyle16(
+                                  color: AppColors.primary,
+                                ),
                               ),
-                            ),
-                            Text(
-                              "+91 9255639749",
-                              style: AppFontFamily.smallStyle416(fontSize: 12),
-                            ),
-                          ],
-                        ),
-                        Spacer(),
-                        Image.asset(
-                          "assets/images/customize.png",
-                          width: 18,
-                          height: 15,
-                          color: AppColors.pink,
-                        ),
-                      ],
-                    ),
-                  ),
+                              Text(
+                                user['phone'] ?? '',
+                                style: AppFontFamily.smallStyle416(
+                                  fontSize: 12,
+                                ),
+                              ),
+                            ],
+                          ),
+                          Spacer(),
+                          Image.asset(
+                            "assets/images/customize.png",
+                            width: 18,
+                            height: 15,
+                            color: AppColors.pink,
+                          ),
+                        ],
+                      ),
+                    );
+                  }),
                   SizedBox(height: 20),
                   Text("Settings", style: AppFontFamily.HeadingStyle20()),
 

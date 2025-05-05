@@ -69,7 +69,7 @@ class AuthController extends GetxController {
             responseData['message'] ?? 'OTP verified successfully!';
         String token = responseData['token'];
 
-        await SharedPref.setString('auth_token', token);
+        await SharedPref.saveToken(token);
 
         Get.snackbar("Success", message);
         return true;

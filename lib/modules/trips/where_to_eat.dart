@@ -230,16 +230,7 @@ class _WhereToEatState extends State<WhereToEat> {
                                           onTap: () {
                                             int nextIndex =
                                                 activeIndexes[listIndex] + 1;
-                                            if (nextIndex < imageList.length) {
-                                              // carouselControllers[listIndex]
-                                              //     .animateToPage(
-                                              //       nextIndex,
-                                              //       duration: Duration(
-                                              //         milliseconds: 300,
-                                              //       ),
-                                              //       curve: Curves.linear,
-                                              //     );
-                                            }
+                                            if (nextIndex < imageList.length) {}
                                           },
                                           child: Image.asset(
                                             "assets/images/right_arrow.png",

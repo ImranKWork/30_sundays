@@ -4,6 +4,8 @@ import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:sunday/controllers/trips_controller.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../utils/app_color.dart';
 import '../../utils/app_font_family.dart';
@@ -20,7 +22,7 @@ class AllTrips extends StatefulWidget {
 class _AllTripsState extends State<AllTrips> {
   final List<String> locations = ['Upcoming', 'Ongoing', 'Past'];
   int selectedIndex = 0;
-
+  final TripController controller = Get.put(TripController());
   final List<Map<String, dynamic>> upcomingTrips = [
     {
       "image": "assets/images/2.png",
@@ -51,16 +53,6 @@ class _AllTripsState extends State<AllTrips> {
     },
   ];
 
-  // final List<Map<String, dynamic>> pastTrips = [
-  //   {
-  //     "image": "assets/images/2.png",
-  //     "status": "Completed",
-  //     "nights": "6 Nights",
-  //     "title": "The Best Of Bali: One Where You Don't Miss Anything",
-  //     "location": "2N Abu Dhabi • 3N Dubai",
-  //     "price": "₹60,000",
-  //   },
-  // ];
   final List<Map<String, dynamic>> pastTrips = [
     {
       "image": "assets/images/2.png",
@@ -85,6 +77,16 @@ class _AllTripsState extends State<AllTrips> {
       default:
         return [];
     }
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    controller.fetchTrips();
+    controller.fetchOngoingTrips(
+      controller.dealIds.isNotEmpty ? controller.dealIds[0] : '',
+    );
   }
 
   @override
@@ -160,196 +162,241 @@ class _AllTripsState extends State<AllTrips> {
                   ),
                 ),
                 SizedBox(height: 10),
-                Expanded(
-                  child: ListView.builder(
-                    padding: EdgeInsets.symmetric(horizontal: 16),
-                    itemCount: selectedTrips.length,
-                    itemBuilder: (context, index) {
-                      final trip = selectedTrips[index];
-                      return GestureDetector(
-                        onTap: () {
-                          Get.to(() => MoreAction());
-                        },
-                        child: Container(
-                          margin: EdgeInsets.only(bottom: 12),
-                          padding: EdgeInsets.all(12),
-                          decoration: BoxDecoration(
-                            color: AppColors.white,
-                            borderRadius: BorderRadius.circular(12),
-                            border: Border.all(color: AppColors.grey4),
-                          ),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Stack(
-                                children: [
-                                  Image.asset(trip["image"], scale: 2.5),
-                                  if (trip["daysLeft"] != null)
-                                    Positioned(
-                                      bottom: 12,
-                                      right: 12,
-                                      child: Container(
-                                        padding: EdgeInsets.symmetric(
-                                          horizontal: 12,
-                                          vertical: 6,
-                                        ),
-                                        decoration: BoxDecoration(
-                                          color: AppColors.white,
-                                          borderRadius: BorderRadius.circular(
-                                            24,
-                                          ),
-                                        ),
-                                        child: Row(
-                                          children: [
-                                            Image.asset(
-                                              "assets/images/duration.png",
-                                              scale: 2.5,
-                                            ),
-                                            SizedBox(width: 5),
-                                            Text(
-                                              trip["daysLeft"],
-                                              style: AppFontFamily.BoldStyle()
-                                                  .copyWith(fontSize: 14),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    ),
-                                ],
-                              ),
-                              SizedBox(height: 10),
-                              Row(
-                                children: [
-                                  Image.asset(
-                                    "assets/images/moon.png",
-                                    scale: 2.2,
-                                  ),
-                                  Text(
-                                    "  ${trip["nights"]}",
-                                    style: AppFontFamily.BoldStyle(),
-                                  ),
-                                ],
-                              ),
-                              SizedBox(height: 6),
-                              Text(
-                                trip["title"],
-                                style: AppFontFamily.HeadingStyle514(),
-                              ),
-                              SizedBox(height: 6),
-                              Text(
-                                trip["location"],
-                                style: AppFontFamily.BoldStyle().copyWith(
-                                  color: AppColors.blueLight,
-                                ),
-                              ),
-                              SizedBox(height: 6),
-                              Row(
-                                children: [
-                                  Text(
-                                    trip["price"],
-                                    style: AppFontFamily.HeadingStyle514(),
-                                  ),
-                                  Text(
-                                    "/Person",
-                                    style: AppFontFamily.smallStyle16()
-                                        .copyWith(color: AppColors.blueLight),
-                                  ),
-                                ],
-                              ),
-                              SizedBox(height: 5),
-                              Divider(color: AppColors.grey4),
-                              SizedBox(height: 5),
-                              if (selectedIndex == 0)
-                                Row(
-                                  children: [
-                                    Image.asset(
-                                      "assets/images/share.png",
-                                      height: 12,
-                                      width: 12,
-                                    ),
-                                    SizedBox(width: 5),
-                                    Text(
-                                      "Share Itinerary",
-                                      style: AppFontFamily.HeadingStyle514(
-                                        fontSize: 12,
-                                      ).copyWith(color: AppColors.pink),
-                                    ),
-                                  ],
-                                ),
-                              if (selectedIndex == 1)
-                                Row(
-                                  children: [
-                                    Image.asset(
-                                      "assets/images/share.png",
-                                      height: 12,
-                                      width: 12,
-                                    ),
-                                    SizedBox(width: 5),
-                                    Text(
-                                      "Share Itinerary",
-                                      style: AppFontFamily.HeadingStyle514(
-                                        fontSize: 12,
-                                      ).copyWith(color: AppColors.pink),
-                                    ),
-                                  ],
-                                ),
-                              if (selectedIndex == 2)
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceAround,
-                                  children: [
-                                    Image.asset(
-                                      "assets/images/msg.png",
-                                      height: 12,
-                                      width: 12,
-                                    ),
-                                    Text(
-                                      "Review",
-                                      style: AppFontFamily.HeadingStyle514(
-                                        fontSize: 12,
-                                      ).copyWith(color: AppColors.pink),
-                                    ),
+                Obx(() {
+                  if (controller.isLoading.value) {
+                    return Column(
+                      children: [
+                        SizedBox(height: 280),
 
-                                    Image.asset(
-                                      "assets/images/picture.png",
-                                      height: 12,
-                                      width: 12,
-                                    ),
-                                    GestureDetector(
-                                      onTap: () {
-                                        _showImagePickerBottomSheet(context);
-                                      },
-                                      child: Text(
-                                        "Request photobook",
-                                        style: AppFontFamily.HeadingStyle514()
-                                            .copyWith(
-                                              color: AppColors.pink,
-                                              fontSize: 12,
-                                            ),
-                                      ),
-                                    ),
-
-                                    Image.asset(
-                                      "assets/images/share.png",
-                                      height: 12,
-                                      width: 12,
-                                    ),
-
-                                    Text(
-                                      "Share Itinerary",
-                                      style: AppFontFamily.HeadingStyle514(
-                                        fontSize: 12,
-                                      ).copyWith(color: AppColors.pink),
-                                    ),
-                                  ],
-                                ),
-                            ],
+                        Center(
+                          child: CircularProgressIndicator(
+                            color: AppColors.pink,
                           ),
                         ),
-                      );
-                    },
-                  ),
-                ),
+                      ],
+                    );
+                  }
+
+                  final selectedTrips = getSelectedTrips();
+
+                  if (selectedTrips.isEmpty) {
+                    return Center(child: Text('No trips found.'));
+                  }
+                  return Expanded(
+                    child: ListView.builder(
+                      padding: EdgeInsets.symmetric(horizontal: 16),
+                      itemCount: controller.trips.length,
+                      itemBuilder: (context, index) {
+                        final trip = controller.trips[index];
+                        return GestureDetector(
+                          onTap: () {
+                            Get.to(() => MoreAction());
+                          },
+                          child: Container(
+                            margin: EdgeInsets.only(bottom: 12),
+                            padding: EdgeInsets.all(12),
+                            decoration: BoxDecoration(
+                              color: AppColors.white,
+                              borderRadius: BorderRadius.circular(12),
+                              border: Border.all(color: AppColors.grey4),
+                            ),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Stack(
+                                  children: [
+                                    Image.network(
+                                      trip["banner"],
+                                      fit: BoxFit.cover,
+                                    ),
+                                    if (trip["daysToGo"] != null)
+                                      Positioned(
+                                        bottom: 12,
+                                        right: 12,
+                                        child: Container(
+                                          padding: EdgeInsets.symmetric(
+                                            horizontal: 12,
+                                            vertical: 6,
+                                          ),
+                                          decoration: BoxDecoration(
+                                            color: AppColors.white,
+                                            borderRadius: BorderRadius.circular(
+                                              24,
+                                            ),
+                                          ),
+                                          child: Row(
+                                            children: [
+                                              Image.asset(
+                                                "assets/images/duration.png",
+                                                scale: 2.5,
+                                              ),
+                                              SizedBox(width: 5),
+                                              Text(
+                                                trip["daysToGo"],
+                                                style: AppFontFamily.BoldStyle()
+                                                    .copyWith(fontSize: 14),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                  ],
+                                ),
+                                SizedBox(height: 10),
+                                Row(
+                                  children: [
+                                    Image.asset(
+                                      "assets/images/moon.png",
+                                      scale: 2.2,
+                                    ),
+                                    Text(
+                                      "  ${trip["nights"]} Nights",
+                                      style: AppFontFamily.BoldStyle(),
+                                    ),
+                                  ],
+                                ),
+                                SizedBox(height: 6),
+                                Text(
+                                  trip["title"],
+                                  style: AppFontFamily.HeadingStyle514(),
+                                ),
+                                SizedBox(height: 6),
+                                Text(
+                                  trip["stayDetails"],
+                                  style: AppFontFamily.BoldStyle().copyWith(
+                                    color: AppColors.blueLight,
+                                  ),
+                                ),
+                                SizedBox(height: 6),
+                                Row(
+                                  children: [
+                                    Text(
+                                      trip["pricePerPerson"].toString(),
+                                      style: AppFontFamily.HeadingStyle514(),
+                                    ),
+                                    Text(
+                                      "/Person",
+                                      style: AppFontFamily.smallStyle16()
+                                          .copyWith(color: AppColors.blueLight),
+                                    ),
+                                  ],
+                                ),
+                                SizedBox(height: 5),
+                                Divider(color: AppColors.grey4),
+                                SizedBox(height: 5),
+
+                                if (selectedIndex == 0)
+                                  Row(
+                                    children: [
+                                      Image.asset(
+                                        "assets/images/share.png",
+                                        height: 12,
+                                        width: 12,
+                                      ),
+                                      SizedBox(width: 5),
+                                      GestureDetector(
+                                        onTap: () async {
+                                          final url = Uri.parse(
+                                            trip["shareLink"],
+                                          );
+                                          if (await canLaunchUrl(url)) {
+                                            await launchUrl(
+                                              url,
+                                              mode:
+                                                  LaunchMode
+                                                      .externalApplication,
+                                            );
+                                          } else {
+                                            Get.snackbar(
+                                              'Error',
+                                              'Could not launch link',
+                                            );
+                                          }
+                                        },
+                                        child: Text(
+                                          "Share Itinerary",
+                                          style: AppFontFamily.HeadingStyle514(
+                                            fontSize: 12,
+                                          ).copyWith(color: AppColors.pink),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                if (selectedIndex == 1)
+                                  Row(
+                                    children: [
+                                      Image.asset(
+                                        "assets/images/share.png",
+                                        height: 12,
+                                        width: 12,
+                                      ),
+                                      SizedBox(width: 5),
+                                      Text(
+                                        "Share Itinerary",
+                                        style: AppFontFamily.HeadingStyle514(
+                                          fontSize: 12,
+                                        ).copyWith(color: AppColors.pink),
+                                      ),
+                                    ],
+                                  ),
+                                if (selectedIndex == 2)
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceAround,
+                                    children: [
+                                      Image.asset(
+                                        "assets/images/msg.png",
+                                        height: 12,
+                                        width: 12,
+                                      ),
+                                      Text(
+                                        "Review",
+                                        style: AppFontFamily.HeadingStyle514(
+                                          fontSize: 12,
+                                        ).copyWith(color: AppColors.pink),
+                                      ),
+
+                                      Image.asset(
+                                        "assets/images/picture.png",
+                                        height: 12,
+                                        width: 12,
+                                      ),
+                                      GestureDetector(
+                                        onTap: () {
+                                          _showImagePickerBottomSheet(context);
+                                        },
+                                        child: Text(
+                                          "Request photobook",
+                                          style: AppFontFamily.HeadingStyle514()
+                                              .copyWith(
+                                                color: AppColors.pink,
+                                                fontSize: 12,
+                                              ),
+                                        ),
+                                      ),
+
+                                      Image.asset(
+                                        "assets/images/share.png",
+                                        height: 12,
+                                        width: 12,
+                                      ),
+
+                                      Text(
+                                        "Share Itinerary",
+                                        style: AppFontFamily.HeadingStyle514(
+                                          fontSize: 12,
+                                        ).copyWith(color: AppColors.pink),
+                                      ),
+                                    ],
+                                  ),
+                              ],
+                            ),
+                          ),
+                        );
+                      },
+                    ),
+                  );
+                }),
               ],
             ),
           ),
