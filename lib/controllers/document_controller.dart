@@ -1,11 +1,132 @@
-import 'package:dotted_border/dotted_border.dart';
+import 'dart:convert';
+
+import 'package:get/get.dart';
+import 'package:http/http.dart' as http;
+
+import '../utils/shared_pref.dart';
+
+class DocumentController extends GetxController {
+  var isLoading = false.obs;
+  var categories = <Map<String, dynamic>>[].obs; // List of categories with docs
+
+  @override
+  void onInit() {
+    super.onInit();
+    fetchDocuments(); // Fetch documents when the controller is initialized
+  }
+
+  Future<void> fetchDocuments() async {
+    isLoading(true);
+    try {
+      String? token = await SharedPref.getToken();
+      if (token == null) {
+        Get.snackbar("Error", "Unauthorized! Please login again.");
+        isLoading(false);
+        return;
+      }
+
+      final response = await http.get(
+        Uri.parse('http://3.111.103.244/api/docs/402002538093'),
+        headers: {
+          'Authorization': 'Bearer $token',
+          'Accept': 'application/json',
+        },
+      );
+
+      if (response.statusCode == 200) {
+        final jsonData = jsonDecode(response.body);
+        if (jsonData['message'] == "Documents retrieved successfully.") {
+          categories.value = List<Map<String, dynamic>>.from(jsonData['data']);
+        } else {
+          Get.snackbar("Error", "Failed to retrieve documents");
+        }
+      } else {
+        Get.snackbar("Error", "Failed: ${response.statusCode}");
+      }
+    } catch (e) {
+      Get.snackbar("Error", "Exception: $e");
+    } finally {
+      isLoading(false);
+    }
+  }
+}
+
+/*import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+
+import '../../controllers/document_controller.dart';
+
+class DocumentScreen extends StatelessWidget {
+  final DocumentController controller = Get.put(DocumentController());
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: const Text("Documents")),
+      body: Obx(() {
+        if (controller.isLoading.value) {
+          return const Center(child: CircularProgressIndicator());
+        }
+
+        if (controller.categories.isEmpty) {
+          return const Center(child: Text("No documents available"));
+        }
+
+        return ListView.builder(
+          itemCount: controller.categories.length,
+          itemBuilder: (context, index) {
+            final category = controller.categories[index];
+            final docs = category['docs'] as List;
+
+            return Card(
+              margin: const EdgeInsets.all(8),
+              child: ExpansionTile(
+                title: Text(category['category'] ?? 'Unknown Category'),
+                children:
+                    docs.map<Widget>((doc) {
+                      final link = doc['link'] ?? '';
+                      final tag = doc['tag'] ?? '';
+                      final isImage =
+                          link.endsWith(".jpg") ||
+                          link.endsWith(".jpeg") ||
+                          link.endsWith(".png");
+
+                      return ListTile(
+                        leading:
+                            isImage
+                                ? Image.network(
+                                  link,
+                                  width: 50,
+                                  height: 50,
+                                  fit: BoxFit.cover,
+                                )
+                                : const Icon(Icons.picture_as_pdf),
+                        title: Text(tag.isNotEmpty ? tag : "No Tag"),
+                        subtitle: Text(
+                          link,
+                          style: const TextStyle(fontSize: 12),
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                        onTap: () {
+                          // Add navigation to image/pdf viewer if needed
+                        },
+                      );
+                    }).toList(),
+              ),
+            );
+          },
+        );
+      }),
+    );
+  }
+}
+*/
+/*import 'package:dotted_border/dotted_border.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sunday/utils/custom_button.dart';
-import 'package:url_launcher/url_launcher.dart';
 
-import '../../controllers/document_controller.dart';
 import '../../utils/app_color.dart';
 import '../../utils/app_font_family.dart';
 import '../../utils/custom_widget.dart';
@@ -19,16 +140,15 @@ class YourDocuments extends StatefulWidget {
 }
 
 class _YourDocumentsState extends State<YourDocuments> {
-  var uploadedFiles = <PlatformFile>[].obs;
-  bool isButtonEnabled = false;
+  List<PlatformFile> uploadedFiles = [];
+  bool isButtonEnabled = false; // Track button state
 
-  final DocumentController controller = Get.put(DocumentController());
-
-  @override
-  void initState() {
-    super.initState();
-    controller.fetchDocuments();
-  }
+  // Dummy data for documents
+  List<Map<String, String>> documents = [
+    {"title": "Hotel & Sightseeing Voucher", "size": "0.6 MB"},
+    {"title": "Payment Receipts", "size": "4.6 MB"},
+    {"title": "Flight Tickets", "size": "2.5 MB"},
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -84,39 +204,20 @@ class _YourDocumentsState extends State<YourDocuments> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Obx(() {
-                          if (controller.isLoading.value) {
-                            return const Center(
-                              child: CircularProgressIndicator(
-                                color: AppColors.pink,
-                              ),
-                            );
-                          } else if (controller.categories.isEmpty) {
-                            return const Text("No documents available.");
-                          } else {
-                            return _buildDocumentList(
-                              "30 Sundays documents",
-                              controller.categories,
-                            );
-                          }
-                        }),
+                        _buildDocumentList("30 Sundays documents", documents),
 
-                        Obx(() {
-                          if (uploadedFiles.isNotEmpty) {
-                            return _buildDocumentList(
-                              "Uploaded documents",
-                              uploadedFiles.map((file) {
-                                return {
-                                  "title": file.name,
-                                  "size":
-                                      "${(file.size / 1024).toStringAsFixed(2)} KB",
-                                };
-                              }).toList(),
-                            );
-                          } else {
-                            return SizedBox.shrink();
-                          }
-                        }),
+                        if (uploadedFiles.isNotEmpty)
+                          _buildDocumentList(
+                            "Uploaded documents",
+                            uploadedFiles.map((file) {
+                              return {
+                                "title": file.name,
+                                "size":
+                                    "${(file.size / 1024).toStringAsFixed(2)} KB",
+                              };
+                            }).toList(),
+                          ),
+                        // Show uploaded files if available
                       ],
                     ),
                   ),
@@ -162,176 +263,6 @@ class _YourDocumentsState extends State<YourDocuments> {
           Text(title, style: AppFontFamily.HeadingStyle618()),
           const SizedBox(height: 15),
           if (docs.isEmpty)
-            const Text("No documents available.")
-          else
-            ...List.generate(docs.length, (index) {
-              final item = docs[index];
-              String category = item['category']?.toString()?.trim() ?? '';
-              List<dynamic> categoryDocs = item['docs'] ?? [];
-
-              if (category.isEmpty || categoryDocs.isEmpty) {
-                return const SizedBox();
-              }
-
-              return Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(category, style: AppFontFamily.HeadingStyle618()),
-                  const SizedBox(height: 15),
-                  ...List.generate(categoryDocs.length, (docIndex) {
-                    final doc = categoryDocs[docIndex];
-                    final String link = doc['link'] ?? '';
-                    final String tag = doc['tag'] ?? '';
-
-                    final isLastCategory = index == docs.length - 1;
-                    final isLastDoc = docIndex == categoryDocs.length - 1;
-
-                    return Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Row(
-                          children: [
-                            uploadedFiles.any((file) => file.name == tag)
-                                ? Container(
-                                  height: 20,
-                                  width: 20,
-                                  color: Colors.white,
-                                  child: Image.asset(
-                                    "assets/images/file.png",
-                                    height: 32,
-                                    width: 32,
-                                    fit: BoxFit.contain,
-                                  ),
-                                )
-                                : Image.asset(
-                                  "assets/images/doc2.png",
-                                  height: 32,
-                                  width: 32,
-                                  fit: BoxFit.contain,
-                                ),
-                            const SizedBox(width: 8),
-                            Expanded(
-                              child: GestureDetector(
-                                onTap: () async {
-                                  if (link.isEmpty ||
-                                      !link.startsWith('http')) {
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                      const SnackBar(
-                                        content: Text(
-                                          'Invalid or unsupported URL',
-                                        ),
-                                      ),
-                                    );
-                                    return;
-                                  }
-
-                                  try {
-                                    final uri = Uri.parse(link);
-                                    if (await canLaunchUrl(uri)) {
-                                      await launchUrl(
-                                        uri,
-                                        mode: LaunchMode.externalApplication,
-                                      );
-                                    } else {
-                                      ScaffoldMessenger.of(
-                                        context,
-                                      ).showSnackBar(
-                                        const SnackBar(
-                                          content: Text('Could not open link'),
-                                        ),
-                                      );
-                                    }
-                                  } catch (e) {
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                      SnackBar(
-                                        content: Text(
-                                          'Error launching URL: $e',
-                                        ),
-                                      ),
-                                    );
-                                  }
-                                },
-                                child: Text(
-                                  link,
-                                  style: AppFontFamily.smallStyle16(
-                                    color: AppColors.primary,
-                                  ),
-                                  maxLines: 1,
-                                  overflow: TextOverflow.ellipsis,
-                                ),
-                              ),
-                            ),
-                            GestureDetector(
-                              onTap: () {
-                                if (uploadedFiles.any(
-                                  (file) => file.name == tag,
-                                )) {
-                                  uploadedFiles.removeWhere(
-                                    (file) => file.name == tag,
-                                  );
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    SnackBar(
-                                      content: Text('File deleted: $tag'),
-                                    ),
-                                  );
-                                } else {
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    const SnackBar(
-                                      content: Text(
-                                        'This is a predefined document.',
-                                      ),
-                                    ),
-                                  );
-                                }
-                              },
-                              child: Image.asset(
-                                uploadedFiles.any((file) => file.name == tag)
-                                    ? "assets/images/delete.png"
-                                    : "assets/images/download.png",
-                                height: 20,
-                                width: 20,
-                                color:
-                                    uploadedFiles.any(
-                                          (file) => file.name == tag,
-                                        )
-                                        ? AppColors.pink
-                                        : null,
-                              ),
-                            ),
-                          ],
-                        ),
-                        if (!(isLastCategory && isLastDoc)) ...[
-                          const SizedBox(height: 5),
-                          Divider(color: AppColors.gray, thickness: 1),
-                          const SizedBox(height: 5),
-                        ],
-                      ],
-                    );
-                  }),
-                ],
-              );
-            }),
-        ],
-      ),
-    );
-  }
-
-  /*
-  Widget _buildDocumentList(String title, List<dynamic> docs) {
-    return Container(
-      margin: const EdgeInsets.only(bottom: 12),
-      padding: const EdgeInsets.all(12),
-      decoration: BoxDecoration(
-        color: AppColors.white,
-        borderRadius: BorderRadius.circular(12),
-        border: Border.all(width: 1, color: AppColors.grey4),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(title, style: AppFontFamily.HeadingStyle618()),
-          const SizedBox(height: 15),
-          if (docs.isEmpty)
             const Text("No documents uploaded yet.")
           else
             ...docs.map(
@@ -344,6 +275,7 @@ class _YourDocumentsState extends State<YourDocuments> {
                             height: 20,
                             width: 20,
                             color: Colors.white,
+
                             child: Image.asset(
                               "assets/images/file.png",
                               height: 32,
@@ -383,9 +315,11 @@ class _YourDocumentsState extends State<YourDocuments> {
                           if (uploadedFiles.any(
                             (file) => file.name == doc['title'],
                           )) {
-                            uploadedFiles.removeWhere(
-                              (file) => file.name == doc['title'],
-                            );
+                            setState(() {
+                              uploadedFiles.removeWhere(
+                                (file) => file.name == doc['title'],
+                              );
+                            });
                             ScaffoldMessenger.of(context).showSnackBar(
                               SnackBar(
                                 content: Text('File deleted: ${doc['title']}'),
@@ -427,7 +361,6 @@ class _YourDocumentsState extends State<YourDocuments> {
       ),
     );
   }
-*/
 
   void _showFilePickerBottomSheet(BuildContext context) {
     showModalBottomSheet(
@@ -483,6 +416,7 @@ class _YourDocumentsState extends State<YourDocuments> {
                     "Please select the document you want to upload.",
                     style: AppFontFamily.HeadingStyle14(),
                   ),
+
                   const SizedBox(height: 20),
                   ...uploadedFiles.map(
                     (file) => Container(
@@ -532,7 +466,20 @@ class _YourDocumentsState extends State<YourDocuments> {
                           ),
                           GestureDetector(
                             onTap: () {
-                              uploadedFiles.remove(file);
+                              setState(() {
+                                uploadedFiles.remove(file);
+                              });
+
+                              documents.addAll(
+                                uploadedFiles.map((file) {
+                                  return {
+                                    "title": file.name,
+                                    "size":
+                                        "${(file.size / 1024).toStringAsFixed(2)} KB",
+                                  };
+                                }).toList(),
+                              );
+
                               ScaffoldMessenger.of(context).showSnackBar(
                                 SnackBar(
                                   content: Text('File removed: ${file.name}'),
@@ -586,6 +533,7 @@ class _YourDocumentsState extends State<YourDocuments> {
                     style: ElevatedButton.styleFrom(
                       backgroundColor: AppColors.pink,
                       disabledBackgroundColor: AppColors.lightPink,
+                      // padding: const EdgeInsets.symmetric(vertical: 14),
                       minimumSize: Size(double.infinity, 48),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(40),
@@ -612,8 +560,11 @@ class _YourDocumentsState extends State<YourDocuments> {
   void _pickFile() async {
     FilePickerResult? result = await FilePicker.platform.pickFiles();
     if (result != null) {
-      uploadedFiles.addAll(result.files); // Add files to the list
+      setState(() {
+        uploadedFiles.addAll(result.files); // Add files to the list
+      });
       Get.back(); // Close the bottom sheet
+      // Close the bottom sheet
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('File uploaded: ${result.files.first.name}')),
       );
@@ -627,4 +578,4 @@ class _YourDocumentsState extends State<YourDocuments> {
     );
     // You can also navigate to another screen or perform any action
   }
-}
+}*/

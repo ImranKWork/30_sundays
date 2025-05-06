@@ -45,6 +45,10 @@ dependencies:
   intl:
   shared_preferences:
   url_launcher: any
+  dio: ^5.3.3
+  path_provider: ^2.1.2
+  permission_handler: ^11.0.1
+
 
 
 dev_dependencies:
