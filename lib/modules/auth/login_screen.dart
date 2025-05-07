@@ -6,7 +6,7 @@ import '../../controllers/login_controller.dart';
 import '../../utils/app_color.dart';
 import '../../utils/app_font_family.dart';
 import '../../utils/custom_button.dart';
-import '../../utils/custom_widget.dart'; // For ColorOverlays
+import '../../utils/custom_widget.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -25,6 +25,8 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   void initState() {
     super.initState();
+
+    authController.phoneController.clear();
 
     authController.phoneController.addListener(_validateInput);
 

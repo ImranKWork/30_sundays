@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:sunday/modules/home/customize_screen.dart';
 import 'package:sunday/utils/app_color.dart';
 
 import '../utils/app_font_family.dart';
@@ -17,8 +16,8 @@ class _DashBoardState extends State<DashBoard> {
   int _selectedIndex = 0;
 
   final List<Widget> _screens = [
-    const Center(child: Text("Search Screen")),
-    CustomizeScreen(),
+    // const Center(child: Text("Search Screen")),
+    // CustomizeScreen(),
     AllTrips(),
     MyAccount(),
   ];
@@ -78,7 +77,7 @@ class _DashBoardState extends State<DashBoard> {
         onTap: _onItemTapped,
         type: BottomNavigationBarType.fixed,
         items: [
-          _buildNavItem(
+          /*  _buildNavItem(
             ColorFiltered(
               colorFilter: ColorFilter.mode(
                 _selectedIndex == 0 ? AppColors.pink : AppColors.blueLight,
@@ -107,36 +106,36 @@ class _DashBoardState extends State<DashBoard> {
             ),
             'Customize',
             1,
-          ),
+          ),*/
           _buildNavItem(
             ColorFiltered(
               colorFilter: ColorFilter.mode(
-                _selectedIndex == 2 ? AppColors.pink : AppColors.blueLight,
+                _selectedIndex == 0 ? AppColors.pink : AppColors.blueLight,
                 BlendMode.srcIn,
               ),
               child: Image.asset(
                 "assets/images/trips.png",
-                width: 18,
-                height: 15,
+                width: 24,
+                height: 24,
               ),
             ),
             'Trips',
-            2,
+            0,
           ),
           _buildNavItem(
             ColorFiltered(
               colorFilter: ColorFilter.mode(
-                _selectedIndex == 3 ? AppColors.pink : AppColors.blueLight,
+                _selectedIndex == 1 ? AppColors.pink : AppColors.blueLight,
                 BlendMode.srcIn,
               ),
               child: Image.asset(
                 "assets/images/account.png",
-                width: 18,
-                height: 15,
+                width: 20,
+                height: 20,
               ),
             ),
             'My Account',
-            3,
+            1,
           ),
         ],
       ),

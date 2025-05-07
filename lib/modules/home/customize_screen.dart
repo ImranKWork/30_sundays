@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sunday/utils/app_color.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../utils/app_font_family.dart';
 import '../../utils/custom_button.dart';
@@ -19,6 +20,14 @@ class _CustomizeScreenState extends State<CustomizeScreen> {
   final List<String> locations = ['Bali', 'Vietnam'];
   int selectedIndex = 0;
   List<bool> isChecked = List.filled(5, false);
+  void openCallSupport() async {
+    final Uri callUri = Uri(scheme: 'tel', path: '1234567890');
+    if (await canLaunchUrl(callUri)) {
+      await launchUrl(callUri);
+    } else {
+      throw 'Could not launch $callUri';
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -42,7 +51,13 @@ class _CustomizeScreenState extends State<CustomizeScreen> {
                         style: AppFontFamily.HeadingStyle20(),
                       ),
 
-                      Image.asset("assets/images/phone.png", scale: 2.5),
+                      GestureDetector(
+                        onTap: openCallSupport,
+                        child: Image.asset(
+                          "assets/images/phone.png",
+                          scale: 2.5,
+                        ),
+                      ),
                     ],
                   ),
                 ),

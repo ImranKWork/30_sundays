@@ -7,7 +7,7 @@
 
 
     <application
-        android:label="sunday"
+        android:label="30 Sundays"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity

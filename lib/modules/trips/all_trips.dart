@@ -89,6 +89,18 @@ class _AllTripsState extends State<AllTrips> {
     );
   }
 
+  void openCallSupport() async {
+    final Uri callUri = Uri(
+      scheme: 'tel',
+      path: '1234567890',
+    ); // Replace with your support number
+    if (await canLaunchUrl(callUri)) {
+      await launchUrl(callUri);
+    } else {
+      throw 'Could not launch $callUri';
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final selectedTrips = getSelectedTrips();
@@ -108,15 +120,77 @@ class _AllTripsState extends State<AllTrips> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text("All Trips", style: AppFontFamily.HeadingStyle20()),
-                      Image.asset("assets/images/phone.png", scale: 2.5),
+                      GestureDetector(
+                        onTap: openCallSupport,
+                        child: Image.asset(
+                          "assets/images/phone.png",
+                          scale: 2.5,
+                        ),
+                      ),
                     ],
                   ),
                 ),
                 SizedBox(height: 10),
-                SizedBox(
+                Padding(
+                  padding: const EdgeInsets.only(left: 12),
+                  child: Wrap(
+                    spacing: 12,
+                    runSpacing: 12,
+                    children: List.generate(locations.length, (index) {
+                      final isSelected = index == selectedIndex;
+
+                      return GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            selectedIndex = index;
+                          });
+                        },
+                        child: Container(
+                          padding: EdgeInsets.symmetric(
+                            horizontal: 24,
+                            vertical: 8,
+                          ),
+                          decoration: BoxDecoration(
+                            color: isSelected ? AppColors.pink : Colors.white,
+                            borderRadius: BorderRadius.circular(40),
+                            border: Border.all(
+                              color:
+                                  isSelected
+                                      ? AppColors.pink
+                                      : Colors.grey.shade300,
+                              width: 1.5,
+                            ),
+                            boxShadow:
+                                isSelected
+                                    ? []
+                                    : [
+                                      BoxShadow(
+                                        color: Colors.grey.withOpacity(0.3),
+                                        spreadRadius: 0,
+                                        blurRadius: 4,
+                                        offset: Offset(0, 2),
+                                      ),
+                                    ],
+                          ),
+                          child: Text(
+                            locations[index],
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontFamily: AppFontFamily.Regular,
+                              fontWeight: FontWeight.w500,
+                              color: isSelected ? Colors.white : Colors.black,
+                            ),
+                          ),
+                        ),
+                      );
+                    }),
+                  ),
+                ),
+
+                /* SizedBox(
                   height: 45,
                   child: ListView.builder(
-                    padding: EdgeInsets.only(left: 12, right: 12),
+                    padding: EdgeInsets.only(left: 16, right: 16),
                     scrollDirection: Axis.horizontal,
                     physics: NeverScrollableScrollPhysics(),
                     itemCount: locations.length,
@@ -139,11 +213,22 @@ class _AllTripsState extends State<AllTrips> {
                             borderRadius: BorderRadius.circular(40),
                             border: Border.all(
                               color:
-                                  isSelected
-                                      ? AppColors.pink
-                                      : Colors.grey.shade300,
+                              isSelected
+                                  ? AppColors.pink
+                                  : Colors.grey.shade300,
                               width: 1.5,
                             ),
+                            boxShadow:
+                            isSelected
+                                ? []
+                                : [
+                              BoxShadow(
+                                color: Colors.grey.withOpacity(0.3),
+                                spreadRadius: 0,
+                                blurRadius: 4,
+                                offset: Offset(0, 2),
+                              ),
+                            ],
                           ),
                           child: Center(
                             child: Text(
@@ -160,8 +245,8 @@ class _AllTripsState extends State<AllTrips> {
                       );
                     },
                   ),
-                ),
-                SizedBox(height: 10),
+                ),*/
+                SizedBox(height: 24),
                 Obx(() {
                   if (controller.isLoading.value) {
                     return Column(
@@ -207,7 +292,7 @@ class _AllTripsState extends State<AllTrips> {
                                   children: [
                                     Image.network(
                                       trip["banner"],
-                                      fit: BoxFit.cover,
+                                      fit: BoxFit.contain,
                                     ),
                                     if (trip["daysToGo"] != null)
                                       Positioned(
@@ -247,7 +332,7 @@ class _AllTripsState extends State<AllTrips> {
                                   children: [
                                     Image.asset(
                                       "assets/images/moon.png",
-                                      scale: 2.2,
+                                      scale: 2.1,
                                     ),
                                     Text(
                                       "  ${trip["nights"]} Nights",
@@ -258,7 +343,9 @@ class _AllTripsState extends State<AllTrips> {
                                 SizedBox(height: 6),
                                 Text(
                                   trip["title"],
-                                  style: AppFontFamily.HeadingStyle514(),
+                                  style: AppFontFamily.HeadingStyle514(
+                                    color: AppColors.primary,
+                                  ),
                                 ),
                                 SizedBox(height: 6),
                                 Text(
@@ -271,13 +358,12 @@ class _AllTripsState extends State<AllTrips> {
                                 Row(
                                   children: [
                                     Text(
-                                      trip["pricePerPerson"].toString(),
+                                      "₹${trip["pricePerPerson"].toString()}",
                                       style: AppFontFamily.HeadingStyle514(),
                                     ),
                                     Text(
                                       "/Person",
-                                      style: AppFontFamily.smallStyle16()
-                                          .copyWith(color: AppColors.blueLight),
+                                      style: AppFontFamily.HeadingStyle514(),
                                     ),
                                   ],
                                 ),
@@ -290,8 +376,8 @@ class _AllTripsState extends State<AllTrips> {
                                     children: [
                                       Image.asset(
                                         "assets/images/share.png",
-                                        height: 12,
-                                        width: 12,
+                                        height: 18,
+                                        width: 18,
                                       ),
                                       SizedBox(width: 5),
                                       GestureDetector(
@@ -315,9 +401,8 @@ class _AllTripsState extends State<AllTrips> {
                                         },
                                         child: Text(
                                           "Share Itinerary",
-                                          style: AppFontFamily.HeadingStyle514(
-                                            fontSize: 12,
-                                          ).copyWith(color: AppColors.pink),
+                                          style: AppFontFamily.HeadingStyle514()
+                                              .copyWith(color: AppColors.pink),
                                         ),
                                       ),
                                     ],
@@ -327,15 +412,14 @@ class _AllTripsState extends State<AllTrips> {
                                     children: [
                                       Image.asset(
                                         "assets/images/share.png",
-                                        height: 12,
-                                        width: 12,
+                                        height: 18,
+                                        width: 18,
                                       ),
                                       SizedBox(width: 5),
                                       Text(
                                         "Share Itinerary",
-                                        style: AppFontFamily.HeadingStyle514(
-                                          fontSize: 12,
-                                        ).copyWith(color: AppColors.pink),
+                                        style: AppFontFamily.HeadingStyle514()
+                                            .copyWith(color: AppColors.pink),
                                       ),
                                     ],
                                   ),

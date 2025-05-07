@@ -16,7 +16,7 @@ class AuthController extends GetxController {
     final phone = phoneController.text.trim();
 
     if (phone.isEmpty || phone.length != 10) {
-      Get.snackbar('Validation', 'Please enter a valid 10-digit phone number');
+      //   Get.snackbar('Validation', 'Please enter a valid 10-digit phone number');
       return;
     }
 
@@ -35,7 +35,7 @@ class AuthController extends GetxController {
       if (response.statusCode == 200) {
         final successMessage =
             responseBody['message']?.toString() ?? 'OTP sent successfully';
-        Get.snackbar('Success', successMessage);
+        //    Get.snackbar('Success', successMessage);
 
         Get.to(() => VerifyOtp(phoneNumber: phone));
       } else {
@@ -43,11 +43,12 @@ class AuthController extends GetxController {
             responseBody['error']?.toString() ??
             responseBody['message']?.toString() ??
             'Login failed. Please try again.';
-        Get.snackbar('Error', errorMessage);
+        //   Get.snackbar('Error', errorMessage);
+        print(errorMessage);
       }
     } catch (e) {
       print('Error: $e');
-      Get.snackbar('Error', 'Something went wrong');
+      //  Get.snackbar('Error', 'Something went wrong');
     } finally {
       isLoading.value = false;
     }
@@ -71,7 +72,7 @@ class AuthController extends GetxController {
 
         await SharedPref.saveToken(token);
 
-        Get.snackbar("Success", message);
+        //  Get.snackbar("Success", message);
         return true;
       } else {
         print("❌ Failed: ${response.statusCode} - ${response.body}");
@@ -84,12 +85,12 @@ class AuthController extends GetxController {
           print("⚠️ Error while parsing error message: $e");
         }
 
-        Get.snackbar("Failed", errorMessage);
+        // Get.snackbar("Failed", errorMessage);
         return false;
       }
     } catch (e) {
       print("⚠️ Error: $e");
-      Get.snackbar("Error", "Error occurred while verifying OTP.");
+      //  Get.snackbar("Error", "Error occurred while verifying OTP.");
       return false;
     }
   }
@@ -107,7 +108,7 @@ class AuthController extends GetxController {
         print("✅ OTP Resent: $responseData");
 
         String message = responseData['message'] ?? 'OTP resent successfully!';
-        Get.snackbar("Success", message);
+        //  Get.snackbar("Success", message);
         return true;
       } else {
         print(
@@ -123,13 +124,13 @@ class AuthController extends GetxController {
           print("⚠️ Error while parsing error message: $e");
         }
 
-        Get.snackbar("Failed", errorMessage);
+        //  Get.snackbar("Failed", errorMessage);
         return false;
       }
     } catch (e) {
       print("⚠️ Error: $e");
 
-      Get.snackbar("Error", "Error occurred while resending OTP.");
+      //  Get.snackbar("Error", "Error occurred while resending OTP.");
       return false;
     }
   }

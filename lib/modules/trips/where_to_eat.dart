@@ -21,6 +21,8 @@ class _WhereToEatState extends State<WhereToEat> {
     "assets/images/3.png",
   ];
   int selectedIndex = 0;
+  bool isLoading = false;
+
   List<CarouselController> carouselControllers = [];
   List<int> activeIndexes = [];
 
@@ -80,9 +82,16 @@ class _WhereToEatState extends State<WhereToEat> {
                       final location = locations[index];
                       final isSelected = index == selectedIndex;
                       return GestureDetector(
-                        onTap: () {
+                        onTap: () async {
+                          setState(() {
+                            isLoading = true;
+                          });
+
+                          await Future.delayed(Duration(milliseconds: 500));
+
                           setState(() {
                             selectedIndex = index;
+                            isLoading = false;
                           });
                         },
                         child: Container(
@@ -101,6 +110,17 @@ class _WhereToEatState extends State<WhereToEat> {
                                       : Colors.grey.shade300,
                               width: 1.5,
                             ),
+                            boxShadow:
+                                isSelected
+                                    ? []
+                                    : [
+                                      BoxShadow(
+                                        color: Colors.grey.withOpacity(0.3),
+                                        spreadRadius: 0,
+                                        blurRadius: 4,
+                                        offset: Offset(0, 2),
+                                      ),
+                                    ],
                           ),
                           child: Center(
                             child: Text(
@@ -117,7 +137,7 @@ class _WhereToEatState extends State<WhereToEat> {
                     },
                   ),
                 ),
-                SizedBox(height: 10),
+                SizedBox(height: 18),
                 Expanded(
                   child: SingleChildScrollView(
                     padding: EdgeInsets.only(right: 16, left: 16),
@@ -137,9 +157,17 @@ class _WhereToEatState extends State<WhereToEat> {
                                 color: AppColors.white,
                                 borderRadius: BorderRadius.circular(12),
                                 border: Border.all(
-                                  width: 1,
-                                  color: AppColors.grey4,
+                                  color: Colors.grey.shade300,
+                                  width: 1.5,
                                 ),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.grey.withOpacity(0.3),
+                                    spreadRadius: 0,
+                                    blurRadius: 4,
+                                    offset: Offset(0, 2),
+                                  ),
+                                ],
                               ),
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -149,28 +177,38 @@ class _WhereToEatState extends State<WhereToEat> {
                                       CarouselSlider(
                                         items:
                                             imageList.map((imagePath) {
-                                              return ClipRRect(
-                                                borderRadius:
-                                                    BorderRadius.circular(12),
-                                                child: Image.asset(
-                                                  imagePath,
-                                                  fit: BoxFit.cover,
-                                                  width: double.infinity,
-                                                  scale: 2.5,
+                                              return Container(
+                                                margin: EdgeInsets.only(
+                                                  right: 8.0,
+                                                ), // space to the right of image
+                                                decoration: BoxDecoration(
+                                                  border: Border.all(
+                                                    color: Colors.grey.shade300,
+                                                    width: 1,
+                                                  ), // border
+                                                  borderRadius:
+                                                      BorderRadius.circular(12),
+                                                ),
+                                                child: ClipRRect(
+                                                  borderRadius:
+                                                      BorderRadius.circular(12),
+                                                  child: Image.asset(
+                                                    imagePath,
+                                                    fit: BoxFit.cover,
+                                                    width: double.infinity,
+                                                    scale: 2.5,
+                                                  ),
                                                 ),
                                               );
                                             }).toList(),
-                                        //carouselController: carouselControllers[listIndex],
                                         options: CarouselOptions(
                                           height: 180,
                                           viewportFraction: 1.0,
-                                          enableInfiniteScroll:
-                                              true, // optional: enable loop
-                                          autoPlay:
-                                              true, // ✅ enables auto scroll
+                                          enableInfiniteScroll: true,
+                                          autoPlay: true,
                                           autoPlayInterval: Duration(
                                             seconds: 3,
-                                          ), // change interval if needed
+                                          ),
                                           onPageChanged: (index, reason) {
                                             setState(() {
                                               activeIndexes[listIndex] = index;
@@ -179,7 +217,6 @@ class _WhereToEatState extends State<WhereToEat> {
                                         ),
                                       ),
 
-                                      // Dots
                                       Positioned(
                                         bottom: 10,
                                         left: 0,
@@ -221,8 +258,6 @@ class _WhereToEatState extends State<WhereToEat> {
                                               }).toList(),
                                         ),
                                       ),
-
-                                      // Right arrow
                                       Positioned(
                                         top: 80,
                                         right: 12,
@@ -296,14 +331,14 @@ class _WhereToEatState extends State<WhereToEat> {
                                         text: TextSpan(
                                           children: [
                                             TextSpan(
-                                              text: "₹600 ",
+                                              text: "₹600",
                                               style:
                                                   AppFontFamily.HeadingStyle518(),
                                             ),
                                             TextSpan(
                                               text: "/Person",
                                               style:
-                                                  AppFontFamily.smallStyle416(),
+                                                  AppFontFamily.HeadingStyle518(),
                                             ),
                                           ],
                                         ),
@@ -322,6 +357,15 @@ class _WhereToEatState extends State<WhereToEat> {
               ],
             ),
           ),
+
+          // Loader Overlay
+          if (isLoading)
+            Container(
+              color: Colors.black.withOpacity(0.3),
+              child: Center(
+                child: CircularProgressIndicator(color: AppColors.pink),
+              ),
+            ),
         ],
       ),
     );

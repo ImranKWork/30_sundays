@@ -19,12 +19,14 @@ class _ActivitiesState extends State<Activities> {
   final List<Map<String, String>> locations = [
     {'title': 'Activities', 'image': 'assets/images/activities.png'},
     {'title': 'Hotels', 'image': 'assets/images/hotels.png'},
-    {'title': 'Flights', 'image': 'assets/images/flight.png'},
+    // {'title': 'Flights', 'image': 'assets/images/flight.png'},
   ];
   int selectedIndex = 0;
   int selectedDayIndex = 0;
   List<bool> isCheckedList = List<bool>.filled(10, false);
   final HotelController hotelController = Get.put(HotelController());
+  bool isExpanded = false;
+
   @override
   void initState() {
     // TODO: implement initState
@@ -104,6 +106,17 @@ class _ActivitiesState extends State<Activities> {
                                       : Colors.grey.shade300,
                               width: 1.5,
                             ),
+                            boxShadow:
+                                isSelected
+                                    ? []
+                                    : [
+                                      BoxShadow(
+                                        color: Colors.grey.withOpacity(0.3),
+                                        spreadRadius: 0,
+                                        blurRadius: 4,
+                                        offset: Offset(0, 2),
+                                      ),
+                                    ],
                           ),
                           child: Row(
                             children: [
@@ -137,7 +150,7 @@ class _ActivitiesState extends State<Activities> {
                 SizedBox(height: 10),
                 Expanded(
                   child: SingleChildScrollView(
-                    padding: EdgeInsets.only(right: 16, left: 16, top: 8),
+                    padding: EdgeInsets.only(left: 16, top: 8),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -214,7 +227,7 @@ class _ActivitiesState extends State<Activities> {
                           ListView.builder(
                             itemCount: 3,
                             shrinkWrap: true,
-                            padding: EdgeInsets.only(top: 8),
+                            padding: EdgeInsets.only(top: 8, right: 16),
                             physics: NeverScrollableScrollPhysics(),
                             itemBuilder: (context, index) {
                               return Container(
@@ -255,7 +268,7 @@ class _ActivitiesState extends State<Activities> {
                                                   AppFontFamily.HeadingWhite414()
                                                       .copyWith(
                                                         color:
-                                                            AppColors.blueLight,
+                                                            AppColors.primary,
                                                         fontSize: 16,
                                                         fontWeight:
                                                             FontWeight.bold,
@@ -284,7 +297,7 @@ class _ActivitiesState extends State<Activities> {
                                           "May 9, 2025",
                                           style: AppFontFamily.HeadingWhite414()
                                               .copyWith(
-                                                color: AppColors.blueLight,
+                                                color: AppColors.darkBlue,
                                               ),
                                         ),
                                       ],
@@ -293,21 +306,58 @@ class _ActivitiesState extends State<Activities> {
                                     Row(
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
                                       children: [
-                                        Text(
-                                          "Explore a cozy café and enjoy a\ndelicious breakfast with fresh coffee and\nlocal specialties",
-                                          style: AppFontFamily.HeadingWhite414()
-                                              .copyWith(
-                                                color: AppColors.blueLight,
-                                              ),
-                                          maxLines: 3,
-                                          overflow: TextOverflow.ellipsis,
+                                        Expanded(
+                                          child: AnimatedCrossFade(
+                                            firstChild: Text(
+                                              "Explore a cozy café and enjoy a\ndelicious breakfast with fresh coffee and\nlocal specialties",
+                                              maxLines: 2,
+                                              overflow: TextOverflow.ellipsis,
+                                              style:
+                                                  AppFontFamily.HeadingWhite414()
+                                                      .copyWith(
+                                                        color:
+                                                            AppColors.primary,
+                                                      ),
+                                            ),
+                                            secondChild: Text(
+                                              "Explore a cozy café and enjoy a\ndelicious breakfast with fresh coffee and\nlocal specialties",
+                                              maxLines: 3,
+                                              overflow: TextOverflow.ellipsis,
+                                              style:
+                                                  AppFontFamily.HeadingWhite414()
+                                                      .copyWith(
+                                                        color:
+                                                            AppColors.primary,
+                                                      ),
+                                            ),
+                                            crossFadeState:
+                                                isExpanded
+                                                    ? CrossFadeState.showSecond
+                                                    : CrossFadeState.showFirst,
+                                            duration: Duration(
+                                              milliseconds: 200,
+                                            ),
+                                          ),
                                         ),
-                                        Image.asset(
-                                          "assets/images/down_arrow.png",
-                                          scale: 2.5,
+                                        // Toggle Button
+                                        GestureDetector(
+                                          onTap: () {
+                                            setState(() {
+                                              isExpanded = !isExpanded;
+                                            });
+                                          },
+                                          child: Padding(
+                                            padding: const EdgeInsets.only(
+                                              left: 8.0,
+                                            ),
+                                            child: Image.asset(
+                                              isExpanded
+                                                  ? 'assets/images/down_arrow.png'
+                                                  : 'assets/images/down_arrow.png',
+                                              scale: 2.5,
+                                            ),
+                                          ),
                                         ),
                                       ],
                                     ),

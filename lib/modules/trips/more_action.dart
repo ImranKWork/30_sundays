@@ -18,14 +18,12 @@ class MoreAction extends StatefulWidget {
 class _MoreActionState extends State<MoreAction> {
   double progressValue = 0.4;
   final List<Map<String, dynamic>> items = [
-    {"image": "assets/images/edit.png", "name": "View/Modify"},
-    {"image": "assets/images/docs.png", "name": "Your documents"},
+    {"image": "assets/images/edit.png", "name": "View"},
+    {"image": "assets/images/doc2.png", "name": "Your documents"},
     {"image": "assets/images/visa.png", "name": "Visa"},
     {"image": "assets/images/forex.png", "name": "Forex"},
     {"image": "assets/images/insurance.png", "name": "Insurance"},
     {"image": "assets/images/flights.png", "name": "Before you go"},
-
-    // Add more as needed...
   ];
   @override
   Widget build(BuildContext context) {
@@ -142,7 +140,7 @@ class _MoreActionState extends State<MoreAction> {
                                     ),
                                   ),
                                   Spacer(),
-                                  Text(
+                                  /*   Text(
                                     "Pay now",
                                     style: AppFontFamily.HeadingStyle514(
                                       color: AppColors.pink,
@@ -153,7 +151,7 @@ class _MoreActionState extends State<MoreAction> {
                                   Image.asset(
                                     "assets/images/right_arr.png",
                                     scale: 2.5,
-                                  ),
+                                  ),*/
                                 ],
                               ),
                               SizedBox(height: 10),
@@ -181,7 +179,9 @@ class _MoreActionState extends State<MoreAction> {
                         SizedBox(height: 8),
                         Text(
                           "More Actions",
-                          style: AppFontFamily.HeadingStyle618(),
+                          style: AppFontFamily.HeadingStyle618().copyWith(
+                            fontWeight: FontWeight.w600,
+                          ),
                         ),
                         SizedBox(height: 15),
                         GridView.builder(
@@ -209,22 +209,34 @@ class _MoreActionState extends State<MoreAction> {
                                   color: AppColors.white,
                                   borderRadius: BorderRadius.circular(16),
                                   border: Border.all(color: AppColors.gray),
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: Colors.black.withOpacity(
+                                        0.1,
+                                      ), // Shadow color
+                                      offset: Offset(0, 2),
+                                      blurRadius: 4,
+                                      spreadRadius: 0,
+                                    ),
+                                  ],
                                 ),
                                 child: Column(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
                                     Image.asset(
                                       items[index]['image'],
-                                      scale: 3.8,
+                                      scale: 3.5,
                                       // height: 40,
                                       // width: 40,
                                     ),
                                     SizedBox(height: 10),
                                     Text(
                                       items[index]['name'],
-                                      style: AppFontFamily.HeadingStyle518(
-                                        fontSize: 16,
-                                      ),
+                                      style: AppFontFamily.HeadingStyle518()
+                                          .copyWith(
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.w500,
+                                          ),
                                     ),
                                   ],
                                 ),
@@ -262,9 +274,11 @@ class _MoreActionState extends State<MoreAction> {
                                   children: [
                                     Text(
                                       "Where to Eat",
-                                      style: AppFontFamily.HeadingStyle518(
-                                        fontSize: 16,
-                                      ),
+                                      style: AppFontFamily.HeadingStyle518()
+                                          .copyWith(
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.w500,
+                                          ),
                                     ),
                                     SizedBox(height: 3),
                                     Text(
@@ -304,7 +318,7 @@ class _MoreActionState extends State<MoreAction> {
                           ),
                         ),
                         SizedBox(height: 15),
-                        Container(
+                        /* Container(
                           padding: EdgeInsets.only(
                             left: 12,
                             top: 12,
@@ -332,9 +346,11 @@ class _MoreActionState extends State<MoreAction> {
                                 children: [
                                   Text(
                                     "Where to Shop",
-                                    style: AppFontFamily.HeadingStyle518(
-                                      fontSize: 16,
-                                    ),
+                                    style: AppFontFamily.HeadingStyle518()
+                                        .copyWith(
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.w500,
+                                        ),
                                   ),
                                   SizedBox(height: 3),
                                   Text(
@@ -367,7 +383,7 @@ class _MoreActionState extends State<MoreAction> {
                             ],
                           ),
                         ),
-                        SizedBox(height: 20),
+                        SizedBox(height: 20),*/
                       ],
                     ),
                   ),

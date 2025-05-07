@@ -50,7 +50,7 @@ class _VerifyOtpState extends State<VerifyOtp> {
     textStyle: AppFontFamily.HeadingStyle32().copyWith(
       color: AppColors.primary,
     ),
-    decoration: const BoxDecoration(), // No underline
+    decoration: const BoxDecoration(),
   );
 
   final submittedPinTheme = PinTheme(
@@ -199,6 +199,8 @@ class _VerifyOtpState extends State<VerifyOtp> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
+
       backgroundColor: AppColors.white,
       body: Stack(
         children: [
@@ -262,14 +264,12 @@ class _VerifyOtpState extends State<VerifyOtp> {
 
                           hapticFeedbackType: HapticFeedbackType.lightImpact,
                           showCursor: true,
-                          cursor: Align(
-                            alignment: Alignment.bottomCenter,
-                            child: Container(
-                              width: 2,
-                              height: 20,
-                              color: AppColors.primary,
-                            ),
-                          ),
+
+                          // cursor: Container(
+                          //   width: 2,
+                          //   height: 20,
+                          //   color: AppColors.primary,
+                          // ),
                           onCompleted: (pin) {
                             setState(() {
                               _isOtpCompleted = true;

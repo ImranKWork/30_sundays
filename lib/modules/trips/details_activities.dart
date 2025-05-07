@@ -3,7 +3,6 @@ import 'package:get/get.dart';
 
 import '../../utils/app_color.dart';
 import '../../utils/app_font_family.dart';
-import '../../utils/custom_button.dart';
 import '../../utils/custom_widget.dart';
 import 'edit_activities.dart';
 
@@ -18,11 +17,12 @@ class _DetailsActivitiesState extends State<DetailsActivities> {
   final List<Map<String, String>> locations = [
     {'title': 'Activities', 'image': 'assets/images/activities.png'},
     {'title': 'Hotels', 'image': 'assets/images/hotels.png'},
-    {'title': 'Flights', 'image': 'assets/images/flight.png'},
+    // {'title': 'Flights', 'image': 'assets/images/flight.png'},
   ];
   int selectedIndex = 0;
   int selectedDayIndex = 0;
   List<bool> isCheckedList = List<bool>.filled(10, false);
+  bool isExpanded = false;
 
   @override
   Widget build(BuildContext context) {
@@ -80,7 +80,7 @@ class _DetailsActivitiesState extends State<DetailsActivities> {
                               });
                             },
                             child: Container(
-                              margin: EdgeInsets.only(left: 18),
+                              margin: EdgeInsets.only(left: 10),
                               padding: EdgeInsets.symmetric(
                                 horizontal: 16,
                                 vertical: 10,
@@ -96,6 +96,17 @@ class _DetailsActivitiesState extends State<DetailsActivities> {
                                           : Colors.grey.shade300,
                                   width: 1.5,
                                 ),
+                                boxShadow:
+                                    isSelected
+                                        ? []
+                                        : [
+                                          BoxShadow(
+                                            color: Colors.grey.withOpacity(0.3),
+                                            spreadRadius: 0,
+                                            blurRadius: 4,
+                                            offset: Offset(0, 2),
+                                          ),
+                                        ],
                               ),
                               child: Row(
                                 children: [
@@ -130,7 +141,7 @@ class _DetailsActivitiesState extends State<DetailsActivities> {
                 SizedBox(height: 10),
                 Expanded(
                   child: SingleChildScrollView(
-                    padding: EdgeInsets.only(right: 16, left: 16, top: 8),
+                    padding: EdgeInsets.only(left: 8, top: 8),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -207,127 +218,194 @@ class _DetailsActivitiesState extends State<DetailsActivities> {
                           ListView.builder(
                             itemCount: 3,
                             shrinkWrap: true,
-                            padding: EdgeInsets.only(top: 8),
+                            padding: EdgeInsets.only(top: 8, right: 8),
                             physics: NeverScrollableScrollPhysics(),
                             itemBuilder: (context, index) {
-                              return Container(
-                                margin: EdgeInsets.only(bottom: 12),
-                                padding: EdgeInsets.all(12),
-                                decoration: BoxDecoration(
-                                  color: AppColors.white,
-                                  borderRadius: BorderRadius.circular(12),
-                                  border: Border.all(
-                                    width: 1,
-                                    color: AppColors.grey4,
+                              return GestureDetector(
+                                onTap: () {
+                                  Get.to(() => EditActivities());
+                                },
+                                child: Container(
+                                  margin: EdgeInsets.only(bottom: 12),
+                                  padding: EdgeInsets.all(12),
+                                  decoration: BoxDecoration(
+                                    color: AppColors.white,
+                                    borderRadius: BorderRadius.circular(12),
+                                    border: Border.all(
+                                      width: 1,
+                                      color: AppColors.grey4,
+                                    ),
                                   ),
-                                ),
-                                child: Column(
-                                  children: [
-                                    Stack(
-                                      children: [
-                                        Image.asset(
-                                          "assets/images/2.png",
-                                          scale: 2.5,
-                                        ),
-                                        Positioned(
-                                          bottom: 12,
-                                          right: 12,
-                                          child: Container(
-                                            padding: EdgeInsets.symmetric(
-                                              horizontal: 12,
-                                              vertical: 6,
-                                            ),
-                                            decoration: BoxDecoration(
-                                              color: AppColors.white,
-                                              borderRadius:
-                                                  BorderRadius.circular(24),
-                                            ),
-                                            child: Text(
-                                              "₹1999 /Person",
-                                              style:
-                                                  AppFontFamily.HeadingWhite414()
-                                                      .copyWith(
-                                                        color:
-                                                            AppColors.blueLight,
-                                                        fontSize: 16,
-                                                        fontWeight:
-                                                            FontWeight.bold,
-                                                      ),
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                    SizedBox(height: 10),
-                                    Row(
-                                      children: [
-                                        Text(
-                                          "Day 1 activities",
-                                          style:
-                                              AppFontFamily.HeadingStyle514(),
-                                        ),
-                                        Spacer(),
-                                        Image.asset(
-                                          "assets/images/calender.png",
-                                          height: 12,
-                                          width: 12,
-                                        ),
-                                        SizedBox(width: 5),
-                                        Text(
-                                          "May 9, 2025",
-                                          style: AppFontFamily.HeadingWhite414()
-                                              .copyWith(
-                                                color: AppColors.blueLight,
-                                              ),
-                                        ),
-                                      ],
-                                    ),
-                                    SizedBox(height: 15),
-                                    Row(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Text(
-                                          "Explore a cozy café and enjoy a\ndelicious breakfast with fresh coffee and\nlocal specialties",
-                                          style: AppFontFamily.HeadingWhite414()
-                                              .copyWith(
-                                                color: AppColors.blueLight,
-                                              ),
-                                          maxLines: 3,
-                                          overflow: TextOverflow.ellipsis,
-                                        ),
-                                        Image.asset(
-                                          "assets/images/down_arrow.png",
-                                          scale: 2.5,
-                                        ),
-                                      ],
-                                    ),
-                                    SizedBox(height: 15),
-                                    GestureDetector(
-                                      onTap: () {
-                                        Get.to(() => EditActivities());
-                                      },
-                                      child: Row(
+                                  child: Column(
+                                    children: [
+                                      Stack(
                                         children: [
-                                          Text(
-                                            "Edit Activities",
-                                            style:
-                                                AppFontFamily.HeadingStyle514(
-                                                  color: AppColors.pink,
-                                                ),
-                                          ),
-                                          SizedBox(width: 5),
-
                                           Image.asset(
-                                            "assets/images/right_arr.png",
+                                            "assets/images/2.png",
                                             scale: 2.5,
+                                          ),
+                                          Positioned(
+                                            bottom: 12,
+                                            right: 12,
+                                            child: Container(
+                                              padding: EdgeInsets.symmetric(
+                                                horizontal: 12,
+                                                vertical: 6,
+                                              ),
+                                              decoration: BoxDecoration(
+                                                color: AppColors.white,
+                                                borderRadius:
+                                                    BorderRadius.circular(24),
+                                              ),
+                                              child: Text(
+                                                "₹1999 /Person",
+                                                style:
+                                                    AppFontFamily.HeadingWhite414()
+                                                        .copyWith(
+                                                          color:
+                                                              AppColors.primary,
+                                                          fontSize: 16,
+                                                          fontWeight:
+                                                              FontWeight.bold,
+                                                        ),
+                                              ),
+                                            ),
                                           ),
                                         ],
                                       ),
-                                    ),
-                                  ],
+                                      SizedBox(height: 10),
+                                      Row(
+                                        children: [
+                                          Text(
+                                            "Day 1 activities",
+                                            style:
+                                                AppFontFamily.HeadingStyle514(),
+                                          ),
+                                          Spacer(),
+                                          Image.asset(
+                                            "assets/images/calender.png",
+                                            height: 12,
+                                            width: 12,
+                                          ),
+                                          SizedBox(width: 5),
+                                          Text(
+                                            "May 9, 2025",
+                                            style:
+                                                AppFontFamily.HeadingWhite414()
+                                                    .copyWith(
+                                                      color: AppColors.primary,
+                                                    ),
+                                          ),
+                                        ],
+                                      ),
+                                      SizedBox(height: 15),
+                                      Row(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Expanded(
+                                            child: AnimatedCrossFade(
+                                              firstChild: Text(
+                                                "Explore a cozy café and enjoy a\ndelicious breakfast with fresh coffee and\nlocal specialties",
+                                                maxLines: 2,
+                                                overflow: TextOverflow.ellipsis,
+                                                style:
+                                                    AppFontFamily.HeadingWhite414()
+                                                        .copyWith(
+                                                          color:
+                                                              AppColors.primary,
+                                                        ),
+                                              ),
+                                              secondChild: Text(
+                                                "Explore a cozy café and enjoy a\ndelicious breakfast with fresh coffee and\nlocal specialties",
+                                                maxLines: 3,
+                                                overflow: TextOverflow.ellipsis,
+                                                style:
+                                                    AppFontFamily.HeadingWhite414()
+                                                        .copyWith(
+                                                          color:
+                                                              AppColors.primary,
+                                                        ),
+                                              ),
+                                              crossFadeState:
+                                                  isExpanded
+                                                      ? CrossFadeState
+                                                          .showSecond
+                                                      : CrossFadeState
+                                                          .showFirst,
+                                              duration: Duration(
+                                                milliseconds: 200,
+                                              ),
+                                            ),
+                                          ),
+                                          // Toggle Button
+                                          GestureDetector(
+                                            onTap: () {
+                                              setState(() {
+                                                isExpanded = !isExpanded;
+                                              });
+                                            },
+                                            child: Padding(
+                                              padding: const EdgeInsets.only(
+                                                left: 8.0,
+                                              ),
+                                              child: Image.asset(
+                                                isExpanded
+                                                    ? 'assets/images/down_arrow.png'
+                                                    : 'assets/images/down_arrow.png',
+                                                scale: 2.5,
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                      /*  Row(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Text(
+                                            "Explore a cozy café and enjoy a\ndelicious breakfast with fresh coffee and\nlocal specialties",
+                                            style: AppFontFamily.HeadingWhite414()
+                                                .copyWith(
+                                                  color: AppColors.blueLight,
+                                                ),
+                                            maxLines: 3,
+                                            overflow: TextOverflow.ellipsis,
+                                          ),
+                                          Image.asset(
+                                            "assets/images/down_arrow.png",
+                                            scale: 2.5,
+                                          ),
+                                        ],
+                                      ),*/
+                                      SizedBox(height: 5),
+                                      /*
+                                      GestureDetector(
+                                        onTap: () {
+                                          Get.to(() => EditActivities());
+                                        },
+                                        child: Row(
+                                          children: [
+                                            Text(
+                                              "Edit Activities",
+                                              style:
+                                                  AppFontFamily.HeadingStyle514(
+                                                    color: AppColors.pink,
+                                                  ),
+                                            ),
+                                            SizedBox(width: 5),
+
+                                            Image.asset(
+                                              "assets/images/right_arr.png",
+                                              scale: 2.5,
+                                            ),
+                                          ],
+                                        ),
+                                      ),*/
+                                    ],
+                                  ),
                                 ),
                               );
                             },
@@ -479,7 +557,7 @@ class _DetailsActivitiesState extends State<DetailsActivities> {
           ),
         ],
       ),
-      bottomNavigationBar: Padding(
+      /*  bottomNavigationBar: Padding(
         padding: const EdgeInsets.only(left: 8.0, right: 8),
         child: CustomButton(
           width: Get.width,
@@ -489,7 +567,7 @@ class _DetailsActivitiesState extends State<DetailsActivities> {
           },
           isEnabled: false,
         ),
-      ),
+      ),*/
     );
   }
 }

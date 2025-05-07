@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sunday/controllers/user_controller.dart';
+import 'package:sunday/modules/auth/login_screen.dart';
 import 'package:sunday/utils/app_color.dart';
 
 import '../../utils/app_font_family.dart';
 import '../../utils/custom_widget.dart';
-import 'add_account.dart';
 
 class MyAccount extends StatefulWidget {
   const MyAccount({super.key});
@@ -37,7 +37,7 @@ class _MyAccountState extends State<MyAccount> {
                 crossAxisAlignment: CrossAxisAlignment.start,
 
                 children: [
-                  SizedBox(height: 15),
+                  SizedBox(height: 20),
                   Text("My Account", style: AppFontFamily.HeadingStyle20()),
                   SizedBox(height: 20),
                   Obx(() {
@@ -75,13 +75,13 @@ class _MyAccountState extends State<MyAccount> {
                               ),
                             ],
                           ),
-                          Spacer(),
+                          /* Spacer(),
                           Image.asset(
                             "assets/images/customize.png",
                             width: 18,
                             height: 15,
                             color: AppColors.pink,
-                          ),
+                          ),*/
                         ],
                       ),
                     );
@@ -99,7 +99,7 @@ class _MyAccountState extends State<MyAccount> {
                     ),
                     child: Column(
                       children: [
-                        GestureDetector(
+                        /* GestureDetector(
                           onTap: () {
                             Get.to(() => AddAccount());
                           },
@@ -129,7 +129,7 @@ class _MyAccountState extends State<MyAccount> {
                         ),
                         SizedBox(height: 15),
                         Divider(color: AppColors.grey4),
-                        SizedBox(height: 15),
+                        SizedBox(height: 15),*/
                         Row(
                           children: [
                             Image.asset(
@@ -208,28 +208,74 @@ class _MyAccountState extends State<MyAccount> {
                         SizedBox(height: 15),
                         Divider(color: AppColors.grey4),
                         SizedBox(height: 15),
-                        Row(
-                          children: [
-                            Image.asset(
-                              "assets/images/logout.png",
-                              height: 35,
-                              width: 35,
-                            ),
-                            SizedBox(width: 15),
-                            Text(
-                              "Logout",
-                              style: AppFontFamily.smallStyle16(
+                        GestureDetector(
+                          onTap: () {
+                            showDialog(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return AlertDialog(
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(16),
+                                  ),
+                                  title: Text("Logout"),
+                                  content: Text(
+                                    "Are you sure you want to logout?",
+                                  ),
+                                  actions: [
+                                    TextButton(
+                                      onPressed: () {
+                                        Navigator.of(context).pop();
+                                      },
+                                      child: Text(
+                                        "Cancel",
+                                        style: AppFontFamily.smallStyle16(
+                                          fontSize: 14,
+                                          color: AppColors.primary,
+                                        ),
+                                      ),
+                                    ),
+                                    ElevatedButton(
+                                      onPressed: () {
+                                        Get.offAll(() => LoginScreen());
+                                      },
+                                      style: ElevatedButton.styleFrom(
+                                        backgroundColor: AppColors.white,
+                                      ),
+                                      child: Text(
+                                        "Logout",
+                                        style: AppFontFamily.smallStyle16(
+                                          color: AppColors.pink,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                );
+                              },
+                            );
+                          },
+                          child: Row(
+                            children: [
+                              Image.asset(
+                                "assets/images/logout.png",
+                                height: 35,
+                                width: 35,
+                              ),
+                              SizedBox(width: 15),
+                              Text(
+                                "Logout",
+                                style: AppFontFamily.smallStyle16(
+                                  color: AppColors.primary,
+                                ),
+                              ),
+                              Spacer(),
+                              Image.asset(
+                                "assets/images/right_arr.png",
+                                width: 20,
+                                height: 20,
                                 color: AppColors.primary,
                               ),
-                            ),
-                            Spacer(),
-                            Image.asset(
-                              "assets/images/right_arr.png",
-                              width: 20,
-                              height: 20,
-                              color: AppColors.primary,
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
                       ],
                     ),

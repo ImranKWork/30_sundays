@@ -2,7 +2,6 @@ import 'package:dotted_border/dotted_border.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:sunday/utils/custom_button.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../controllers/document_controller.dart';
@@ -126,7 +125,7 @@ class _YourDocumentsState extends State<YourDocuments> {
           ),
         ],
       ),
-      bottomNavigationBar: Material(
+      /*  bottomNavigationBar: Material(
         elevation: 8, // Optional shadow
         color: AppColors.white,
         shape: RoundedRectangleBorder(
@@ -143,7 +142,7 @@ class _YourDocumentsState extends State<YourDocuments> {
             onTap: () => _showFilePickerBottomSheet(context),
           ),
         ),
-      ),
+      ),*/
     );
   }
 
@@ -204,7 +203,7 @@ class _YourDocumentsState extends State<YourDocuments> {
                                   ),
                                 )
                                 : Image.asset(
-                                  "assets/images/doc2.png",
+                                  "assets/images/docs.png",
                                   height: 32,
                                   width: 32,
                                   fit: BoxFit.contain,
@@ -612,8 +611,8 @@ class _YourDocumentsState extends State<YourDocuments> {
   void _pickFile() async {
     FilePickerResult? result = await FilePicker.platform.pickFiles();
     if (result != null) {
-      uploadedFiles.addAll(result.files); // Add files to the list
-      Get.back(); // Close the bottom sheet
+      uploadedFiles.addAll(result.files);
+      Get.back();
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('File uploaded: ${result.files.first.name}')),
       );
@@ -621,10 +620,8 @@ class _YourDocumentsState extends State<YourDocuments> {
   }
 
   _submitFiles() {
-    // Handle file submission logic here
     ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(content: Text('Files submitted successfully')),
     );
-    // You can also navigate to another screen or perform any action
   }
 }
