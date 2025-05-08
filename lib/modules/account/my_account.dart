@@ -6,6 +6,7 @@ import 'package:sunday/utils/app_color.dart';
 
 import '../../utils/app_font_family.dart';
 import '../../utils/custom_widget.dart';
+import '../../utils/shared_pref.dart';
 
 class MyAccount extends StatefulWidget {
   const MyAccount({super.key});
@@ -31,7 +32,7 @@ class _MyAccountState extends State<MyAccount> {
           ColorOverlays(),
           SafeArea(
             child: SingleChildScrollView(
-              padding: const EdgeInsets.only(left: 16.0, right: 4),
+              padding: const EdgeInsets.only(left: 16.0, right: 16.0),
 
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -235,7 +236,8 @@ class _MyAccountState extends State<MyAccount> {
                                       ),
                                     ),
                                     ElevatedButton(
-                                      onPressed: () {
+                                      onPressed: () async {
+                                        await SharedPref.clearToken();
                                         Get.offAll(() => LoginScreen());
                                       },
                                       style: ElevatedButton.styleFrom(

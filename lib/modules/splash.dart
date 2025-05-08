@@ -3,7 +3,9 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 
 import '../utils/custom_widget.dart';
+import '../utils/shared_pref.dart';
 import 'auth/login_screen.dart';
+import 'dashboard.dart';
 
 class Splash extends StatefulWidget {
   const Splash({super.key});
@@ -24,9 +26,18 @@ class _SplashState extends State<Splash> {
       ),
     );
 
-    Future.delayed(const Duration(seconds: 3), () {
+    checkLoginStatus();
+  }
+
+  void checkLoginStatus() async {
+    await Future.delayed(const Duration(seconds: 3)); // splash delay
+    String? token = await SharedPref.getToken();
+
+    if (token != null && token.isNotEmpty) {
+      Get.offAll(() => DashBoard());
+    } else {
       Get.offAll(() => LoginScreen());
-    });
+    }
   }
 
   @override

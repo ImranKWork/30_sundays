@@ -179,8 +179,9 @@ class _MoreActionState extends State<MoreAction> {
                         SizedBox(height: 8),
                         Text(
                           "More Actions",
-                          style: AppFontFamily.HeadingStyle618().copyWith(
+                          style: AppFontFamily.HeadingStyle618(
                             fontWeight: FontWeight.w600,
+                            fontSize: 18,
                           ),
                         ),
                         SizedBox(height: 15),
@@ -232,11 +233,10 @@ class _MoreActionState extends State<MoreAction> {
                                     SizedBox(height: 10),
                                     Text(
                                       items[index]['name'],
-                                      style: AppFontFamily.HeadingStyle518()
-                                          .copyWith(
-                                            fontSize: 16,
-                                            fontWeight: FontWeight.w500,
-                                          ),
+                                      style: AppFontFamily.HeadingStyle518(
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.w500,
+                                      ),
                                     ),
                                   ],
                                 ),
@@ -274,11 +274,10 @@ class _MoreActionState extends State<MoreAction> {
                                   children: [
                                     Text(
                                       "Where to Eat",
-                                      style: AppFontFamily.HeadingStyle518()
-                                          .copyWith(
-                                            fontSize: 16,
-                                            fontWeight: FontWeight.w500,
-                                          ),
+                                      style: AppFontFamily.HeadingStyle518(
+                                        fontSize: 16.6,
+                                        fontWeight: FontWeight.w500,
+                                      ),
                                     ),
                                     SizedBox(height: 3),
                                     Text(

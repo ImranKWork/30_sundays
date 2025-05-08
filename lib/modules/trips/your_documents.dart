@@ -2,7 +2,6 @@ import 'package:dotted_border/dotted_border.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 import '../../controllers/document_controller.dart';
 import '../../utils/app_color.dart';
@@ -165,18 +164,25 @@ class _YourDocumentsState extends State<YourDocuments> {
           else
             ...List.generate(docs.length, (index) {
               final item = docs[index];
-              String category = item['category']?.toString()?.trim() ?? '';
+              String category =
+                  item['category']?.toString()?.trim()?.toLowerCase() ?? '';
               List<dynamic> categoryDocs = item['docs'] ?? [];
 
               if (category.isEmpty || categoryDocs.isEmpty) {
                 return const SizedBox();
               }
 
+              // Assign image based on category
+              String imageAsset = "assets/images/docs.png";
+              if (category == "payment" || category == "vouchers") {
+                imageAsset = "assets/images/docs2.png";
+              } else if (category == "passport") {
+                imageAsset = "assets/images/flights2.png";
+              }
+
               return Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(category, style: AppFontFamily.HeadingStyle618()),
-                  const SizedBox(height: 15),
                   ...List.generate(categoryDocs.length, (docIndex) {
                     final doc = categoryDocs[docIndex];
                     final String link = doc['link'] ?? '';
@@ -189,77 +195,25 @@ class _YourDocumentsState extends State<YourDocuments> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Row(
-                          children: [
-                            uploadedFiles.any((file) => file.name == tag)
-                                ? Container(
-                                  height: 20,
-                                  width: 20,
-                                  color: Colors.white,
-                                  child: Image.asset(
-                                    "assets/images/file.png",
-                                    height: 32,
-                                    width: 32,
-                                    fit: BoxFit.contain,
-                                  ),
-                                )
-                                : Image.asset(
-                                  "assets/images/docs.png",
-                                  height: 32,
-                                  width: 32,
-                                  fit: BoxFit.contain,
-                                ),
-                            const SizedBox(width: 8),
-                            Expanded(
-                              child: GestureDetector(
-                                onTap: () async {
-                                  if (link.isEmpty ||
-                                      !link.startsWith('http')) {
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                      const SnackBar(
-                                        content: Text(
-                                          'Invalid or unsupported URL',
-                                        ),
-                                      ),
-                                    );
-                                    return;
-                                  }
+                          crossAxisAlignment: CrossAxisAlignment.start,
 
-                                  try {
-                                    final uri = Uri.parse(link);
-                                    if (await canLaunchUrl(uri)) {
-                                      await launchUrl(
-                                        uri,
-                                        mode: LaunchMode.externalApplication,
-                                      );
-                                    } else {
-                                      ScaffoldMessenger.of(
-                                        context,
-                                      ).showSnackBar(
-                                        const SnackBar(
-                                          content: Text('Could not open link'),
-                                        ),
-                                      );
-                                    }
-                                  } catch (e) {
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                      SnackBar(
-                                        content: Text(
-                                          'Error launching URL: $e',
-                                        ),
-                                      ),
-                                    );
-                                  }
-                                },
-                                child: Text(
-                                  link,
-                                  style: AppFontFamily.smallStyle16(
-                                    color: AppColors.primary,
-                                  ),
-                                  maxLines: 1,
-                                  overflow: TextOverflow.ellipsis,
-                                ),
+                          children: [
+                            Image.asset(
+                              uploadedFiles.any((file) => file.name == tag)
+                                  ? "assets/images/file.png"
+                                  : imageAsset,
+                              height: 32,
+                              width: 32,
+                              fit: BoxFit.contain,
+                            ),
+                            const SizedBox(width: 8),
+                            Text(
+                              item['category'] ?? '',
+                              style: AppFontFamily.smallStyle16(
+                                color: AppColors.primary,
                               ),
                             ),
+                            Spacer(),
                             GestureDetector(
                               onTap: () {
                                 if (uploadedFiles.any(

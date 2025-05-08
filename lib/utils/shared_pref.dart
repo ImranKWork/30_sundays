@@ -15,4 +15,10 @@ class SharedPref {
     print('Retrieved Token: $token');
     return token;
   }
+
+  static Future<void> clearToken() async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.remove(_tokenKey);
+    print('Token cleared');
+  }
 }

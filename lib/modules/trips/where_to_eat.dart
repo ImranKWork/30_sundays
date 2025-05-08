@@ -178,14 +178,14 @@ class _WhereToEatState extends State<WhereToEat> {
                                         items:
                                             imageList.map((imagePath) {
                                               return Container(
-                                                margin: EdgeInsets.only(
-                                                  right: 8.0,
-                                                ), // space to the right of image
+                                                // margin: EdgeInsets.only(
+                                                //   right: 8.0,
+                                                // ),
                                                 decoration: BoxDecoration(
                                                   border: Border.all(
                                                     color: Colors.grey.shade300,
                                                     width: 1,
-                                                  ), // border
+                                                  ),
                                                   borderRadius:
                                                       BorderRadius.circular(12),
                                                 ),
@@ -333,12 +333,16 @@ class _WhereToEatState extends State<WhereToEat> {
                                             TextSpan(
                                               text: "₹600",
                                               style:
-                                                  AppFontFamily.HeadingStyle518(),
+                                                  AppFontFamily.HeadingStyle518(
+                                                    fontSize: 16,
+                                                  ),
                                             ),
                                             TextSpan(
                                               text: "/Person",
                                               style:
-                                                  AppFontFamily.HeadingStyle518(),
+                                                  AppFontFamily.HeadingStyle518(
+                                                    fontSize: 16,
+                                                  ),
                                             ),
                                           ],
                                         ),

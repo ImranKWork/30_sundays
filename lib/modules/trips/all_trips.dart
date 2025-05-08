@@ -278,6 +278,8 @@ class _AllTripsState extends State<AllTrips> {
                             Get.to(() => MoreAction());
                           },
                           child: Container(
+                            width: double.infinity,
+
                             margin: EdgeInsets.only(bottom: 12),
                             padding: EdgeInsets.all(12),
                             decoration: BoxDecoration(
@@ -336,7 +338,10 @@ class _AllTripsState extends State<AllTrips> {
                                     ),
                                     Text(
                                       "  ${trip["nights"]} Nights",
-                                      style: AppFontFamily.BoldStyle(),
+                                      style: AppFontFamily.BoldStyle(
+                                        fontSize: 12,
+                                        fontWeight: FontWeight.w500,
+                                      ),
                                     ),
                                   ],
                                 ),
@@ -345,6 +350,8 @@ class _AllTripsState extends State<AllTrips> {
                                   trip["title"],
                                   style: AppFontFamily.HeadingStyle514(
                                     color: AppColors.primary,
+                                    fontWeight: FontWeight.w500,
+                                    fontSize: 15,
                                   ),
                                 ),
                                 SizedBox(height: 6),

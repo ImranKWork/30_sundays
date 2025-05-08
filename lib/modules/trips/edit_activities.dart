@@ -3,7 +3,6 @@ import 'package:get/get.dart';
 
 import '../../utils/app_color.dart';
 import '../../utils/app_font_family.dart';
-import '../../utils/custom_button.dart';
 import '../../utils/custom_widget.dart';
 
 class EditActivities extends StatefulWidget {
@@ -151,7 +150,7 @@ class _EditActivitiesState extends State<EditActivities> {
                                                             AppColors.primary,
                                                       ),
                                                 ),
-                                                Spacer(),
+                                                /*  Spacer(),
                                                 Image.asset(
                                                   isCheckedList[index]
                                                       ? 'assets/images/check.png'
@@ -159,7 +158,7 @@ class _EditActivitiesState extends State<EditActivities> {
                                                   width: 24,
                                                   height: 24,
                                                 ),
-                                                const SizedBox(width: 10),
+                                                const SizedBox(width: 10),*/
                                               ],
                                             ),
                                             const SizedBox(height: 15),
@@ -217,7 +216,7 @@ class _EditActivitiesState extends State<EditActivities> {
                 ],
               ),
             ),
-          Container(
+          /*   Container(
             padding: const EdgeInsets.only(left: 8, right: 8, bottom: 10),
             color: Colors.white,
             child: Builder(
@@ -239,7 +238,7 @@ class _EditActivitiesState extends State<EditActivities> {
                 );
               },
             ),
-          ),
+          ),*/
         ],
       ),
     );
