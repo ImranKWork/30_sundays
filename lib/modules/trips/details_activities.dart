@@ -351,7 +351,7 @@ class _DetailsActivitiesState extends State<DetailsActivities> {
                                               ),
                                               child: Image.asset(
                                                 isExpanded
-                                                    ? 'assets/images/down_arrow.png'
+                                                    ? 'assets/images/up_arrow.png'
                                                     : 'assets/images/down_arrow.png',
                                                 scale: 2.5,
                                               ),

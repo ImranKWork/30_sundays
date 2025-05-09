@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sunday/controllers/user_controller.dart';
+import 'package:sunday/modules/account/notification.dart';
+import 'package:sunday/modules/account/term_condition.dart';
 import 'package:sunday/modules/auth/login_screen.dart';
 import 'package:sunday/utils/app_color.dart';
 
 import '../../utils/app_font_family.dart';
 import '../../utils/custom_widget.dart';
 import '../../utils/shared_pref.dart';
+import 'help_feedback.dart';
 
 class MyAccount extends StatefulWidget {
   const MyAccount({super.key});
@@ -131,80 +134,95 @@ class _MyAccountState extends State<MyAccount> {
                         SizedBox(height: 15),
                         Divider(color: AppColors.grey4),
                         SizedBox(height: 15),*/
-                        Row(
-                          children: [
-                            Image.asset(
-                              "assets/images/notification.png",
-                              height: 35,
-                              width: 35,
-                            ),
-                            SizedBox(width: 15),
-                            Text(
-                              "Notifications",
-                              style: AppFontFamily.smallStyle16(
+                        GestureDetector(
+                          onTap: () {
+                            Get.to(() => NotificationPage());
+                          },
+                          child: Row(
+                            children: [
+                              Image.asset(
+                                "assets/images/notification.png",
+                                height: 35,
+                                width: 35,
+                              ),
+                              SizedBox(width: 15),
+                              Text(
+                                "Notifications",
+                                style: AppFontFamily.smallStyle16(
+                                  color: AppColors.primary,
+                                ),
+                              ),
+                              Spacer(),
+                              Image.asset(
+                                "assets/images/right_arr.png",
+                                width: 20,
+                                height: 20,
                                 color: AppColors.primary,
                               ),
-                            ),
-                            Spacer(),
-                            Image.asset(
-                              "assets/images/right_arr.png",
-                              width: 20,
-                              height: 20,
-                              color: AppColors.primary,
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
                         SizedBox(height: 15),
                         Divider(color: AppColors.grey4),
                         SizedBox(height: 15),
-                        Row(
-                          children: [
-                            Image.asset(
-                              "assets/images/help.png",
-                              height: 35,
-                              width: 35,
-                            ),
-                            SizedBox(width: 15),
-                            Text(
-                              "Help & feedback",
-                              style: AppFontFamily.smallStyle16(
+                        GestureDetector(
+                          onTap: () {
+                            Get.to(() => HelpFeedback());
+                          },
+                          child: Row(
+                            children: [
+                              Image.asset(
+                                "assets/images/help.png",
+                                height: 35,
+                                width: 35,
+                              ),
+                              SizedBox(width: 15),
+                              Text(
+                                "Help & feedback",
+                                style: AppFontFamily.smallStyle16(
+                                  color: AppColors.primary,
+                                ),
+                              ),
+                              Spacer(),
+                              Image.asset(
+                                "assets/images/right_arr.png",
+                                width: 20,
+                                height: 20,
                                 color: AppColors.primary,
                               ),
-                            ),
-                            Spacer(),
-                            Image.asset(
-                              "assets/images/right_arr.png",
-                              width: 20,
-                              height: 20,
-                              color: AppColors.primary,
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
                         SizedBox(height: 15),
                         Divider(color: AppColors.grey4),
                         SizedBox(height: 15),
-                        Row(
-                          children: [
-                            Image.asset(
-                              "assets/images/term.png",
-                              height: 35,
-                              width: 35,
-                            ),
-                            SizedBox(width: 15),
-                            Text(
-                              "Terms & conditions",
-                              style: AppFontFamily.smallStyle16(
+                        GestureDetector(
+                          onTap: () {
+                            Get.to(() => TermCondition());
+                          },
+                          child: Row(
+                            children: [
+                              Image.asset(
+                                "assets/images/term.png",
+                                height: 35,
+                                width: 35,
+                              ),
+                              SizedBox(width: 15),
+                              Text(
+                                "Terms & conditions",
+                                style: AppFontFamily.smallStyle16(
+                                  color: AppColors.primary,
+                                ),
+                              ),
+                              Spacer(),
+                              Image.asset(
+                                "assets/images/right_arr.png",
+                                width: 20,
+                                height: 20,
                                 color: AppColors.primary,
                               ),
-                            ),
-                            Spacer(),
-                            Image.asset(
-                              "assets/images/right_arr.png",
-                              width: 20,
-                              height: 20,
-                              color: AppColors.primary,
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
                         SizedBox(height: 15),
                         Divider(color: AppColors.grey4),
