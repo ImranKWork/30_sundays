@@ -57,7 +57,7 @@ class _ActivitiesState extends State<Activities> {
                         },
                         child: Image.asset(
                           "assets/images/back_arrow.png",
-                          scale: 2.5,
+                          scale: 2.3,
                         ),
                       ),
                       SizedBox(width: 10),
@@ -66,7 +66,7 @@ class _ActivitiesState extends State<Activities> {
                         style: AppFontFamily.HeadingStyle20(),
                       ),
                       Spacer(),
-                      Image.asset("assets/images/phone.png", scale: 2.5),
+                      Image.asset("assets/images/phone.png", scale: 2.3),
                     ],
                   ),
                 ),

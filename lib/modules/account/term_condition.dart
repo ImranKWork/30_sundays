@@ -36,7 +36,7 @@ class _TermConditionState extends State<TermCondition> {
                         },
                         child: Image.asset(
                           "assets/images/back_arrow.png",
-                          scale: 2.5,
+                          scale: 2.3,
                         ),
                       ),
                       SizedBox(width: 10),
@@ -341,7 +341,7 @@ class _TermConditionState extends State<TermCondition> {
   Widget _buildTile(String title, String content) {
     return ExpansionTile(
       tilePadding: EdgeInsets.symmetric(horizontal: 16),
-      childrenPadding: EdgeInsets.symmetric(horizontal: 16),
+      childrenPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
       iconColor: AppColors.grey2,
       collapsedIconColor: AppColors.grey2,
       title: Text(

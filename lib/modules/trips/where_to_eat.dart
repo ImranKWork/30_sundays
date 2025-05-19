@@ -54,7 +54,7 @@ class _WhereToEatState extends State<WhereToEat> {
                         },
                         child: Image.asset(
                           "assets/images/back_arrow.png",
-                          scale: 2.5,
+                          scale: 2.3,
                         ),
                       ),
                       SizedBox(width: 10),
@@ -68,7 +68,7 @@ class _WhereToEatState extends State<WhereToEat> {
                         ),
                       ),
                       Spacer(),
-                      Image.asset("assets/images/phone.png", scale: 2.5),
+                      Image.asset("assets/images/phone.png", scale: 2.3),
                     ],
                   ),
                 ),
@@ -115,10 +115,8 @@ class _WhereToEatState extends State<WhereToEat> {
                                     ? []
                                     : [
                                       BoxShadow(
-                                        color: Colors.grey.withOpacity(0.3),
-                                        spreadRadius: 0,
+                                        color: Colors.grey.shade300,
                                         blurRadius: 4,
-                                        offset: Offset(0, 2),
                                       ),
                                     ],
                           ),
@@ -152,7 +150,12 @@ class _WhereToEatState extends State<WhereToEat> {
                           itemBuilder: (context, listIndex) {
                             return Container(
                               margin: EdgeInsets.only(bottom: 12),
-                              padding: EdgeInsets.all(12),
+                              padding: EdgeInsets.only(
+                                left: 12,
+                                top: 12,
+                                bottom: 12,
+                                // right: 12,
+                              ),
                               decoration: BoxDecoration(
                                 color: AppColors.white,
                                 borderRadius: BorderRadius.circular(12),
@@ -178,14 +181,14 @@ class _WhereToEatState extends State<WhereToEat> {
                                         items:
                                             imageList.map((imagePath) {
                                               return Container(
-                                                // margin: EdgeInsets.only(
-                                                //   right: 8.0,
-                                                // ),
+                                                margin: EdgeInsets.only(
+                                                  right: 12,
+                                                ),
                                                 decoration: BoxDecoration(
-                                                  border: Border.all(
-                                                    color: Colors.grey.shade300,
-                                                    width: 1,
-                                                  ),
+                                                  // border: Border.all(
+                                                  //   color: Colors.grey.shade300,
+                                                  //   width: 1,
+                                                  // ),
                                                   borderRadius:
                                                       BorderRadius.circular(12),
                                                 ),
@@ -196,7 +199,7 @@ class _WhereToEatState extends State<WhereToEat> {
                                                     imagePath,
                                                     fit: BoxFit.cover,
                                                     width: double.infinity,
-                                                    scale: 2.5,
+                                                    //  scale: 2.5,
                                                   ),
                                                 ),
                                               );
@@ -295,6 +298,7 @@ class _WhereToEatState extends State<WhereToEat> {
                                           color: AppColors.green,
                                         ),
                                       ),
+                                      SizedBox(width: 12),
                                     ],
                                   ),
                                   SizedBox(height: 10),
@@ -333,20 +337,17 @@ class _WhereToEatState extends State<WhereToEat> {
                                             TextSpan(
                                               text: "₹600",
                                               style:
-                                                  AppFontFamily.HeadingStyle518(
-                                                    fontSize: 16,
-                                                  ),
+                                                  AppFontFamily.HeadingStyle514(),
                                             ),
                                             TextSpan(
                                               text: "/Person",
                                               style:
-                                                  AppFontFamily.HeadingStyle518(
-                                                    fontSize: 16,
-                                                  ),
+                                                  AppFontFamily.HeadingStyle514(),
                                             ),
                                           ],
                                         ),
                                       ),
+                                      SizedBox(width: 12),
                                     ],
                                   ),
                                 ],

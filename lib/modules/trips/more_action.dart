@@ -48,7 +48,7 @@ class _MoreActionState extends State<MoreAction> {
                         },
                         child: Image.asset(
                           "assets/images/back_arrow.png",
-                          scale: 2.5,
+                          scale: 2.3,
                         ),
                       ),
                       SizedBox(width: 10),
@@ -62,7 +62,7 @@ class _MoreActionState extends State<MoreAction> {
                         ),
                       ),
                       Spacer(),
-                      Image.asset("assets/images/phone.png", scale: 2.5),
+                      Image.asset("assets/images/phone.png", scale: 2.3),
                     ],
                   ),
                 ),
@@ -179,9 +179,8 @@ class _MoreActionState extends State<MoreAction> {
                         SizedBox(height: 8),
                         Text(
                           "More Actions",
-                          style: AppFontFamily.HeadingStyle618(
-                            fontWeight: FontWeight.w600,
-                            fontSize: 18,
+                          style: AppFontFamily.HeadingStyle618().copyWith(
+                            fontWeight: FontWeight.bold,
                           ),
                         ),
                         SizedBox(height: 15),
@@ -233,10 +232,11 @@ class _MoreActionState extends State<MoreAction> {
                                     SizedBox(height: 10),
                                     Text(
                                       items[index]['name'],
-                                      style: AppFontFamily.HeadingStyle518(
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.w500,
-                                      ),
+                                      style: AppFontFamily.HeadingStyle518()
+                                          .copyWith(
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.w600,
+                                          ),
                                     ),
                                   ],
                                 ),
@@ -247,7 +247,9 @@ class _MoreActionState extends State<MoreAction> {
                         SizedBox(height: 15),
                         Text(
                           "30 Sundays Recommendations",
-                          style: AppFontFamily.HeadingStyle618(),
+                          style: AppFontFamily.HeadingStyle618().copyWith(
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
                         SizedBox(height: 15),
                         GestureDetector(
@@ -274,10 +276,11 @@ class _MoreActionState extends State<MoreAction> {
                                   children: [
                                     Text(
                                       "Where to Eat",
-                                      style: AppFontFamily.HeadingStyle518(
-                                        fontSize: 16.6,
-                                        fontWeight: FontWeight.w500,
-                                      ),
+                                      style: AppFontFamily.HeadingStyle518()
+                                          .copyWith(
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.w600,
+                                          ),
                                     ),
                                     SizedBox(height: 3),
                                     Text(

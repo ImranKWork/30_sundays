@@ -157,8 +157,8 @@ class _NotificationPageState extends State<NotificationPage> {
                                 item['title'],
                                 style: AppFontFamily.HeadingStyle514(
                                   color: AppColors.primary,
-                                  fontSize: 14.4,
-                                  fontWeight: FontWeight.w500,
+                                  fontSize: 14.8,
+                                  fontWeight: FontWeight.w800,
                                 ),
                                 maxLines: 1,
                                 overflow: TextOverflow.ellipsis,
@@ -291,7 +291,7 @@ class _NotificationPageState extends State<NotificationPage> {
         children: [
           GestureDetector(
             onTap: () => Get.back(),
-            child: Image.asset("assets/images/back_arrow.png", scale: 2.5),
+            child: Image.asset("assets/images/back_arrow.png", scale: 2.3),
           ),
           SizedBox(width: 10),
           Text("Notifications", style: AppFontFamily.HeadingStyle20()),
@@ -327,11 +327,7 @@ class _NotificationPageState extends State<NotificationPage> {
                     isSelected
                         ? []
                         : [
-                          BoxShadow(
-                            color: Colors.grey.withOpacity(0.3),
-                            blurRadius: 4,
-                            offset: Offset(0, 2),
-                          ),
+                          BoxShadow(color: Colors.grey.shade300, blurRadius: 4),
                         ],
               ),
               child: Text(

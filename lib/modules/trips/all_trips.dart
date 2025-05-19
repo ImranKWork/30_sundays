@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -131,8 +132,11 @@ class _AllTripsState extends State<AllTrips> {
                   ),
                 ),
                 SizedBox(height: 10),
-                Padding(
-                  padding: const EdgeInsets.only(left: 12),
+                SingleChildScrollView(
+                  padding: const EdgeInsets.only(
+                    left: 12,
+                    right: 12,
+                  ), // optional horizontal padding
                   child: Wrap(
                     spacing: 12,
                     runSpacing: 12,
@@ -146,7 +150,7 @@ class _AllTripsState extends State<AllTrips> {
                           });
                         },
                         child: Container(
-                          padding: EdgeInsets.symmetric(
+                          padding: const EdgeInsets.symmetric(
                             horizontal: 24,
                             vertical: 8,
                           ),
@@ -168,7 +172,7 @@ class _AllTripsState extends State<AllTrips> {
                                         color: Colors.grey.withOpacity(0.3),
                                         spreadRadius: 0,
                                         blurRadius: 4,
-                                        offset: Offset(0, 2),
+                                        offset: const Offset(0, 2),
                                       ),
                                     ],
                           ),
@@ -292,9 +296,27 @@ class _AllTripsState extends State<AllTrips> {
                               children: [
                                 Stack(
                                   children: [
-                                    Image.network(
-                                      trip["banner"],
-                                      fit: BoxFit.contain,
+                                    ClipRRect(
+                                      borderRadius: BorderRadius.circular(12),
+                                      child: CachedNetworkImage(
+                                        imageUrl: trip["banner"],
+                                        fit: BoxFit.cover,
+                                        width: double.infinity,
+                                        //   height: 180,
+                                        memCacheHeight: 300,
+                                        fadeInDuration: Duration(
+                                          milliseconds: 100,
+                                        ),
+                                        placeholder:
+                                            (context, url) => Container(
+                                              //  height: 300,
+                                              width: double.infinity,
+                                              color: Colors.grey.shade200,
+                                            ),
+                                        errorWidget:
+                                            (context, url, error) =>
+                                                Icon(Icons.error),
+                                      ),
                                     ),
                                     if (trip["daysToGo"] != null)
                                       Positioned(
@@ -339,7 +361,7 @@ class _AllTripsState extends State<AllTrips> {
                                     Text(
                                       "  ${trip["nights"]} Nights",
                                       style: AppFontFamily.BoldStyle(
-                                        fontSize: 12,
+                                        fontSize: 12.5,
                                         fontWeight: FontWeight.w500,
                                       ),
                                     ),
@@ -351,7 +373,7 @@ class _AllTripsState extends State<AllTrips> {
                                   style: AppFontFamily.HeadingStyle514(
                                     color: AppColors.primary,
                                     fontWeight: FontWeight.w500,
-                                    fontSize: 15,
+                                    fontSize: 15.3,
                                   ),
                                 ),
                                 SizedBox(height: 6),
@@ -383,8 +405,8 @@ class _AllTripsState extends State<AllTrips> {
                                     children: [
                                       Image.asset(
                                         "assets/images/share.png",
-                                        height: 18,
-                                        width: 18,
+                                        height: 14,
+                                        width: 14,
                                       ),
                                       SizedBox(width: 5),
                                       GestureDetector(
@@ -419,8 +441,8 @@ class _AllTripsState extends State<AllTrips> {
                                     children: [
                                       Image.asset(
                                         "assets/images/share.png",
-                                        height: 18,
-                                        width: 18,
+                                        height: 14,
+                                        width: 14,
                                       ),
                                       SizedBox(width: 5),
                                       Text(
@@ -437,8 +459,8 @@ class _AllTripsState extends State<AllTrips> {
                                     children: [
                                       Image.asset(
                                         "assets/images/msg.png",
-                                        height: 12,
-                                        width: 12,
+                                        height: 14,
+                                        width: 14,
                                       ),
                                       Text(
                                         "Review",
@@ -449,8 +471,8 @@ class _AllTripsState extends State<AllTrips> {
 
                                       Image.asset(
                                         "assets/images/picture.png",
-                                        height: 12,
-                                        width: 12,
+                                        height: 14,
+                                        width: 14,
                                       ),
                                       GestureDetector(
                                         onTap: () {
@@ -468,8 +490,8 @@ class _AllTripsState extends State<AllTrips> {
 
                                       Image.asset(
                                         "assets/images/share.png",
-                                        height: 12,
-                                        width: 12,
+                                        height: 14,
+                                        width: 14,
                                       ),
 
                                       Text(

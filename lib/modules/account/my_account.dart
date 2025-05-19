@@ -138,30 +138,38 @@ class _MyAccountState extends State<MyAccount> {
                           onTap: () {
                             Get.to(() => NotificationPage());
                           },
-                          child: Row(
-                            children: [
-                              Image.asset(
-                                "assets/images/notification.png",
-                                height: 35,
-                                width: 35,
-                              ),
-                              SizedBox(width: 15),
-                              Text(
-                                "Notifications",
-                                style: AppFontFamily.smallStyle16(
+                          child: Container(
+                            padding: EdgeInsets.symmetric(
+                              vertical: 0,
+                              horizontal: 0,
+                            ),
+                            color: Colors.transparent,
+                            child: Row(
+                              children: [
+                                Image.asset(
+                                  "assets/images/notification.png",
+                                  height: 35,
+                                  width: 35,
+                                ),
+                                SizedBox(width: 15),
+                                Text(
+                                  "Notifications",
+                                  style: AppFontFamily.smallStyle16(
+                                    color: AppColors.primary,
+                                  ),
+                                ),
+                                Spacer(),
+                                Image.asset(
+                                  "assets/images/right_arr.png",
+                                  width: 20,
+                                  height: 20,
                                   color: AppColors.primary,
                                 ),
-                              ),
-                              Spacer(),
-                              Image.asset(
-                                "assets/images/right_arr.png",
-                                width: 20,
-                                height: 20,
-                                color: AppColors.primary,
-                              ),
-                            ],
+                              ],
+                            ),
                           ),
                         ),
+
                         SizedBox(height: 15),
                         Divider(color: AppColors.grey4),
                         SizedBox(height: 15),
@@ -169,28 +177,35 @@ class _MyAccountState extends State<MyAccount> {
                           onTap: () {
                             Get.to(() => HelpFeedback());
                           },
-                          child: Row(
-                            children: [
-                              Image.asset(
-                                "assets/images/help.png",
-                                height: 35,
-                                width: 35,
-                              ),
-                              SizedBox(width: 15),
-                              Text(
-                                "Help & feedback",
-                                style: AppFontFamily.smallStyle16(
+                          child: Container(
+                            padding: EdgeInsets.symmetric(
+                              vertical: 0,
+                              horizontal: 0,
+                            ),
+                            color: Colors.transparent,
+                            child: Row(
+                              children: [
+                                Image.asset(
+                                  "assets/images/help.png",
+                                  height: 35,
+                                  width: 35,
+                                ),
+                                SizedBox(width: 15),
+                                Text(
+                                  "Help & feedback",
+                                  style: AppFontFamily.smallStyle16(
+                                    color: AppColors.primary,
+                                  ),
+                                ),
+                                Spacer(),
+                                Image.asset(
+                                  "assets/images/right_arr.png",
+                                  width: 20,
+                                  height: 20,
                                   color: AppColors.primary,
                                 ),
-                              ),
-                              Spacer(),
-                              Image.asset(
-                                "assets/images/right_arr.png",
-                                width: 20,
-                                height: 20,
-                                color: AppColors.primary,
-                              ),
-                            ],
+                              ],
+                            ),
                           ),
                         ),
                         SizedBox(height: 15),
@@ -200,28 +215,35 @@ class _MyAccountState extends State<MyAccount> {
                           onTap: () {
                             Get.to(() => TermCondition());
                           },
-                          child: Row(
-                            children: [
-                              Image.asset(
-                                "assets/images/term.png",
-                                height: 35,
-                                width: 35,
-                              ),
-                              SizedBox(width: 15),
-                              Text(
-                                "Terms & conditions",
-                                style: AppFontFamily.smallStyle16(
+                          child: Container(
+                            padding: EdgeInsets.symmetric(
+                              vertical: 0,
+                              horizontal: 0,
+                            ),
+                            color: Colors.transparent,
+                            child: Row(
+                              children: [
+                                Image.asset(
+                                  "assets/images/term.png",
+                                  height: 35,
+                                  width: 35,
+                                ),
+                                SizedBox(width: 15),
+                                Text(
+                                  "Terms & conditions",
+                                  style: AppFontFamily.smallStyle16(
+                                    color: AppColors.primary,
+                                  ),
+                                ),
+                                Spacer(),
+                                Image.asset(
+                                  "assets/images/right_arr.png",
+                                  width: 20,
+                                  height: 20,
                                   color: AppColors.primary,
                                 ),
-                              ),
-                              Spacer(),
-                              Image.asset(
-                                "assets/images/right_arr.png",
-                                width: 20,
-                                height: 20,
-                                color: AppColors.primary,
-                              ),
-                            ],
+                              ],
+                            ),
                           ),
                         ),
                         SizedBox(height: 15),

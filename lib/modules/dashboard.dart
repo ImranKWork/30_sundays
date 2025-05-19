@@ -115,8 +115,8 @@ class _DashBoardState extends State<DashBoard> {
               ),
               child: Image.asset(
                 "assets/images/trips.png",
-                width: 25,
-                height: 25,
+                width: 28,
+                height: 28,
               ),
             ),
             'Trips',

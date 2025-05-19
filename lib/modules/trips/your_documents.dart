@@ -1,7 +1,11 @@
+import 'package:dio/dio.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:permission_handler/permission_handler.dart';
+import 'package:sunday/modules/trips/preview_image.dart';
 
 import '../../controllers/document_controller.dart';
 import '../../utils/app_color.dart';
@@ -46,7 +50,7 @@ class _YourDocumentsState extends State<YourDocuments> {
                         onTap: () => Get.back(),
                         child: Image.asset(
                           "assets/images/back_arrow.png",
-                          scale: 2.5,
+                          scale: 2.3,
                         ),
                       ),
                       const SizedBox(width: 10),
@@ -66,7 +70,7 @@ class _YourDocumentsState extends State<YourDocuments> {
                         },
                         child: Image.asset(
                           "assets/images/phone.png",
-                          scale: 2.5,
+                          scale: 2.3,
                         ),
                       ),
                     ],
@@ -157,7 +161,12 @@ class _YourDocumentsState extends State<YourDocuments> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(title, style: AppFontFamily.HeadingStyle618()),
+          Text(
+            title,
+            style: AppFontFamily.HeadingStyle618().copyWith(
+              fontWeight: FontWeight.w700,
+            ),
+          ),
           const SizedBox(height: 15),
           if (docs.isEmpty)
             const Text("No documents available.")
@@ -172,7 +181,6 @@ class _YourDocumentsState extends State<YourDocuments> {
                 return const SizedBox();
               }
 
-              // Assign image based on category
               String imageAsset = "assets/images/docs.png";
               if (category == "payment" || category == "vouchers") {
                 imageAsset = "assets/images/docs2.png";
@@ -194,69 +202,74 @@ class _YourDocumentsState extends State<YourDocuments> {
                     return Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Row(
-                          crossAxisAlignment: CrossAxisAlignment.start,
+                        GestureDetector(
+                          onTap: () {
+                            Get.to(() => PreviewImage(imageUrl: link));
+                          },
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
 
-                          children: [
-                            Image.asset(
-                              uploadedFiles.any((file) => file.name == tag)
-                                  ? "assets/images/file.png"
-                                  : imageAsset,
-                              height: 32,
-                              width: 32,
-                              fit: BoxFit.contain,
-                            ),
-                            const SizedBox(width: 8),
-                            Text(
-                              item['category'] ?? '',
-                              style: AppFontFamily.smallStyle16(
-                                color: AppColors.primary,
-                              ),
-                            ),
-                            Spacer(),
-                            GestureDetector(
-                              onTap: () {
-                                if (uploadedFiles.any(
-                                  (file) => file.name == tag,
-                                )) {
-                                  uploadedFiles.removeWhere(
-                                    (file) => file.name == tag,
-                                  );
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    SnackBar(
-                                      content: Text('File deleted: $tag'),
-                                    ),
-                                  );
-                                } else {
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    const SnackBar(
-                                      content: Text(
-                                        'This is a predefined document.',
-                                      ),
-                                    ),
-                                  );
-                                }
-                              },
-                              child: Image.asset(
+                            children: [
+                              Image.asset(
                                 uploadedFiles.any((file) => file.name == tag)
-                                    ? "assets/images/delete.png"
-                                    : "assets/images/download.png",
-                                height: 20,
-                                width: 20,
-                                color:
-                                    uploadedFiles.any(
-                                          (file) => file.name == tag,
-                                        )
-                                        ? AppColors.pink
-                                        : null,
+                                    ? "assets/images/file.png"
+                                    : imageAsset,
+                                height: 32,
+                                width: 32,
+                                fit: BoxFit.contain,
                               ),
-                            ),
-                          ],
+                              const SizedBox(width: 8),
+                              Text(
+                                item['category'] ?? '',
+                                style: AppFontFamily.smallStyle16(
+                                  color: AppColors.primary,
+                                ),
+                              ),
+                              Spacer(),
+                              GestureDetector(
+                                onTap: () {
+                                  /*   if (uploadedFiles.any(
+                                    (file) => file.name == tag,
+                                  )) {
+                                    uploadedFiles.removeWhere(
+                                      (file) => file.name == tag,
+                                    );
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      SnackBar(
+                                        content: Text('File deleted: $tag'),
+                                      ),
+                                    );
+                                  } else {
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      const SnackBar(
+                                        content: Text(
+                                          'This is a predefined document.',
+                                        ),
+                                      ),
+                                    );
+                                  }*/
+                                },
+                                child: Image.asset(
+                                  uploadedFiles.any((file) => file.name == tag)
+                                      ? "assets/images/delete.png"
+                                      : "assets/images/download.png",
+                                  height: 20,
+                                  width: 20,
+                                  color:
+                                      uploadedFiles.any(
+                                            (file) => file.name == tag,
+                                          )
+                                          ? AppColors.pink
+                                          : null,
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
                         if (!(isLastCategory && isLastDoc)) ...[
-                          const SizedBox(height: 5),
+                          const SizedBox(height: 8),
                           Divider(color: AppColors.gray, thickness: 1),
-                          const SizedBox(height: 5),
+                          const SizedBox(height: 8),
                         ],
                       ],
                     );
@@ -267,6 +280,27 @@ class _YourDocumentsState extends State<YourDocuments> {
         ],
       ),
     );
+  }
+
+  Future<void> downloadImage(String imageUrl, String fileName) async {
+    final status = await Permission.storage.request();
+    if (!status.isGranted) {
+      print("Storage permission denied");
+      return;
+    }
+
+    try {
+      final dir = await getExternalStorageDirectory();
+      final savePath = "${dir!.path}/$fileName";
+
+      await Dio().download(imageUrl, savePath);
+      print("Download complete: $savePath");
+
+      // Optional: show a message
+      // You can use Get.snackbar or ScaffoldMessenger here.
+    } catch (e) {
+      print("Download failed: $e");
+    }
   }
 
   /*

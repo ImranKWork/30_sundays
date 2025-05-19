@@ -71,7 +71,7 @@ class _AddAccountState extends State<AddAccount> {
                           onTap: () => Get.back(),
                           child: Image.asset(
                             "assets/images/back_arrow.png",
-                            scale: 2.5,
+                            scale: 2.3,
                           ),
                         ),
                         const SizedBox(width: 10),

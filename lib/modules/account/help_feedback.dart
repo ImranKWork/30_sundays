@@ -61,7 +61,7 @@ class _HelpFeedbackState extends State<HelpFeedback> {
                         },
                         child: Image.asset(
                           "assets/images/back_arrow.png",
-                          scale: 2.5,
+                          scale: 2.3,
                         ),
                       ),
                       SizedBox(width: 10),

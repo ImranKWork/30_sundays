@@ -22,12 +22,14 @@ class _DocumentsDetailsState extends State<DocumentsDetails> {
     "assets/images/2.png",
     "assets/images/3.png",
   ];
+
   final List<Map<String, dynamic>> items = [
     {"image": "assets/images/docs.png", "name": "Your documents"},
     {"image": "assets/images/ice_cream.png", "name": "Where to eat?"},
     {"image": "assets/images/shop2.png", "name": "Shopping"},
     {"image": "assets/images/lang.png", "name": "Translator"},
   ];
+
   int selectedIndex = 0;
   List<CarouselController> carouselControllers = [];
   List<int> activeIndexes = [];
@@ -63,7 +65,7 @@ class _DocumentsDetailsState extends State<DocumentsDetails> {
                         },
                         child: Image.asset(
                           "assets/images/back_arrow.png",
-                          scale: 2.5,
+                          scale: 2.3,
                         ),
                       ),
                       SizedBox(width: 10),
@@ -77,7 +79,7 @@ class _DocumentsDetailsState extends State<DocumentsDetails> {
                         ),
                       ),
                       Spacer(),
-                      Image.asset("assets/images/phone.png", scale: 2.5),
+                      Image.asset("assets/images/phone.png", scale: 2.3),
                     ],
                   ),
                 ),

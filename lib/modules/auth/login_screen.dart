@@ -104,6 +104,14 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                   ),
 
+                  // if (_hasError)
+                  //   const Padding(
+                  //     padding: EdgeInsets.only(top: 8),
+                  //     child: Text(
+                  //       "Please enter a valid 10-digit phone number",
+                  //       style: TextStyle(color: Colors.red, fontSize: 14),
+                  //     ),
+                  //   ),
                   const SizedBox(height: 180),
 
                   Obx(
@@ -111,20 +119,17 @@ class _LoginScreenState extends State<LoginScreen> {
                         authController.isLoading.value
                             ? ElevatedButton(
                               style: ElevatedButton.styleFrom(
-                                backgroundColor:
-                                    Colors.white, // White background
-                                padding: EdgeInsets.symmetric(
+                                backgroundColor: Colors.white,
+                                padding: const EdgeInsets.symmetric(
                                   vertical: 12,
-                                ), // Adjust padding
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(
-                                    40,
-                                  ), // Rounded corners
                                 ),
-                                minimumSize: Size(160, 48), // Full width
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(40),
+                                ),
+                                minimumSize: const Size(160, 48),
                               ),
                               onPressed: null,
-                              child: SizedBox(
+                              child: const SizedBox(
                                 height: 24,
                                 width: 24,
                                 child: CircularProgressIndicator(
@@ -135,8 +140,14 @@ class _LoginScreenState extends State<LoginScreen> {
                             )
                             : CustomButton(
                               text: "Get OTP",
-                              onTap: () {
-                                authController.loginWithPhone();
+                              onTap: () async {
+                                final success =
+                                    await authController.loginWithPhone();
+                                if (!success) {
+                                  setState(() {
+                                    _hasError = true;
+                                  });
+                                }
                               },
                               isEnabled: _isButtonEnabled,
                             ),

@@ -12,12 +12,11 @@ class AuthController extends GetxController {
 
   final TextEditingController phoneController = TextEditingController();
 
-  Future<void> loginWithPhone() async {
+  Future<bool> loginWithPhone() async {
     final phone = phoneController.text.trim();
 
     if (phone.isEmpty || phone.length != 10) {
-      //   Get.snackbar('Validation', 'Please enter a valid 10-digit phone number');
-      return;
+      return false; // invalid number
     }
 
     isLoading.value = true;
@@ -35,23 +34,23 @@ class AuthController extends GetxController {
       if (response.statusCode == 200) {
         final successMessage =
             responseBody['message']?.toString() ?? 'OTP sent successfully';
-        //    Get.snackbar('Success', successMessage);
 
         Get.to(() => VerifyOtp(phoneNumber: phone));
+        return true;
       } else {
         final errorMessage =
             responseBody['error']?.toString() ??
             responseBody['message']?.toString() ??
             'Login failed. Please try again.';
-        //   Get.snackbar('Error', errorMessage);
         print(errorMessage);
       }
     } catch (e) {
       print('Error: $e');
-      //  Get.snackbar('Error', 'Something went wrong');
     } finally {
       isLoading.value = false;
     }
+
+    return false;
   }
 
   Future<bool> verifyOtp(String phone, String otp) async {

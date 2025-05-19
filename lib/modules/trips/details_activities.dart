@@ -47,7 +47,7 @@ class _DetailsActivitiesState extends State<DetailsActivities> {
                         },
                         child: Image.asset(
                           "assets/images/back_arrow.png",
-                          scale: 2.5,
+                          scale: 2.3,
                         ),
                       ),
                       SizedBox(width: 10),
@@ -56,7 +56,7 @@ class _DetailsActivitiesState extends State<DetailsActivities> {
                         style: AppFontFamily.HeadingStyle20(),
                       ),
                       Spacer(),
-                      Image.asset("assets/images/phone.png", scale: 2.5),
+                      Image.asset("assets/images/phone.png", scale: 2.3),
                     ],
                   ),
                 ),
@@ -101,10 +101,8 @@ class _DetailsActivitiesState extends State<DetailsActivities> {
                                         ? []
                                         : [
                                           BoxShadow(
-                                            color: Colors.grey.withOpacity(0.3),
-                                            spreadRadius: 0,
-                                            blurRadius: 4,
-                                            offset: Offset(0, 2),
+                                            color: Colors.grey.shade300,
+                                            blurRadius: 2,
                                           ),
                                         ],
                               ),
@@ -139,6 +137,69 @@ class _DetailsActivitiesState extends State<DetailsActivities> {
                   ),
                 ),
                 SizedBox(height: 10),
+                SizedBox(
+                  height: 65,
+                  child: ListView.builder(
+                    scrollDirection: Axis.horizontal,
+                    itemCount: 6,
+                    itemBuilder: (context, index) {
+                      final isSelected = index == selectedDayIndex;
+
+                      return GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            selectedDayIndex = index;
+                          });
+                        },
+                        child: Container(
+                          height: 54,
+                          width: 60,
+
+                          margin: EdgeInsets.only(left: 10),
+                          padding: EdgeInsets.symmetric(
+                            horizontal: 16,
+                            vertical: 10,
+                          ),
+                          decoration: BoxDecoration(
+                            color: isSelected ? AppColors.pink : Colors.white,
+                            borderRadius: BorderRadius.circular(12),
+                            border: Border.all(
+                              width: 1,
+                              color:
+                                  isSelected ? AppColors.pink : AppColors.grey4,
+                            ),
+                          ),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                'Day',
+                                style: AppFontFamily.HeadingWhite414().copyWith(
+                                  color:
+                                      isSelected
+                                          ? AppColors.white
+                                          : AppColors.primary,
+                                ),
+                              ),
+                              SizedBox(height: 2),
+                              Text(
+                                '${index + 1}',
+                                style: AppFontFamily.smallStyle16(
+                                  color:
+                                      isSelected
+                                          ? AppColors.white
+                                          : AppColors.blueLight,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      );
+                    },
+                  ),
+                ),
+
+                //  SizedBox(height: 10),
                 Expanded(
                   child: SingleChildScrollView(
                     padding: EdgeInsets.only(left: 8, top: 8),
@@ -146,75 +207,6 @@ class _DetailsActivitiesState extends State<DetailsActivities> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         if (selectedIndex == 0) ...[
-                          SizedBox(
-                            height: 65,
-                            child: ListView.builder(
-                              scrollDirection: Axis.horizontal,
-                              itemCount: 6,
-                              itemBuilder: (context, index) {
-                                final isSelected = index == selectedDayIndex;
-
-                                return GestureDetector(
-                                  onTap: () {
-                                    setState(() {
-                                      selectedDayIndex = index;
-                                    });
-                                  },
-                                  child: Container(
-                                    height: 54,
-                                    width: 60,
-                                    margin: EdgeInsets.only(right: 8),
-                                    padding: EdgeInsets.symmetric(
-                                      horizontal: 14,
-                                      vertical: 6,
-                                    ),
-                                    decoration: BoxDecoration(
-                                      color:
-                                          isSelected
-                                              ? AppColors.pink
-                                              : Colors.white,
-                                      borderRadius: BorderRadius.circular(12),
-                                      border: Border.all(
-                                        width: 1,
-                                        color:
-                                            isSelected
-                                                ? AppColors.pink
-                                                : AppColors.grey4,
-                                      ),
-                                    ),
-                                    child: Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        Text(
-                                          'Day',
-                                          style: AppFontFamily.HeadingWhite414()
-                                              .copyWith(
-                                                color:
-                                                    isSelected
-                                                        ? AppColors.white
-                                                        : AppColors.primary,
-                                              ),
-                                        ),
-                                        SizedBox(height: 2),
-                                        Text(
-                                          '${index + 1}',
-                                          style: AppFontFamily.smallStyle16(
-                                            color:
-                                                isSelected
-                                                    ? AppColors.white
-                                                    : AppColors.blueLight,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                );
-                              },
-                            ),
-                          ),
-                          SizedBox(height: 10),
-
                           ListView.builder(
                             itemCount: 3,
                             shrinkWrap: true,
@@ -419,7 +411,7 @@ class _DetailsActivitiesState extends State<DetailsActivities> {
                             physics: NeverScrollableScrollPhysics(),
                             itemBuilder: (context, index) {
                               return Container(
-                                margin: EdgeInsets.only(bottom: 12),
+                                margin: EdgeInsets.only(bottom: 12, right: 12),
                                 padding: EdgeInsets.all(12),
                                 decoration: BoxDecoration(
                                   color: AppColors.white,
