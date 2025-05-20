@@ -263,7 +263,7 @@ class _WhereToEatState extends State<WhereToEat> {
                                       ),
                                       Positioned(
                                         top: 80,
-                                        right: 12,
+                                        right: 20,
                                         child: GestureDetector(
                                           onTap: () {
                                             int nextIndex =
@@ -340,7 +340,7 @@ class _WhereToEatState extends State<WhereToEat> {
                                                   AppFontFamily.HeadingStyle514(),
                                             ),
                                             TextSpan(
-                                              text: "/Person",
+                                              text: " /Person",
                                               style:
                                                   AppFontFamily.HeadingStyle514(),
                                             ),

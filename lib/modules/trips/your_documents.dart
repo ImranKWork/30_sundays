@@ -208,7 +208,6 @@ class _YourDocumentsState extends State<YourDocuments> {
                           },
                           child: Row(
                             crossAxisAlignment: CrossAxisAlignment.start,
-
                             children: [
                               Image.asset(
                                 uploadedFiles.any((file) => file.name == tag)
@@ -219,35 +218,30 @@ class _YourDocumentsState extends State<YourDocuments> {
                                 fit: BoxFit.contain,
                               ),
                               const SizedBox(width: 8),
-                              Text(
-                                item['category'] ?? '',
-                                style: AppFontFamily.smallStyle16(
-                                  color: AppColors.primary,
+                              Expanded(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      item['category'] ?? '',
+                                      style: AppFontFamily.smallStyle16(
+                                        color: AppColors.primary,
+                                      ),
+                                    ),
+                                    const SizedBox(height: 2),
+                                    Text(
+                                      '0.0 kb',
+                                      style: AppFontFamily.smallStyle16(
+                                        color: AppColors.blueLight,
+                                        fontSize: 12,
+                                      ),
+                                    ),
+                                  ],
                                 ),
                               ),
-                              Spacer(),
                               GestureDetector(
                                 onTap: () {
-                                  /*   if (uploadedFiles.any(
-                                    (file) => file.name == tag,
-                                  )) {
-                                    uploadedFiles.removeWhere(
-                                      (file) => file.name == tag,
-                                    );
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                      SnackBar(
-                                        content: Text('File deleted: $tag'),
-                                      ),
-                                    );
-                                  } else {
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                      const SnackBar(
-                                        content: Text(
-                                          'This is a predefined document.',
-                                        ),
-                                      ),
-                                    );
-                                  }*/
+                                  // your delete/download logic
                                 },
                                 child: Image.asset(
                                   uploadedFiles.any((file) => file.name == tag)

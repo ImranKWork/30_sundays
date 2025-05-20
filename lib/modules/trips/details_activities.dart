@@ -199,10 +199,10 @@ class _DetailsActivitiesState extends State<DetailsActivities> {
                   ),
                 ),
 
-                //  SizedBox(height: 10),
+                SizedBox(height: 10),
                 Expanded(
                   child: SingleChildScrollView(
-                    padding: EdgeInsets.only(left: 8, top: 8),
+                    padding: EdgeInsets.only(left: 8, top: 5),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [

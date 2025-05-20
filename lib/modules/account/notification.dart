@@ -15,6 +15,7 @@ class NotificationPage extends StatefulWidget {
 class _NotificationPageState extends State<NotificationPage> {
   final List<String> locations = ['All', 'Upcoming Plans', 'Reminders'];
   int selectedIndex = 0;
+  bool isLoading = false;
 
   final List<Map<String, dynamic>> notifications = [
     {
@@ -75,34 +76,43 @@ class _NotificationPageState extends State<NotificationPage> {
                 _buildFilterChips(),
                 SizedBox(height: 24),
                 Expanded(
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                    child: ListView(
-                      children: [
-                        if (todayList.isNotEmpty)
-                          _buildSection("Today", todayList),
-                        if (yesterdayList.isNotEmpty)
-                          Column(
-                            children: [
-                              _buildSection("Yesterday", yesterdayList),
-                              if (selectedIndex == 0) ...[
-                                _dummyContainer(
-                                  "Heads Up: Road Closure Near Fort Area",
-                                  "Expect 20–30 min delays tomorrow morning. Leave early for your heritage walk.",
-                                  "1:40 PM",
-                                ),
-                                SizedBox(height: 16),
+                  child:
+                      isLoading
+                          ? Center(
+                            child: CircularProgressIndicator(
+                              color: AppColors.pink,
+                            ),
+                          )
+                          : Padding(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 16.0,
+                            ),
+                            child: ListView(
+                              children: [
+                                if (todayList.isNotEmpty)
+                                  _buildSection("Today", todayList),
+                                if (yesterdayList.isNotEmpty)
+                                  Column(
+                                    children: [
+                                      _buildSection("Yesterday", yesterdayList),
+                                      if (selectedIndex == 0) ...[
+                                        _dummyContainer(
+                                          "Heads Up: Road Closure Near Fort Area",
+                                          "Expect 20–30 min delays tomorrow morning. Leave early for your heritage walk.",
+                                          "1:40 PM",
+                                        ),
+                                        SizedBox(height: 16),
+                                      ],
+                                    ],
+                                  ),
+                                if (dayBeforeList.isNotEmpty)
+                                  _buildSection(
+                                    "${dayBeforeYesterday.day} ${_monthName(dayBeforeYesterday.month)}",
+                                    dayBeforeList,
+                                  ),
                               ],
-                            ],
+                            ),
                           ),
-                        if (dayBeforeList.isNotEmpty)
-                          _buildSection(
-                            "${dayBeforeYesterday.day} ${_monthName(dayBeforeYesterday.month)}",
-                            dayBeforeList,
-                          ),
-                      ],
-                    ),
-                  ),
                 ),
               ],
             ),
@@ -239,7 +249,6 @@ class _NotificationPageState extends State<NotificationPage> {
                   time,
                   style: AppFontFamily.HeadingStyle514(
                     color: AppColors.grey2,
-
                     fontSize: 14,
                     fontWeight: FontWeight.w500,
                   ),
@@ -247,7 +256,6 @@ class _NotificationPageState extends State<NotificationPage> {
               ],
             ),
             SizedBox(height: 5),
-
             Text(
               subTitle,
               style: AppFontFamily.HeadingStyle514(
@@ -309,9 +317,14 @@ class _NotificationPageState extends State<NotificationPage> {
         children: List.generate(locations.length, (index) {
           final isSelected = index == selectedIndex;
           return GestureDetector(
-            onTap: () {
+            onTap: () async {
+              setState(() {
+                isLoading = true;
+              });
+              await Future.delayed(Duration(milliseconds: 500));
               setState(() {
                 selectedIndex = index;
+                isLoading = false;
               });
             },
             child: Container(
