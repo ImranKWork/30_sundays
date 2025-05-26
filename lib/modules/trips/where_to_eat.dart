@@ -336,13 +336,23 @@ class _WhereToEatState extends State<WhereToEat> {
                                           children: [
                                             TextSpan(
                                               text: "₹600",
-                                              style:
-                                                  AppFontFamily.HeadingStyle514(),
+                                              style: TextStyle(
+                                                fontFamily:
+                                                    AppFontFamily.Regular,
+                                                fontSize: 16,
+                                                fontWeight: FontWeight.w500,
+                                                color: AppColors.darkBlue,
+                                              ),
                                             ),
                                             TextSpan(
                                               text: " /Person",
-                                              style:
-                                                  AppFontFamily.HeadingStyle514(),
+                                              style: TextStyle(
+                                                fontFamily:
+                                                    AppFontFamily.Regular,
+                                                fontSize: 12,
+                                                fontWeight: FontWeight.w400,
+                                                color: AppColors.lighttext,
+                                              ),
                                             ),
                                           ],
                                         ),

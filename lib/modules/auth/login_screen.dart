@@ -103,15 +103,17 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                     ),
                   ),
-
-                  // if (_hasError)
-                  //   const Padding(
-                  //     padding: EdgeInsets.only(top: 8),
-                  //     child: Text(
-                  //       "Please enter a valid 10-digit phone number",
-                  //       style: TextStyle(color: Colors.red, fontSize: 14),
-                  //     ),
-                  //   ),
+                  if (_hasError)
+                    Padding(
+                      padding: EdgeInsets.only(top: 8),
+                      child: Text(
+                        "The entered number isn’t registered.",
+                        style: AppFontFamily.HeadingStyle14().copyWith(
+                          color: AppColors.pink,
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
                   const SizedBox(height: 180),
 
                   Obx(

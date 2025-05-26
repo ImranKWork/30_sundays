@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'app_color.dart';
 
 class AppFontFamily {
-  static String Regular = "Regular";
+  static String Regular = "Poppins";
 
   static TextStyle defaultStyle({
     double fontSize = 20,

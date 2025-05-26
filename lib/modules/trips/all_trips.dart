@@ -24,61 +24,6 @@ class _AllTripsState extends State<AllTrips> {
   final List<String> locations = ['Upcoming', 'Ongoing', 'Past'];
   int selectedIndex = 0;
   final TripController controller = Get.put(TripController());
-  final List<Map<String, dynamic>> upcomingTrips = [
-    {
-      "image": "assets/images/2.png",
-      "daysLeft": "4 Days to go",
-      "nights": "6 Nights",
-      "title": "The Best Of Bali: One Where You Don't\nMiss Anything",
-      "location": "3N Seminyak • 3N Ubud",
-      "price": "₹41,199",
-    },
-    {
-      "image": "assets/images/2.png",
-      "daysLeft": "10 Days to go",
-      "nights": "5 Nights",
-      "title": "Romantic Escape to Maldives",
-      "location": "2N Male • 3N Resort",
-      "price": "₹65,000",
-    },
-  ];
-
-  final List<Map<String, dynamic>> ongoingTrips = [
-    {
-      "image": "assets/images/2.png",
-      "status": "Currently Ongoing",
-      "nights": "7 Nights",
-      "title": "The Best Of Bali: One Where You Don't Miss Anything",
-      "location": "3N Bangkok • 4N Phuket",
-      "price": "₹41,199",
-    },
-  ];
-
-  final List<Map<String, dynamic>> pastTrips = [
-    {
-      "image": "assets/images/2.png",
-      "status": "Completed",
-      "nights": "6 Nights",
-      "title": "The Best Of Bali: One Where You Don't Miss Anything",
-      "location": "2N Abu Dhabi • 3N Dubai",
-      "price": "₹60,000",
-      "rating": 4.5,
-      "review": "Amazing experience!",
-    },
-  ];
-
-  List<Map<String, dynamic>> getSelectedTrips() {
-    switch (selectedIndex) {
-      case 0:
-        return upcomingTrips;
-      case 1:
-        return ongoingTrips;
-      case 2:
-        return pastTrips;
-      default:
-        return [];
-    }
-  }
 
   @override
   void initState() {
@@ -104,8 +49,6 @@ class _AllTripsState extends State<AllTrips> {
 
   @override
   Widget build(BuildContext context) {
-    final selectedTrips = getSelectedTrips();
-
     return Scaffold(
       body: Stack(
         children: [
@@ -131,15 +74,11 @@ class _AllTripsState extends State<AllTrips> {
                     ],
                   ),
                 ),
-                SizedBox(height: 10),
-                SingleChildScrollView(
-                  padding: const EdgeInsets.only(
-                    left: 12,
-                    right: 12,
-                  ), // optional horizontal padding
+                SizedBox(height: 8),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
                   child: Wrap(
-                    spacing: 12,
-                    runSpacing: 12,
+                    spacing: 5,
                     children: List.generate(locations.length, (index) {
                       final isSelected = index == selectedIndex;
 
@@ -151,7 +90,7 @@ class _AllTripsState extends State<AllTrips> {
                         },
                         child: Container(
                           padding: const EdgeInsets.symmetric(
-                            horizontal: 24,
+                            horizontal: 20,
                             vertical: 8,
                           ),
                           decoration: BoxDecoration(
@@ -179,7 +118,7 @@ class _AllTripsState extends State<AllTrips> {
                           child: Text(
                             locations[index],
                             style: TextStyle(
-                              fontSize: 16,
+                              fontSize: 14,
                               fontFamily: AppFontFamily.Regular,
                               fontWeight: FontWeight.w500,
                               color: isSelected ? Colors.white : Colors.black,
@@ -191,65 +130,6 @@ class _AllTripsState extends State<AllTrips> {
                   ),
                 ),
 
-                /* SizedBox(
-                  height: 45,
-                  child: ListView.builder(
-                    padding: EdgeInsets.only(left: 16, right: 16),
-                    scrollDirection: Axis.horizontal,
-                    physics: NeverScrollableScrollPhysics(),
-                    itemCount: locations.length,
-                    itemBuilder: (context, index) {
-                      final isSelected = index == selectedIndex;
-                      return GestureDetector(
-                        onTap: () {
-                          setState(() {
-                            selectedIndex = index;
-                          });
-                        },
-                        child: Container(
-                          margin: EdgeInsets.only(right: 12),
-                          padding: EdgeInsets.symmetric(
-                            horizontal: 24,
-                            vertical: 8,
-                          ),
-                          decoration: BoxDecoration(
-                            color: isSelected ? AppColors.pink : Colors.white,
-                            borderRadius: BorderRadius.circular(40),
-                            border: Border.all(
-                              color:
-                              isSelected
-                                  ? AppColors.pink
-                                  : Colors.grey.shade300,
-                              width: 1.5,
-                            ),
-                            boxShadow:
-                            isSelected
-                                ? []
-                                : [
-                              BoxShadow(
-                                color: Colors.grey.withOpacity(0.3),
-                                spreadRadius: 0,
-                                blurRadius: 4,
-                                offset: Offset(0, 2),
-                              ),
-                            ],
-                          ),
-                          child: Center(
-                            child: Text(
-                              locations[index],
-                              style: TextStyle(
-                                fontSize: 16,
-                                fontFamily: AppFontFamily.Regular,
-                                fontWeight: FontWeight.w500,
-                                color: isSelected ? Colors.white : Colors.black,
-                              ),
-                            ),
-                          ),
-                        ),
-                      );
-                    },
-                  ),
-                ),*/
                 SizedBox(height: 24),
                 Obx(() {
                   if (controller.isLoading.value) {
@@ -266,9 +146,7 @@ class _AllTripsState extends State<AllTrips> {
                     );
                   }
 
-                  final selectedTrips = getSelectedTrips();
-
-                  if (selectedTrips.isEmpty) {
+                  if (controller.trips.isEmpty) {
                     return Center(child: Text('No trips found.'));
                   }
                   return Expanded(
@@ -388,11 +266,21 @@ class _AllTripsState extends State<AllTrips> {
                                   children: [
                                     Text(
                                       "₹${trip["pricePerPerson"].toString()}",
-                                      style: AppFontFamily.HeadingStyle514(),
+                                      style: TextStyle(
+                                        fontFamily: AppFontFamily.Regular,
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.w500,
+                                        color: AppColors.darkBlue,
+                                      ),
                                     ),
                                     Text(
                                       "/Person",
-                                      style: AppFontFamily.HeadingStyle514(),
+                                      style:TextStyle(
+                                        fontFamily: AppFontFamily.Regular,
+                                        fontSize: 12,
+                                        fontWeight: FontWeight.w400,
+                                        color: AppColors.lighttext,
+                                      ),
                                     ),
                                   ],
                                 ),

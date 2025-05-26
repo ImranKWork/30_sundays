@@ -31,9 +31,9 @@ class _DashBoardState extends State<DashBoard> {
   BottomNavigationBarItem _buildNavItem(Widget icon, String label, int index) {
     return BottomNavigationBarItem(
       icon: Column(
-        mainAxisSize: MainAxisSize.min,
         children: [
           Container(
+            padding: const EdgeInsets.only(top: 0),
             height: 2,
             width: 101,
             decoration: BoxDecoration(
@@ -47,7 +47,7 @@ class _DashBoardState extends State<DashBoard> {
           ),
           const SizedBox(height: 8),
           icon,
-          const SizedBox(height: 8),
+          const SizedBox(height: 5),
         ],
       ),
       label: label,
@@ -58,26 +58,31 @@ class _DashBoardState extends State<DashBoard> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: _screens[_selectedIndex],
-      bottomNavigationBar: BottomNavigationBar(
-        currentIndex: _selectedIndex,
-        selectedItemColor: AppColors.pink,
-        unselectedItemColor: AppColors.blueLight,
-        selectedLabelStyle: TextStyle(
-          fontSize: 10,
-          fontWeight: FontWeight.w400,
-          fontFamily: AppFontFamily.Regular,
-          height: 2.5,
+      bottomNavigationBar: Theme(
+        data: Theme.of(context).copyWith(
+          splashFactory: NoSplash.splashFactory, // optional, to remove ripple
+          highlightColor: Colors.transparent,
         ),
-        unselectedLabelStyle: TextStyle(
-          fontSize: 10,
-          fontWeight: FontWeight.w400,
-          fontFamily: AppFontFamily.Regular,
-          height: 2.5,
-        ),
-        onTap: _onItemTapped,
-        type: BottomNavigationBarType.fixed,
-        items: [
-          /*  _buildNavItem(
+        child: BottomNavigationBar(
+          backgroundColor: Colors.white,
+          elevation: 0,
+          currentIndex: _selectedIndex,
+          selectedItemColor: AppColors.pink,
+          unselectedItemColor: AppColors.blueLight,
+          selectedLabelStyle: TextStyle(
+            fontSize: 13,
+            fontWeight: FontWeight.w400,
+            fontFamily: AppFontFamily.Regular,
+          ),
+          unselectedLabelStyle: TextStyle(
+            fontSize: 13,
+            fontWeight: FontWeight.w400,
+            fontFamily: AppFontFamily.Regular,
+          ),
+          type: BottomNavigationBarType.fixed,
+          onTap: _onItemTapped,
+           items: [
+            /*  _buildNavItem(
             ColorFiltered(
               colorFilter: ColorFilter.mode(
                 _selectedIndex == 0 ? AppColors.pink : AppColors.blueLight,
@@ -107,37 +112,38 @@ class _DashBoardState extends State<DashBoard> {
             'Customize',
             1,
           ),*/
-          _buildNavItem(
-            ColorFiltered(
-              colorFilter: ColorFilter.mode(
-                _selectedIndex == 0 ? AppColors.pink : AppColors.blueLight,
-                BlendMode.srcIn,
+            _buildNavItem(
+              ColorFiltered(
+                colorFilter: ColorFilter.mode(
+                  _selectedIndex == 0 ? AppColors.pink : AppColors.blueLight,
+                  BlendMode.srcIn,
+                ),
+                child: Image.asset(
+                  "assets/images/Frame.png",
+                  width: 28,
+                  height: 28,
+                ),
               ),
-              child: Image.asset(
-                "assets/images/trips.png",
-                width: 28,
-                height: 28,
-              ),
+              'Trips',
+              0,
             ),
-            'Trips',
-            0,
-          ),
-          _buildNavItem(
-            ColorFiltered(
-              colorFilter: ColorFilter.mode(
-                _selectedIndex == 1 ? AppColors.pink : AppColors.blueLight,
-                BlendMode.srcIn,
+            _buildNavItem(
+              ColorFiltered(
+                colorFilter: ColorFilter.mode(
+                  _selectedIndex == 1 ? AppColors.pink : AppColors.blueLight,
+                  BlendMode.srcIn,
+                ),
+                child: Image.asset(
+                  "assets/images/account.png",
+                  width: 23,
+                  height: 23,
+                ),
               ),
-              child: Image.asset(
-                "assets/images/account.png",
-                width: 20,
-                height: 20,
-              ),
+              'My Account',
+              1,
             ),
-            'My Account',
-            1,
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

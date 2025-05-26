@@ -102,7 +102,6 @@ class _YourDocumentsState extends State<YourDocuments> {
                             );
                           }
                         }),
-
                         Obx(() {
                           if (uploadedFiles.isNotEmpty) {
                             return _buildDocumentList(

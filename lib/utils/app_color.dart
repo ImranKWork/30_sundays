@@ -34,5 +34,7 @@ class AppColors {
   static const Color orange = Color(0xFFf7814f);
   static const Color dustGreen = Color(0xFF8e9a11);
   static const Color dustBlue = Color(0xFF7496e4);
+    static const Color lighttext = Color(0xFF666C99);
+
   static const Color whiteLight = Color(0xFFF2F1F0);
 }
