@@ -835,3 +835,114 @@ class _ActivitiesState extends State<Activities> {
     );
   }
 }
+
+/*import 'package:flutter/material.dart';
+import 'package:persistent_bottom_nav_bar/persistent_bottom_nav_bar.dart';
+import 'package:sunday/modules/trips/all_trips.dart';
+
+import '../utils/app_color.dart';
+import 'account/my_account.dart';
+
+class DashBoard extends StatefulWidget {
+  const DashBoard({super.key});
+
+  @override
+  State<DashBoard> createState() => _DashBoardState();
+}
+
+class _DashBoardState extends State<DashBoard> {
+  final PersistentTabController _controller = PersistentTabController(
+    initialIndex: 0,
+  );
+
+  List<Widget> _buildScreens() {
+    return [
+      // const Center(child: Text("Search Screen")),
+      // CustomizeScreen(),
+      AllTrips(), MyAccount(),
+    ];
+  }
+
+  List<PersistentBottomNavBarItem> _navBarsItems() {
+    return [
+      PersistentBottomNavBarItem(
+        icon: Image.asset(
+          "assets/images/Frame.png",
+
+          width: 40,
+          height: 4,
+          color: AppColors.pink,
+        ),
+        inactiveIcon: Image.asset(
+          "assets/images/Frame.png",
+          width: 28,
+          height: 28,
+          color: AppColors.blueLight,
+        ),
+        title: "Trips",
+        activeColorPrimary: AppColors.pink,
+        inactiveColorPrimary: AppColors.blueLight,
+      ),
+      PersistentBottomNavBarItem(
+        icon: Image.asset(
+          "assets/images/account.png",
+          width: 30,
+          height: 30,
+          color: AppColors.pink,
+        ),
+        inactiveIcon: Image.asset(
+          "assets/images/account.png",
+          width: 30,
+          height: 30,
+          color: AppColors.blueLight,
+        ),
+        title: "My Account",
+        activeColorPrimary: AppColors.pink,
+        inactiveColorPrimary: AppColors.blueLight,
+      ),
+      /*  _buildNavItem(
+            ColorFiltered(
+              colorFilter: ColorFilter.mode(
+                _selectedIndex == 0 ? AppColors.pink : AppColors.blueLight,
+                BlendMode.srcIn,
+              ),
+              child: Image.asset(
+                "assets/images/inspire.png",
+                width: 18,
+                height: 15,
+              ),
+            ),
+            'Inspire',
+            0,
+          ),
+          _buildNavItem(
+            ColorFiltered(
+              colorFilter: ColorFilter.mode(
+                _selectedIndex == 1 ? AppColors.pink : AppColors.blueLight,
+                BlendMode.srcIn,
+              ),
+              child: Image.asset(
+                "assets/images/customize.png",
+                width: 18,
+                height: 15,
+              ),
+            ),
+            'Customize',
+            1,
+          ),*/
+    ];
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return PersistentTabView(
+      context,
+      controller: _controller,
+      screens: _buildScreens(),
+      items: _navBarsItems(),
+      navBarStyle: NavBarStyle.style3,
+      backgroundColor: Colors.white,
+    );
+  }
+}
+*/

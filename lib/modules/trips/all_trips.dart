@@ -265,23 +265,23 @@ class _AllTripsState extends State<AllTrips> {
                                 Row(
                                   children: [
                                     Text(
-                                      "₹${trip["pricePerPerson"].toString()}",
-                                      style: TextStyle(
-                                        fontFamily: AppFontFamily.Regular,
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.w500,
-                                        color: AppColors.darkBlue,
-                                      ),
+                                      "₹${trip["pricePerPerson"].toString()} /Person",
+                                      style: AppFontFamily.HeadingWhite414()
+                                          .copyWith(
+                                            color: AppColors.primary,
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.bold,
+                                          ),
                                     ),
-                                    Text(
-                                      "/Person",
-                                      style:TextStyle(
-                                        fontFamily: AppFontFamily.Regular,
-                                        fontSize: 12,
-                                        fontWeight: FontWeight.w400,
-                                        color: AppColors.lighttext,
-                                      ),
-                                    ),
+                                    // Text(
+                                    //   "",
+                                    //   style:TextStyle(
+                                    //     fontFamily: AppFontFamily.Regular,
+                                    //     fontSize: 12,
+                                    //     fontWeight: FontWeight.w400,
+                                    //     color: AppColors.lighttext,
+                                    //   ),
+                                    // ),
                                   ],
                                 ),
                                 SizedBox(height: 5),

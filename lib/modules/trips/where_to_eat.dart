@@ -178,6 +178,7 @@ class _WhereToEatState extends State<WhereToEat> {
                                   Stack(
                                     children: [
                                       CarouselSlider(
+                                        // carouselController: carouselControllers[listIndex],
                                         items:
                                             imageList.map((imagePath) {
                                               return Container(
@@ -185,10 +186,6 @@ class _WhereToEatState extends State<WhereToEat> {
                                                   right: 12,
                                                 ),
                                                 decoration: BoxDecoration(
-                                                  // border: Border.all(
-                                                  //   color: Colors.grey.shade300,
-                                                  //   width: 1,
-                                                  // ),
                                                   borderRadius:
                                                       BorderRadius.circular(12),
                                                 ),
@@ -199,7 +196,6 @@ class _WhereToEatState extends State<WhereToEat> {
                                                     imagePath,
                                                     fit: BoxFit.cover,
                                                     width: double.infinity,
-                                                    //  scale: 2.5,
                                                   ),
                                                 ),
                                               );
@@ -210,7 +206,7 @@ class _WhereToEatState extends State<WhereToEat> {
                                           enableInfiniteScroll: true,
                                           autoPlay: true,
                                           autoPlayInterval: Duration(
-                                            seconds: 3,
+                                            seconds: 2,
                                           ),
                                           onPageChanged: (index, reason) {
                                             setState(() {
@@ -220,6 +216,7 @@ class _WhereToEatState extends State<WhereToEat> {
                                         ),
                                       ),
 
+                                      // Dots Indicator
                                       Positioned(
                                         bottom: 10,
                                         left: 0,
@@ -250,8 +247,10 @@ class _WhereToEatState extends State<WhereToEat> {
                                                     color:
                                                         activeIndexes[listIndex] ==
                                                                 entry.key
-                                                            ? AppColors.white
-                                                            : AppColors.grey4,
+                                                            ? Colors.white
+                                                            : Colors
+                                                                .grey
+                                                                .shade400,
                                                     borderRadius:
                                                         BorderRadius.circular(
                                                           12,
@@ -261,23 +260,69 @@ class _WhereToEatState extends State<WhereToEat> {
                                               }).toList(),
                                         ),
                                       ),
-                                      Positioned(
-                                        top: 80,
-                                        right: 20,
-                                        child: GestureDetector(
-                                          onTap: () {
-                                            int nextIndex =
-                                                activeIndexes[listIndex] + 1;
-                                            if (nextIndex < imageList.length) {}
-                                          },
-                                          child: Image.asset(
-                                            "assets/images/right_arrow.png",
-                                            scale: 2.5,
+
+                                      // Right arrow
+                                      if (activeIndexes[listIndex] <
+                                          imageList.length - 1)
+                                        Positioned(
+                                          top: 80,
+                                          right: 20,
+                                          child: GestureDetector(
+                                            onTap: () {
+                                              int nextIndex =
+                                                  activeIndexes[listIndex] + 1;
+                                              if (nextIndex <
+                                                  imageList.length) {
+                                                carouselControllers[listIndex]
+                                                    .animateToPage(nextIndex);
+                                                setState(() {
+                                                  activeIndexes[listIndex] =
+                                                      nextIndex;
+                                                });
+                                              }
+                                            },
+                                            child: Image.asset(
+                                              "assets/images/right_arrow.png",
+                                              scale: 2.5,
+                                            ),
                                           ),
                                         ),
-                                      ),
+
+                                      // Left arrow (only if not at index 0)
+                                      if (activeIndexes[listIndex] > 0)
+                                        Positioned(
+                                          top: 80,
+                                          left: 20,
+                                          child: GestureDetector(
+                                            onTap: () {
+                                              int nextIndex =
+                                                  activeIndexes[listIndex] + 1;
+                                              if (nextIndex <
+                                                  imageList.length) {
+                                                carouselControllers[listIndex]
+                                                    .animateToPage(nextIndex);
+                                                setState(() {
+                                                  activeIndexes[listIndex] =
+                                                      nextIndex;
+                                                });
+                                              }
+                                            },
+                                            child: Container(
+                                              padding: EdgeInsets.all(6),
+                                              decoration: BoxDecoration(
+                                                color: Colors.white,
+                                                shape: BoxShape.circle,
+                                              ),
+                                              child: Image.asset(
+                                                "assets/images/back_arrow.png",
+                                                scale: 4,
+                                              ),
+                                            ),
+                                          ),
+                                        ),
                                     ],
                                   ),
+
                                   SizedBox(height: 10),
                                   Row(
                                     children: [
@@ -385,4 +430,8 @@ class _WhereToEatState extends State<WhereToEat> {
       ),
     );
   }
+}
+
+extension on CarouselController {
+  void animateToPage(int nextIndex) {}
 }

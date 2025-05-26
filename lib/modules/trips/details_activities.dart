@@ -431,7 +431,7 @@ class _DetailsActivitiesState extends State<DetailsActivities> {
                                           "assets/images/3.png",
                                           scale: 2.5,
                                         ),
-                                        Positioned(
+                                        /*  Positioned(
                                           top: 80,
                                           // bottom: 22,
                                           right: 12,
@@ -439,7 +439,7 @@ class _DetailsActivitiesState extends State<DetailsActivities> {
                                             "assets/images/right_arrow.png",
                                             scale: 2.5,
                                           ),
-                                        ),
+                                        ),*/
                                       ],
                                     ),
                                     SizedBox(height: 10),

@@ -81,7 +81,7 @@ class _DashBoardState extends State<DashBoard> {
           ),
           type: BottomNavigationBarType.fixed,
           onTap: _onItemTapped,
-           items: [
+          items: [
             /*  _buildNavItem(
             ColorFiltered(
               colorFilter: ColorFilter.mode(
